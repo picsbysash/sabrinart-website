@@ -83,6 +83,33 @@
     [data-screen-label="01 Home"] h1 { text-shadow: 0 2px 28px rgba(0,0,0,.42); }
     [data-screen-label="01 Home"] p  { text-shadow: 0 1px 16px rgba(0,0,0,.35); }
 
+    /* ---------- SCROLLED HEADER: dark translucent glass ---------- */
+    /* The slim bar that appears on scroll (height 64px) becomes a premium
+       dark blur instead of solid white — readable, minimal, never loud. */
+    header[style*="64px"] {
+      background: rgba(18,26,48,.72) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      backdrop-filter: blur(16px) !important;
+      border-bottom: 1px solid rgba(255,255,255,.12) !important;
+    }
+    /* Logo reads as white on the dark bar (and stays crisp) */
+    header[style*="64px"] img {
+      filter: brightness(0) invert(1) drop-shadow(0 1px 8px rgba(0,0,0,.35)) !important;
+      height: 40px !important;
+    }
+    /* Nav + cart read as cream on the dark bar */
+    header[style*="64px"] nav a { color: #f4ece0 !important; }
+    header[style*="64px"] a[href="#/cart"] {
+      color: #f4ece0 !important;
+      border-color: rgba(255,255,255,.35) !important;
+      background: rgba(255,255,255,.08) !important;
+    }
+    header[style*="64px"] a[href="#/cart"] svg path { stroke: #f4ece0 !important; }
+    header[style*="64px"] a[href="#/cart"] svg circle { fill: #f4ece0 !important; }
+
+    /* ---------- LOGO: slightly larger & crisp on the tall header ---------- */
+    header[style*="180px"] img { height: 60px !important; }
+
     /* ---------- RESPONSIVE, Mobile first cascade ---------- */
 
     /* Laptop ≤ 1180px: reduce horizontal padding */
