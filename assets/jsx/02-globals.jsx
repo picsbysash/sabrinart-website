@@ -307,7 +307,9 @@
 
   // -------- 4. Mobile hamburger menu (premium, full-screen) --------
   function buildMobileMenu() {
-    if (document.querySelector('.sa-burger')) return;
+    if (document.querySelector('.sa-burger') && document.querySelector('.sa-menu-overlay')) return;
+    var _pb = document.querySelector('.sa-burger'); if (_pb) _pb.remove();
+    var _po = document.querySelector('.sa-menu-overlay'); if (_po) _po.remove();
     var routes = (window.ROUTES && window.ROUTES.length) ? window.ROUTES : [
       { label: 'Home', href: '#/home' }, { label: 'Gallery', href: '#/gallery' },
       { label: 'About', href: '#/about' }, { label: 'Studio & Process', href: '#/studio' },
@@ -356,6 +358,14 @@
     window.addEventListener('hashchange', updateColor);
     updateColor();
   }
-  if (document.readyState !== 'loading') buildMobileMenu();
-  else document.addEventListener('DOMContentLoaded', buildMobileMenu);
+  // Build after the app has mounted (the React mount sweeps body once on load),
+  // then re-assert a few times so the menu always survives that churn.
+  function scheduleMenu() {
+    buildMobileMenu();
+    setTimeout(buildMobileMenu, 1200);
+    setTimeout(buildMobileMenu, 3000);
+    setTimeout(buildMobileMenu, 6000);
+  }
+  if (document.readyState === 'complete') scheduleMenu();
+  else window.addEventListener('load', scheduleMenu);
 })();
