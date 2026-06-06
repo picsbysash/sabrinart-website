@@ -86,7 +86,7 @@ const ART = {
   partyTime: 'assets/art/party-time.jpg',
   silverSea: 'assets/art/silver-sea.jpg',
   turquoiseBeach: 'assets/art/turquoise-beach.jpg',
-  oilPainting: 'assets/art/oil-painting.jpg',
+  oilPainting: 'assets/art/fun.jpg',
   whitsunday: 'assets/art/whitsunday-memories.jpg',
   wow: 'assets/art/wow.jpg',
   goldenHeart: 'assets/art/golden-heart.jpg',
