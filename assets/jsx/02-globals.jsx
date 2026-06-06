@@ -181,7 +181,7 @@
         padding-right: max(24px, env(safe-area-inset-right)) !important;
       }
       /* Logo: centered and lowered, clearly off the top edge */
-      header[style*="180px"] > div[style*="left: 50%"] { top: 72px !important; }
+      header[style*="180px"] > div[style*="left: 50%"] { top: 90px !important; }
       /* Keep the slim (scrolled) logo centered too */
       header[style*="64px"] > a[href="#/home"] {
         position: absolute !important; left: 50% !important; transform: translateX(-50%) !important;
