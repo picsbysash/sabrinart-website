@@ -187,7 +187,7 @@ const WORKS_CATALOG = [
   { t: 'Joy', year: '', sizeIn: '6 × 6 in', sizeCm: '', medium: 'Mixed Media', price: null, status: 'ACQUIRED', col: 'acquired', label: 'Private Collection · Trilogy of Fun', src: ART.joy, pal: ['fire'] },
   { t: 'Humour', year: '', sizeIn: '6 × 6 in', sizeCm: '', medium: 'Mixed Media', price: null, status: 'ACQUIRED', col: 'acquired', label: 'Private Collection · Trilogy of Fun', src: ART.humor, pal: ['fire'] },
   { t: 'Laughter', year: '', sizeIn: '6 × 6 in', sizeCm: '', medium: 'Mixed Media', price: null, status: 'ACQUIRED', col: 'acquired', label: 'Private Collection · Trilogy of Fun', src: ART.laughter, pal: ['fire'] },
-  { t: 'Summer', year: '', sizeIn: '10 × 10 in', sizeCm: '', medium: 'Oil on Canvas', price: null, status: 'SOLD', col: 'acquired', label: 'Acquired during “Layers of Happiness”', src: null },
+  { t: 'Summer', year: '2024', sizeIn: '10 × 10 in', sizeCm: '25 × 25 cm', medium: 'Oil on Canvas', price: '$145', status: 'AVAILABLE', col: 'available', src: null, pal: ['ocean', 'fire'] },
   { t: 'Layers of Happiness', year: '', sizeIn: '41 × 41 in', sizeCm: '', medium: 'Mixed Media', price: null, status: 'SOLD', col: 'acquired', label: 'Acquired by Collector · Exhibition Piece', src: ART.layersOfHappiness, pal: ['cerise', 'fire', 'gold'] },
   { t: 'Goldfields', year: '', sizeIn: '18 × 18 in', sizeCm: '', medium: 'Mixed Media', price: null, status: 'SOLD', col: 'acquired', label: 'Acquired during Da Noi Exhibition', src: null },
   { t: 'Hawaii', year: '', sizeIn: '14 × 14 in', sizeCm: '', medium: 'Mixed Media', price: null, status: 'ACQUIRED', col: 'acquired', label: 'Private Collection · Melbourne', src: null },
