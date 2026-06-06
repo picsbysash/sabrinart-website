@@ -61,6 +61,28 @@
       animation: sa-shimmer 2.4s linear infinite;
     }
 
+    /* ---------- PREMIUM POLISH (global, design-preserving) ---------- */
+    /* Smooth, intentional scrolling */
+    html { scroll-behavior: smooth; }
+    /* Eliminate horizontal scroll without breaking sticky elements (clip, not hidden) */
+    html, body { max-width: 100%; overflow-x: clip; }
+    /* Crisper type rendering for the editorial feel */
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    /* Media never overflows or distorts its container */
+    img, svg, video, canvas { max-width: 100%; }
+    /* Snappier, delay-free taps on touch devices */
+    a, button { touch-action: manipulation; }
+    /* More elegant line breaks for headings and body copy */
+    h1, h2, h3 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+    /* Hero headline: a subtle legibility lift over the painting — artwork stays vivid */
+    [data-screen-label="01 Home"] h1 { text-shadow: 0 2px 28px rgba(0,0,0,.42); }
+    [data-screen-label="01 Home"] p  { text-shadow: 0 1px 16px rgba(0,0,0,.35); }
+
     /* ---------- RESPONSIVE, Mobile first cascade ---------- */
 
     /* Laptop ≤ 1180px: reduce horizontal padding */
@@ -90,6 +112,8 @@
     @media (max-width: 720px) {
       section {
         padding: 80px 20px !important;
+        padding-left: max(20px, env(safe-area-inset-left)) !important;
+        padding-right: max(20px, env(safe-area-inset-right)) !important;
       }
       section [style*="grid-template-columns"] {
         grid-template-columns: 1fr !important;
@@ -116,12 +140,17 @@
         grid-template-columns: 1fr !important;
         gap: 48px !important;
       }
+      /* Footer breathing room + safe-area on phones */
+      footer {
+        padding-left: max(24px, env(safe-area-inset-left)) !important;
+        padding-right: max(24px, env(safe-area-inset-right)) !important;
+      }
 
       /* ---------- HEADER (mobile) ---------- */
-      /* Tighter side padding on phones so nothing is cramped */
+      /* Comfortable side padding + landscape notch safe-area (≥24px) */
       header[style*="180px"], header[style*="64px"] {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
+        padding-left: max(24px, env(safe-area-inset-left)) !important;
+        padding-right: max(24px, env(safe-area-inset-right)) !important;
       }
       /* Logo: keep it perfectly centered, sitting just above the hero badge */
       header[style*="180px"] > div[style*="left: 50%"] { top: 40px !important; }
@@ -140,12 +169,12 @@
 
     /* Mobile ≤ 480px: tighten further */
     @media (max-width: 480px) {
-      section { padding: 64px 16px !important; }
+      section { padding: 64px 20px !important; }
       h1 { font-size: clamp(30px, 11vw, 48px) !important; }
       h2 { font-size: clamp(24px, 9vw, 36px) !important; }
       header[style*="180px"], header[style*="64px"] {
-        padding-left: 16px !important;
-        padding-right: 16px !important;
+        padding-left: max(20px, env(safe-area-inset-left)) !important;
+        padding-right: max(20px, env(safe-area-inset-right)) !important;
       }
       header[style*="180px"] nav { font-size: 10.5px !important; letter-spacing: 1.4px !important; }
     }
