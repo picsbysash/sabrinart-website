@@ -20,16 +20,17 @@
 
     /* Skip-to-content (only visible when keyboard-focused) */
     .sa-skip {
-      position: fixed; left: 16px; top: -64px; z-index: 10000;
+      position: fixed; left: 16px; top: 16px; z-index: 10000;
+      transform: translateY(-220%);
       padding: 12px 22px;
       background: #1d2a4d; color: #ffffff;
       font-family: 'IBM Plex Mono', ui-monospace, monospace;
       font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
-      text-decoration: none;
+      white-space: nowrap; text-decoration: none;
       border: 1px solid #d9b463;
-      transition: top .2s ease;
+      transition: transform .2s ease;
     }
-    .sa-skip:focus, .sa-skip:focus-visible { top: 16px; }
+    .sa-skip:focus, .sa-skip:focus-visible { transform: translateY(0); }
 
     /* Honor reduced-motion */
     @media (prefers-reduced-motion: reduce) {
@@ -173,25 +174,22 @@
         padding-right: max(24px, env(safe-area-inset-right)) !important;
       }
 
-      /* ---------- HEADER (mobile) ---------- */
+      /* ---------- HEADER (mobile): hamburger takes over ---------- */
       /* Comfortable side padding + landscape notch safe-area (≥24px) */
       header[style*="180px"], header[style*="64px"] {
         padding-left: max(24px, env(safe-area-inset-left)) !important;
         padding-right: max(24px, env(safe-area-inset-right)) !important;
       }
-      /* Logo: keep it perfectly centered, sitting just above the hero badge */
-      header[style*="180px"] > div[style*="left: 50%"] { top: 40px !important; }
-      /* Nav links: neat row that sits BELOW the centered logo (tall header only) */
-      header[style*="180px"] nav {
-        font-size: 11px !important;
-        letter-spacing: 1.6px !important;
-        margin-top: 90px !important;
-        row-gap: 2px !important;
+      /* Logo: centered and lowered, clearly off the top edge */
+      header[style*="180px"] > div[style*="left: 50%"] { top: 72px !important; }
+      /* Keep the slim (scrolled) logo centered too */
+      header[style*="64px"] > a[href="#/home"] {
+        position: absolute !important; left: 50% !important; transform: translateX(-50%) !important;
       }
-      header nav a { padding: 5px 9px !important; }
-      header nav span[style*="border-radius: 50"] { display: none !important; }
-      /* Cart icon: pin to the top-right — only the cart, never the centered logo */
-      header > div[style*="position: absolute"][style*="right:"] { top: 20px !important; right: 16px !important; }
+      /* Hide the desktop link row + cart on phones — the hamburger replaces them */
+      header nav { display: none !important; }
+      header[style*="180px"] > div[style*="position: absolute"][style*="right:"] { display: none !important; }
+      header[style*="64px"] a[href="#/cart"] { display: none !important; }
     }
 
     /* Mobile ≤ 480px: tighten further */
@@ -204,6 +202,56 @@
         padding-right: max(20px, env(safe-area-inset-right)) !important;
       }
       header[style*="180px"] nav { font-size: 10.5px !important; letter-spacing: 1.4px !important; }
+    }
+
+    /* ---------- MOBILE HAMBURGER MENU ---------- */
+    .sa-burger, .sa-menu-overlay { display: none; }
+    @media (max-width: 720px) {
+      .sa-burger {
+        display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+        position: fixed; z-index: 120; margin: 0; padding: 10px;
+        top: max(44px, calc(env(safe-area-inset-top) + 28px));
+        right: max(20px, env(safe-area-inset-right));
+        width: 44px; height: 44px; background: transparent; border: 0; cursor: pointer;
+      }
+      .sa-burger span {
+        display: block; width: 24px; height: 2px; border-radius: 2px; background: #f4ece0;
+        transition: transform .3s ease, opacity .25s ease, background .25s ease;
+      }
+      .sa-burger.dark span { background: #1d2a4d; }
+      .sa-burger.is-open span { background: #f4ece0; }
+      .sa-burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .sa-burger.is-open span:nth-child(2) { opacity: 0; }
+      .sa-burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+      .sa-menu-overlay {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        position: fixed; inset: 0; z-index: 110;
+        background: rgba(16,23,43,.97);
+        -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+        padding: max(72px, env(safe-area-inset-top)) 24px max(40px, env(safe-area-inset-bottom));
+        opacity: 0; pointer-events: none; transform: translateY(-6px);
+        transition: opacity .3s ease, transform .3s ease;
+      }
+      .sa-menu-overlay.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+      .sa-menu-close {
+        position: fixed; z-index: 130; top: max(40px, calc(env(safe-area-inset-top) + 22px)); right: 20px;
+        width: 44px; height: 44px; background: transparent; border: 0; cursor: pointer;
+        color: #f4ece0; font-family: Georgia, serif; font-size: 32px; line-height: 1;
+      }
+      .sa-menu-nav { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+      .sa-menu-nav a {
+        font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500; font-size: 30px;
+        color: #f4ece0; text-decoration: none; padding: 10px 18px; letter-spacing: .3px;
+        transition: color .2s ease;
+      }
+      .sa-menu-nav a:active { color: #d9b463; }
+      .sa-menu-bag {
+        margin-top: 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 11px; letter-spacing: 2.6px; text-transform: uppercase;
+        color: rgba(244,236,224,.75); text-decoration: none;
+        border: 1px solid rgba(244,236,224,.3); padding: 13px 26px;
+      }
     }
 
     /* ---------- Image fade-in on load ---------- */
@@ -256,4 +304,58 @@
   };
   if (document.readyState !== 'loading') tick();
   else document.addEventListener('DOMContentLoaded', tick);
+
+  // -------- 4. Mobile hamburger menu (premium, full-screen) --------
+  function buildMobileMenu() {
+    if (document.querySelector('.sa-burger')) return;
+    var routes = (window.ROUTES && window.ROUTES.length) ? window.ROUTES : [
+      { label: 'Home', href: '#/home' }, { label: 'Gallery', href: '#/gallery' },
+      { label: 'About', href: '#/about' }, { label: 'Studio & Process', href: '#/studio' },
+      { label: 'Exhibitions', href: '#/exhibitions' }, { label: 'Contact', href: '#/contact' }
+    ];
+    var burger = document.createElement('button');
+    burger.type = 'button';
+    burger.className = 'sa-burger';
+    burger.setAttribute('aria-label', 'Open menu');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.innerHTML = '<span></span><span></span><span></span>';
+
+    var overlay = document.createElement('div');
+    overlay.className = 'sa-menu-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    var html = '<button type="button" class="sa-menu-close" aria-label="Close menu">×</button><nav class="sa-menu-nav">';
+    routes.forEach(function (r) { html += '<a href="' + r.href + '">' + r.label + '</a>'; });
+    html += '</nav><a class="sa-menu-bag" href="#/cart">View bag</a>';
+    overlay.innerHTML = html;
+
+    document.body.appendChild(burger);
+    document.body.appendChild(overlay);
+
+    function setOpen(open) {
+      overlay.classList.toggle('open', open);
+      burger.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    burger.addEventListener('click', function () { setOpen(!overlay.classList.contains('open')); });
+    overlay.querySelector('.sa-menu-close').addEventListener('click', function () { setOpen(false); });
+    overlay.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
+    window.addEventListener('hashchange', function () { setOpen(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+
+    // Burger ink adapts: light over the dark hero / dark scrolled bar; dark on light interior headers.
+    function updateColor() {
+      var hash = window.location.hash || '#/home';
+      var isHome = hash.indexOf('#/home') === 0 || hash === '#/' || hash === '';
+      var light = isHome || window.scrollY > 140;
+      burger.classList.toggle('dark', !light);
+    }
+    window.addEventListener('scroll', updateColor, { passive: true });
+    window.addEventListener('hashchange', updateColor);
+    updateColor();
+  }
+  if (document.readyState !== 'loading') buildMobileMenu();
+  else document.addEventListener('DOMContentLoaded', buildMobileMenu);
 })();
