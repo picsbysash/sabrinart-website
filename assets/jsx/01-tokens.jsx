@@ -169,7 +169,7 @@ const WORKS_CATALOG = [
   { t: 'Butterfly', year: '2024', sizeIn: '12 × 12 in', sizeCm: '30 × 30 cm', medium: 'Mixed Media', price: '$480', status: 'AVAILABLE', col: 'available', src: ART.butterfly, pal: ['cerise'] },
   { t: 'Party Time', year: '2024', sizeIn: '16 × 12 in', sizeCm: '40 × 30 cm', medium: 'Mixed Media', price: '$320', status: 'AVAILABLE', col: 'available', src: ART.partyTime, pal: ['fire', 'nature'] },
   { t: 'Fly Over the Sea', year: '2024', sizeIn: '10 × 10 in', sizeCm: '25 × 25 cm', medium: 'Mixed Media', price: '$210', status: 'AVAILABLE', col: 'available', src: ART.flyOnTheSea, pal: ['ocean'] },
-  { t: 'Autumn', year: '2024', sizeIn: '10 × 10 in', sizeCm: '25 × 25 cm', medium: 'Oil on Canvas', price: '$210', status: 'AVAILABLE', col: 'available', src: ART.oilPainting, pal: ['fire'] },
+  { t: 'Fun', year: '2024', sizeIn: '10 × 10 in', sizeCm: '25 × 25 cm', medium: 'Oil on Canvas', price: '$210', status: 'AVAILABLE', col: 'available', src: ART.oilPainting, pal: ['fire'] },
   { t: 'Blue Lotus', year: '2024', sizeIn: '12 × 12 in', sizeCm: '30 × 30 cm', medium: 'Resin Art on Canvas', price: '$520', status: 'AVAILABLE', col: 'available', src: ART.blueLotus, pal: ['ocean', 'gold'] },
   { t: 'Billabong', year: '2024', sizeIn: '16 × 16 in', sizeCm: '40.5 × 40.5 cm', medium: 'Resin Art on Wood', price: '$520', status: 'AVAILABLE', col: 'available', src: null, pal: ['ocean'] },
   { t: 'Water Splash', year: '2019', sizeIn: '14 × 14 in', sizeCm: '35.5 × 35.5 cm', medium: 'Mixed Media', price: '$520', status: 'AVAILABLE', col: 'available', src: null, pal: ['ocean'] },
