@@ -116,16 +116,26 @@
         grid-template-columns: 1fr !important;
         gap: 48px !important;
       }
-      /* Nav links, wrap & shrink */
-      header nav {
-        font-size: 15px !important;
-        letter-spacing: 2px !important;
-        margin-top: 14px !important;
+
+      /* ---------- HEADER (mobile) ---------- */
+      /* Tighter side padding on phones so nothing is cramped */
+      header[style*="180px"], header[style*="64px"] {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
       }
-      header nav a { padding: 6px 10px !important; }
+      /* Logo: keep it perfectly centered, sitting just above the hero badge */
+      header[style*="180px"] > div[style*="left: 50%"] { top: 40px !important; }
+      /* Nav links: neat row that sits BELOW the centered logo (tall header only) */
+      header[style*="180px"] nav {
+        font-size: 11px !important;
+        letter-spacing: 1.6px !important;
+        margin-top: 90px !important;
+        row-gap: 2px !important;
+      }
+      header nav a { padding: 5px 9px !important; }
       header nav span[style*="border-radius: 50"] { display: none !important; }
-      /* Cart icon repositioning */
-      header > div[style*="position: absolute"][style*="top:"] { top: 20px !important; right: 16px !important; }
+      /* Cart icon: pin to the top-right — only the cart, never the centered logo */
+      header > div[style*="position: absolute"][style*="right:"] { top: 20px !important; right: 16px !important; }
     }
 
     /* Mobile ≤ 480px: tighten further */
@@ -133,6 +143,11 @@
       section { padding: 64px 16px !important; }
       h1 { font-size: clamp(30px, 11vw, 48px) !important; }
       h2 { font-size: clamp(24px, 9vw, 36px) !important; }
+      header[style*="180px"], header[style*="64px"] {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+      }
+      header[style*="180px"] nav { font-size: 10.5px !important; letter-spacing: 1.4px !important; }
     }
 
     /* ---------- Image fade-in on load ---------- */
