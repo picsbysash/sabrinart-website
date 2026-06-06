@@ -478,7 +478,7 @@ function HomePageV2() {
 
           {/* CTA centered below the grid */}
           <div style={{ textAlign: 'center', marginTop: 72 }}>
-            <a href="#/gallery" style={{
+            <a href="#/gallery/available" style={{
               display: 'inline-flex', alignItems: 'center', gap: 10,
               padding: '12px 24px',
               background: T.navy, color: T.cream,
@@ -495,7 +495,7 @@ function HomePageV2() {
               e.currentTarget.style.background = T.navy;
               e.currentTarget.style.borderColor = T.navy;
             }}>
-              See the newest works
+              See the available works
               <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: 18, letterSpacing: 0 }}>→</span>
             </a>
           </div>
