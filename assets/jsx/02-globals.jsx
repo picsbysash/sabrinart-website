@@ -368,4 +368,18 @@
   }
   if (document.readyState === 'complete') scheduleMenu();
   else window.addEventListener('load', scheduleMenu);
+
+  // -------- 5. Logo / Home link always returns to the top of Home --------
+  // Tapping the logo navigates Home (if elsewhere) and always snaps to the very
+  // top — even when already on Home, where no route change would fire otherwise.
+  document.addEventListener('click', function (e) {
+    var a = (e.target && e.target.closest) ? e.target.closest('a[href="#/home"]') : null;
+    if (!a) return;
+    if (!window.location.hash || window.location.hash === '#/' || window.location.hash === '#') {
+      window.location.hash = '#/home';
+    }
+    setTimeout(function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 0);
+  }, false);
 })();
