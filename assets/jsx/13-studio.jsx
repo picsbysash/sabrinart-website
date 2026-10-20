@@ -2,7 +2,13 @@
 // Magazine-style masonry, micro-loop video clips of kitchen tools in motion,
 // scroll-reveal entrance for every block. The most differentiated page of the site.
 
-function StudioPage() {
+function StudioPage({ section }) {
+  // Deep link (#/studio/the-moment-it-began) scrolls to that section once rendered.
+  useEffect(() => {
+    if (!section) return;
+    const el = document.getElementById(section);
+    if (el) requestAnimationFrame(() => el.scrollIntoView({ behavior: 'instant', block: 'start' }));
+  }, [section]);
   return (
     <div style={{ background: T.lightStage, minHeight: '100vh' }} data-screen-label="04 Studio">
       <NavBar active="studio" />
@@ -38,6 +44,24 @@ function StudioPage() {
           </div>
         </Reveal>
       </Section>
+
+      {/* THE MOMENT IT BEGAN, WOW (2011), deep-linked from the home hero */}
+      <div id="the-moment-it-began" style={{ scrollMarginTop: 96 }}>
+        <Section padding="40px 80px 0">
+          <div style={{
+            maxWidth: 760, margin: '0 auto', padding: '22px 32px',
+            borderLeft: `2px solid ${T.gold}`, background: T.cream,
+          }}>
+            <Eyebrow>The moment it began</Eyebrow>
+            <Body size={15} color={T.navy} style={{ marginTop: 10 }}>
+              Her artistic journey truly began in <strong style={{ fontWeight: 500 }}>2011</strong> with her first
+              painting, <em style={{ color: T.gold, fontStyle: 'italic' }}>WOW</em>, a
+              spontaneous work created in a moment of emotional vulnerability that
+              revealed art as a language of healing, freedom and self-expression.
+            </Body>
+          </div>
+        </Section>
+      </div>
 
       <Rule width="calc(100% - 160px)" margin="80px auto 0" />
 

@@ -281,6 +281,91 @@ function StatIcon({ kind, color = '#b8852a', size = 42, style }) {
   return null;
 }
 
+/* ---------- Home hero styles (white, two-column; stacks on narrow screens) ---------- */
+(function injectHomeHeroStyles() {
+  if (typeof document === 'undefined' || document.getElementById('sa-home-hero-css')) return;
+  const s = document.createElement('style');
+  s.id = 'sa-home-hero-css';
+  s.textContent = `
+    .sa-home-hero {
+      background: #FFFFFF;
+      display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      align-items: center; gap: clamp(40px, 5vw, 96px);
+      min-height: calc(100vh - 180px); box-sizing: border-box;
+      max-width: 1600px; margin: 0 auto;
+      padding: clamp(32px, 5vh, 64px) clamp(32px, 5vw, 80px) !important;
+    }
+    .sa-home-hero-art { margin: 0; min-width: 0; display: flex; justify-content: flex-end; }
+    .sa-home-hero-art img {
+      display: block; width: auto; height: auto; max-width: 100%;
+      max-height: calc(100vh - 180px - 2 * clamp(32px, 5vh, 64px));
+      opacity: 1 !important;
+    }
+    .sa-home-hero-text { min-width: 0; max-width: 520px; color: #111111; }
+    .sa-home-hero-text h1, .sa-home-hero-text p { text-shadow: none !important; }
+    .sa-home-hero h1.sa-home-hero-name {
+      font-family: ${T.display}; font-weight: 400; font-style: normal;
+      font-size: clamp(52px, 5.6vw, 92px) !important; line-height: 1 !important;
+      letter-spacing: -0.015em; color: #000000; margin: 0;
+    }
+    .sa-home-hero-sub {
+      font-family: ${T.sans}; font-weight: 300; font-size: 15px; line-height: 1.5;
+      letter-spacing: .3px; color: #222222; margin: 14px 0 0;
+    }
+    .sa-home-hero-caption {
+      font-family: ${T.mono}; font-size: 11px; letter-spacing: 1.6px; line-height: 1.5;
+      color: #555555; margin: clamp(36px, 5vh, 56px) 0 0;
+    }
+    .sa-home-hero-statement {
+      font-family: ${T.display}; font-weight: 500;
+      font-size: clamp(24px, 2.3vw, 34px); line-height: 1.15; letter-spacing: .06em;
+      color: #000000; margin: 10px 0 0;
+    }
+    .sa-home-hero-ctas {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px;
+      margin-top: clamp(32px, 4.5vh, 48px);
+    }
+    .sa-home-hero-btn {
+      display: inline-flex; align-items: center;
+      font-family: ${T.sans}; font-size: 12px; font-weight: 500; letter-spacing: 1.4px;
+      color: #111111; padding: 12px 22px; border: 1px solid #111111;
+      text-decoration: none; transition: background .25s ease, color .25s ease;
+    }
+    .sa-home-hero-btn:hover, .sa-home-hero-btn:focus-visible { background: #111111; color: #FFFFFF; }
+    .sa-home-hero-link {
+      font-family: ${T.sans}; font-size: 13px; font-weight: 400; letter-spacing: .3px;
+      color: #111111; text-decoration: underline; text-decoration-color: rgba(17,17,17,.35);
+      text-underline-offset: 5px; transition: text-decoration-color .25s ease;
+    }
+    .sa-home-hero-link:hover, .sa-home-hero-link:focus-visible { text-decoration-color: #111111; }
+
+    /* Tablet + mobile: stack artwork above the text */
+    @media (max-width: 900px) {
+      .sa-home-hero {
+        grid-template-columns: 1fr; gap: 28px; min-height: 0; text-align: center;
+        padding: 32px 40px 56px !important;
+      }
+      .sa-home-hero-art { justify-content: center; }
+      .sa-home-hero-art img { max-height: 56vh; }
+      .sa-home-hero-text { max-width: 560px; margin: 0 auto; }
+      .sa-home-hero-ctas { justify-content: center; }
+    }
+    @media (max-width: 720px) {
+      .sa-home-hero {
+        gap: 22px;
+        padding: 20px max(20px, env(safe-area-inset-right)) 48px max(20px, env(safe-area-inset-left)) !important;
+      }
+      .sa-home-hero h1.sa-home-hero-name { font-size: clamp(40px, 12vw, 54px) !important; }
+      .sa-home-hero-sub { font-size: 14px; margin-top: 10px; }
+      .sa-home-hero-caption { margin-top: 22px; }
+      .sa-home-hero-statement { font-size: 22px; }
+      .sa-home-hero-ctas { margin-top: 22px; gap: 6px 24px; }
+      .sa-home-hero-btn { padding: 0 22px; min-height: 44px; }
+    }
+  `;
+  document.head.appendChild(s);
+})();
+
 function HomePageV2() {
   const [palette, setPalette] = useState('all');
   const PALETTES = [
@@ -302,60 +387,28 @@ function HomePageV2() {
   return (
     <div style={{ background: T.paper, minHeight: '100vh', overflowX: 'hidden' }} data-screen-label="01 Home" id="main-content">
 
-      {/* ====== 1. DARK PAINTING HERO (animated video-style backdrop) ====== */}
-      <DarkPaintingHero height="100vh" image={ART.blueHero}>
-        <NavBar active="home" light floating />
-        <div style={{
-          position: 'absolute', inset: 0,
-          display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'flex-start',
-          padding: 'max(200px, 22vh) clamp(32px, 5vw, 64px) clamp(60px, 8vh, 100px)', textAlign: 'center', height: "828px"
-        }}>
-          {/* tiny eyebrow */}
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 14,
-            padding: '7px 16px', background: 'rgba(20,29,54,.4)',
-            border: '1px solid rgba(232,200,122,.45)', backdropFilter: 'blur(6px)',
-            fontFamily: T.mono, fontSize: 10, color: T.goldShimmer, letterSpacing: 3.2,
-            textTransform: 'uppercase', marginBottom: 36
-          }}>
-            <span style={{
-              width: 7, height: 7, borderRadius: '50%', background: T.goldShimmer,
-              boxShadow: `0 0 12px ${T.goldShimmer}`
-            }} />
-            New Collection 2026 · 6 pieces on sale
-          </div>
+      <NavBar active="home" />
 
-          <h1 style={{
-            fontFamily: T.serif, fontWeight: 400, fontStyle: 'normal',
-            fontSize: 'clamp(40px, 6vw, 88px)', lineHeight: 1.05,
-            letterSpacing: '-0.015em', color: '#ffffff', margin: 0,
-            maxWidth: 1180, textShadow: '0 2px 24px rgba(0,0,0,.5)'
-          }}>
-            Painted in <em style={{ ...{ fontFamily: T.display, color: T.goldShimmer, fontStyle: 'italic', fontWeight: 500 }, fontFamily: "\"Cormorant Garamond\"" }}>layers</em>,
-            built with <em style={{ fontFamily: T.display, color: T.goldShimmer, fontStyle: 'italic', fontWeight: 500 }}>gold</em>,
-            <br />shipped from Melbourne to your wall
-          </h1>
-
-          <div style={{
-            marginTop: 40, display: 'flex', gap: 18, justifyContent: 'center', flexWrap: 'wrap'
-          }}>
-            <MagneticBtn href="#/gallery" arrow style={{
-              background: T.goldRich, border: 'none', color: '#ffffff', padding: '12px 24px'
-            }}>Discover the Collection</MagneticBtn>
-            <MagneticBtn href="#/about" arrow style={{
-              background: 'transparent', border: '1.5px solid #ffffff', color: '#ffffff', padding: '12px 24px'
-            }}>Meet Sabrina</MagneticBtn>
-          </div>
-
-          <div style={{
-            marginTop: 56, fontFamily: T.serif, fontStyle: 'italic',
-            color: 'rgba(255,255,255,.7)', letterSpacing: 2, fontSize: "20px"
-          }}>
-            with art by Sabrina Goria · Asti · Milan · Melbourne
+      {/* ====== 1. HERO, white editorial split: WOW (2011) | artist intro ====== */}
+      <section className="sa-home-hero" aria-label="Sabrina Goria, WOW (2011)">
+        <figure className="sa-home-hero-art">
+          <img
+            src={ART.wow}
+            alt="WOW 11:11:11, 2011, painting by Sabrina Goria"
+            width="1800" height="1342"
+            fetchpriority="high" decoding="async" />
+        </figure>
+        <div className="sa-home-hero-text">
+          <h1 className="sa-home-hero-name">Sabrina Goria</h1>
+          <p className="sa-home-hero-sub">Italian Australian Abstract Expressionist Artist</p>
+          <p className="sa-home-hero-caption">WOW 11:11:11, 2011 (Painting)</p>
+          <p className="sa-home-hero-statement">THE PAINTING THAT STARTED IT ALL.</p>
+          <div className="sa-home-hero-ctas">
+            <a href="#/gallery" className="sa-home-hero-btn">Explore the Collection →</a>
+            <a href="#/studio/the-moment-it-began" className="sa-home-hero-link">Where it all began →</a>
           </div>
         </div>
-      </DarkPaintingHero>
+      </section>
 
       {/* ====== 2. NEW COLLECTION INTRO + GRID (white) ====== */}
       <section style={{ padding: 'clamp(48px, 5vh, 80px) clamp(32px, 5vw, 80px)', position: 'relative', background: "rgb(255, 255, 255)" }}>
