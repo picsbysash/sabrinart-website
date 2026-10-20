@@ -172,100 +172,54 @@ function TabbedStory({ phases }) {
 
 }
 
-/* ---------- FooterV2, bigger, weightier; matches the site's visual scale ---------- */
+/* ---------- FooterV2, minimalist site footer shared by every page ---------- */
+// Footer destinations. Set `href` on Commissions / Shipping & Returns once those
+// pages exist; links without an href are not rendered.
+const FOOTER_INSTAGRAM = 'https://www.instagram.com/sabrinart_collection';
+const FOOTER_EMAIL = 'sabrinartcollection@gmail.com';
+const FOOTER_LINKS = [
+{ label: 'Gallery', href: '#/gallery' },
+{ label: 'Commissions', href: null },
+{ label: 'Shipping & Returns', href: null },
+{ label: 'Contact', href: '#/contact' }];
+
+
 function FooterV2({ dark = false }) {
   const bg = dark ? T.navy : T.paper2;
   const fg = dark ? T.cream : T.ink;
   const fg2 = dark ? 'rgba(255,255,255,.66)' : T.taupe;
-  const eyebrow = dark ? T.goldShimmer : T.ochre;
+  const hair = dark ? 'rgba(255,255,255,.12)' : T.hair;
+  const links = FOOTER_LINKS.filter((l) => l.href);
   return (
-    <footer style={{
-      background: bg, color: fg, padding: '36px 80px 24px',
-      borderTop: `1px solid ${dark ? 'rgba(255,255,255,.12)' : T.hairStrong}`,
-      position: 'relative', overflow: 'hidden'
+    <footer className="sa-footer" style={{
+      background: bg, color: fg, borderTop: `1px solid ${hair}`,
+      '--sa-foot-fg': fg, '--sa-foot-fg2': fg2, '--sa-foot-hair': hair
     }}>
-      {/* Gigantic italic wordmark in the back */}
-      {/* (watermark removed) */}
-
-      <div style={{ position: 'relative', maxWidth: 1480, margin: '0 auto' }}>
-        <div style={{
-          display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1.5fr', gap: 80
-        }}>
-          <div>
-            <Logo light={dark} size={68} />
-            <div style={{
-              fontFamily: T.display, fontStyle: 'italic', fontWeight: 400,
-              fontSize: 26, color: fg, lineHeight: 1.35, marginTop: 32, maxWidth: 380,
-              letterSpacing: '-0.005em'
-            }}>
-              SabrinArt Collection, Contemporary Abstract Art for Modern Interiors
-            </div>
-            <div style={{
-              fontFamily: T.sans, fontSize: 15, color: fg2, marginTop: 22, lineHeight: 1.7, maxWidth: 360, fontWeight: 300
-            }}>
-              Original paintings by Sabrina Goria, signed and shipped from her
-              studio in Melbourne, Australia.
-            </div>
+      <div className="sa-footer-inner">
+        <div className="sa-footer-main">
+          <div className="sa-footer-brand">
+            <Logo light={dark} size={55} />
+            <p className="sa-footer-tagline">Contemporary abstract art for modern interiors</p>
           </div>
 
-          <div>
-            <div style={{ fontFamily: T.mono, fontSize: 11.5, letterSpacing: 3.4, color: eyebrow, textTransform: 'uppercase', marginBottom: 26 }}>Browse</div>
-            <div style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 22, color: fg, lineHeight: 1.85, fontWeight: 400 }}>
-              <a href="#/gallery" style={{ display: 'block' }}>Gallery</a>
-              <a href="#/about" style={{ display: 'block' }}>About</a>
-              <a href="#/studio" style={{ display: 'block' }}>Studio</a>
-              <a href="#/exhibitions" style={{ display: 'block' }}>Exhibitions</a>
-              <a href="#/contact" style={{ display: 'block' }}>Contact</a>
-            </div>
-          </div>
+          <nav className="sa-footer-nav" aria-label="Footer">
+            {links.map((l) =>
+            <a key={l.label} href={l.href}>{l.label}</a>
+            )}
+          </nav>
 
-          <div>
-            <div style={{ fontFamily: T.mono, fontSize: 11.5, letterSpacing: 3.4, color: eyebrow, textTransform: 'uppercase', marginBottom: 26 }}>Information</div>
-            <div style={{ fontFamily: T.sans, fontSize: 16, color: fg2, lineHeight: 2.1, fontWeight: 300 }}>
-              <span style={{ display: 'block' }}>Shipping</span>
-              <span style={{ display: 'block' }}>Returns</span>
-              <span style={{ display: 'block' }}>Care &amp; Framing</span>
-              <span style={{ display: 'block' }}>Privacy</span>
-              <span style={{ display: 'block' }}>Terms</span>
-            </div>
-          </div>
-
-          <div>
-            <div style={{ fontFamily: T.mono, fontSize: 11.5, letterSpacing: 3.4, color: eyebrow, textTransform: 'uppercase', marginBottom: 26 }}>Stay in the picture</div>
-            <div style={{ fontFamily: T.sans, fontSize: 15, color: fg2, lineHeight: 1.7, marginBottom: 24, maxWidth: 320 }}>
-              Be the first to see new collections, exhibition news and studio stories.
-            </div>
-            <div style={{
-              display: 'flex', borderBottom: `1px solid ${dark ? 'rgba(255,255,255,.4)' : T.navy}`,
-              paddingBottom: 12
-            }}>
-              <div style={{ flex: 1, fontFamily: T.mono, fontSize: 13.5, color: fg2, letterSpacing: 0.5 }}>your email address</div>
-              <span style={{ fontFamily: T.sans, fontSize: 12, letterSpacing: 3, color: fg, textTransform: 'uppercase' }}>Subscribe →</span>
-            </div>
-            <div style={{ marginTop: 28, display: 'flex', gap: 18 }}>
-              {['Instagram', 'Facebook', 'YouTube', 'Pinterest'].map((s) =>
-              <a key={s} href={s === 'Instagram' ? 'https://www.instagram.com/sabrinart_collection' : '#'}
-                target={s === 'Instagram' ? '_blank' : undefined}
-                rel={s === 'Instagram' ? 'noopener noreferrer' : undefined}
-                style={{
-                fontFamily: T.mono, fontSize: 11, color: fg2,
-                letterSpacing: 2, textTransform: 'uppercase',
-                borderBottom: `1px solid ${dark ? 'rgba(255,255,255,.2)' : T.hair}`, paddingBottom: 4
-              }}>{s}</a>
-              )}
-            </div>
+          <div className="sa-footer-contact">
+            <a href={`mailto:${FOOTER_EMAIL}`}>{FOOTER_EMAIL}</a>
+            <a href={FOOTER_INSTAGRAM} target="_blank" rel="noopener noreferrer"
+              aria-label="Instagram, @sabrinart_collection (opens in a new tab)">
+              Instagram
+            </a>
           </div>
         </div>
 
-        <div style={{
-          marginTop: 96, paddingTop: 36,
-          borderTop: `1px solid ${dark ? 'rgba(255,255,255,.12)' : T.hair}`,
-          display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
-          fontFamily: T.mono, fontSize: 12, color: fg2, letterSpacing: 2, textTransform: 'uppercase',
-          flexWrap: 'wrap', gap: 24
-        }}>
-          <span>© 2026 SabrinArt Collection · Contemporary Abstract Art for Modern Interiors</span>
-          <span>sabrinart.com.au · Melbourne, Australia · @sabrinart_collection</span>
+        <div className="sa-footer-base">
+          <span>© 2026 SabrinArt Collection</span>
+          <span>Melbourne, Australia</span>
         </div>
       </div>
     </footer>);

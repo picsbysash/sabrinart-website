@@ -114,6 +114,52 @@
       header.sa-header:not(.is-compact) .sa-nav-links { letter-spacing: 2px !important; }
     }
 
+    /* ---------- FOOTER (minimal: brand | links | contact) ---------- */
+    footer.sa-footer { padding: 72px 80px 32px; overflow-x: hidden; }
+    .sa-footer-inner { max-width: 1320px; margin: 0 auto; }
+    .sa-footer-main {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 48px; flex-wrap: wrap;
+    }
+    .sa-footer-brand { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; min-width: 0; }
+    .sa-footer-tagline {
+      margin: 0; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+      font-size: 18px; line-height: 1.4; color: var(--sa-foot-fg2);
+    }
+    .sa-footer-nav, .sa-footer-contact {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 8px 36px;
+    }
+    .sa-footer-nav a, .sa-footer-contact a {
+      font-family: 'Inter', system-ui, sans-serif; font-size: 12px; font-weight: 400;
+      letter-spacing: 2.6px; text-transform: uppercase; color: var(--sa-foot-fg);
+      padding: 8px 0; text-decoration: none; border-bottom: 1px solid transparent;
+      transition: border-color .25s ease, color .25s ease;
+    }
+    .sa-footer-contact a:first-child {
+      text-transform: none; letter-spacing: .4px; font-size: 14px; font-weight: 300;
+      overflow-wrap: anywhere;
+    }
+    .sa-footer-nav a:hover, .sa-footer-contact a:hover { border-bottom-color: #d9b463; }
+    .sa-footer-base {
+      margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--sa-foot-hair);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px 24px;
+      font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--sa-foot-fg2);
+    }
+    @media (max-width: 1024px) {
+      footer.sa-footer { padding-top: 60px; }
+      .sa-footer-main { flex-direction: column; align-items: center; text-align: center; gap: 32px; }
+      .sa-footer-brand { align-items: center; }
+      .sa-footer-nav, .sa-footer-contact { justify-content: center; }
+    }
+    @media (max-width: 720px) {
+      footer.sa-footer { padding-top: 52px; padding-bottom: max(28px, env(safe-area-inset-bottom)); }
+      .sa-footer-nav { flex-direction: column; gap: 0; }
+      .sa-footer-contact { flex-direction: column; gap: 0; }
+      .sa-footer-nav a, .sa-footer-contact a { justify-content: center; padding: 0; }
+      .sa-footer-base { justify-content: center; text-align: center; margin-top: 40px; }
+    }
+
     /* ---------- RESPONSIVE, Mobile first cascade ---------- */
 
     /* Laptop ≤ 1180px: reduce horizontal padding */
