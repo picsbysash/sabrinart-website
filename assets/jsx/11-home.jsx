@@ -173,14 +173,15 @@ function TabbedStory({ phases }) {
 }
 
 /* ---------- FooterV2, minimalist site footer shared by every page ---------- */
-// Footer destinations. Set `href` on Commissions / Shipping & Returns once those
+// Footer destinations. Set `href` on Shipping / Commissions / Returns once those
 // pages exist; links without an href are not rendered.
 const FOOTER_INSTAGRAM = 'https://www.instagram.com/sabrinart_collection';
 const FOOTER_EMAIL = 'sabrinartcollection@gmail.com';
 const FOOTER_LINKS = [
 { label: 'Gallery', href: '#/gallery' },
+{ label: 'Shipping', href: null },
 { label: 'Commissions', href: null },
-{ label: 'Shipping & Returns', href: null },
+{ label: 'Returns', href: null },
 { label: 'Contact', href: '#/contact' }];
 
 
@@ -212,6 +213,7 @@ function FooterV2({ dark = false }) {
             <a href={`mailto:${FOOTER_EMAIL}`}>{FOOTER_EMAIL}</a>
             <a href={FOOTER_INSTAGRAM} target="_blank" rel="noopener noreferrer"
               aria-label="Instagram, @sabrinart_collection (opens in a new tab)">
+              <InstagramIcon size={15} />
               Instagram
             </a>
           </div>
@@ -794,11 +796,7 @@ function HomePageV2() {
             e.currentTarget.style.borderColor = T.navy;
             e.currentTarget.style.boxShadow = '0 14px 32px -14px rgba(28,40,77,.45)';
           }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={T.cream} strokeWidth="1.6" style={{ height: "20px", width: "20px" }}>
-              <rect x="3" y="3" width="18" height="18" rx="5" />
-              <circle cx="12" cy="12" r="4" />
-              <circle cx="17" cy="7" r="0.9" fill={T.cream} />
-            </svg>
+            <InstagramIcon size={20} color={T.cream} />
             Follow on Instagram
             <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: 14 }}>→</span>
           </a>

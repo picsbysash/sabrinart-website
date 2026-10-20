@@ -40,7 +40,6 @@ function ContactPage() {
               {[
                 ['Email', 'sabrinartcollection@gmail.com', 'mailto:sabrinartcollection@gmail.com'],
                 ['Instagram', '@sabrinart_collection', 'https://www.instagram.com/sabrinart_collection'],
-                ['Facebook', '@sabrinart_collection', '#'],
                 ['Based in', 'Melbourne, Australia', null],
                 ['Trade enquiries', 'Designers & curators, use the form →', null],
               ].map(([k, v, h]) => (
@@ -50,7 +49,7 @@ function ContactPage() {
                 }}>
                   <div style={{ fontFamily: T.mono, fontSize: 15, color: T.ochre, letterSpacing: 2.4, textTransform: 'uppercase' }}>{k}</div>
                   {h ? (
-                    <a href={h} target={h.startsWith('http') ? '_blank' : undefined} rel={h.startsWith('http') ? 'noopener noreferrer' : undefined} style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 16, color: T.navy }}>{v}</a>
+                    <a href={h} target={h.startsWith('http') ? '_blank' : undefined} rel={h.startsWith('http') ? 'noopener noreferrer' : undefined} style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 16, color: T.navy, display: 'inline-flex', alignItems: 'center', gap: 8 }}>{k === 'Instagram' && <InstagramIcon size={15} color={T.navy} />}{v}</a>
                   ) : (
                     <div style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 16, color: T.navy }}>{v}</div>
                   )}

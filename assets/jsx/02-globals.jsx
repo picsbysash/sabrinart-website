@@ -135,6 +135,7 @@
       padding: 8px 0; text-decoration: none; border-bottom: 1px solid transparent;
       transition: border-color .25s ease, color .25s ease;
     }
+    .sa-footer-contact a { display: inline-flex; align-items: center; gap: 10px; }
     .sa-footer-contact a:first-child {
       text-transform: none; letter-spacing: .4px; font-size: 14px; font-weight: 300;
       overflow-wrap: anywhere;
