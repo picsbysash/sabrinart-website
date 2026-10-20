@@ -97,9 +97,14 @@ function CartIcon({ light, count = 0 }) {
 
 }
 
+// Header nav items, the six page routes followed by the cart.
+const NAV_ITEMS = [...ROUTES, { id: 'cart', label: 'Cart', href: '#/cart' }];
+const NAV_INK = '#000000';
+const HEADER_BG = '#FFFFFF';
+
 // NavLinks, inline-row of links with a single gold underline that slides to
 // whichever link is hovered. Falls back to the active link when not hovering.
-function NavLinks({ active, fg, effectiveLight, overHero, compact }) {
+function NavLinks({ active, compact }) {
   const navRef = React.useRef(null);
   const linkRefs = React.useRef({});
   const [hoverId, setHoverId] = React.useState(null);
@@ -119,7 +124,7 @@ function NavLinks({ active, fg, effectiveLight, overHero, compact }) {
   React.useEffect(() => {
     const m = measure(targetId);
     if (m) setIndicator({ left: m.left, width: m.width, opacity: 1 });
-  }, [targetId, measure, overHero]);
+  }, [targetId, measure, compact]);
 
   // Re-measure on resize
   React.useEffect(() => {
@@ -134,31 +139,34 @@ function NavLinks({ active, fg, effectiveLight, overHero, compact }) {
   return (
     <nav
       ref={navRef}
+      className="sa-nav-links"
+      aria-label="Main"
       onMouseLeave={() => setHoverId(null)}
       style={{
         position: 'relative',
-        marginTop: compact ? 0 : (overHero ? 110 : 100),
-        display: 'inline-flex', gap: 0, alignItems: 'center', flexWrap: 'wrap',
+        marginTop: compact ? 0 : 100,
+        display: 'inline-flex', gap: 0, alignItems: 'center', flexWrap: 'nowrap',
         justifyContent: 'center',
         fontFamily: T.sans, fontSize: 10.5, fontWeight: 400,
-        letterSpacing: 3.4, textTransform: 'uppercase',
-        color: fg
+        letterSpacing: compact ? 2.4 : 3.4, textTransform: 'uppercase',
+        color: NAV_INK
       }}>
-      {ROUTES.map((r, i) =>
+      {NAV_ITEMS.map((r, i) =>
         <React.Fragment key={r.id}>
           <a
             ref={(el) => { linkRefs.current[r.id] = el; }}
             href={r.href}
+            aria-current={active === r.id ? 'page' : undefined}
             onMouseEnter={() => setHoverId(r.id)}
             style={{
-              padding: '6px 18px',
-              color: (hoverId ? hoverId === r.id : active === r.id) ? T.gold : fg,
-              transition: 'color .25s', lineHeight: 1, fontSize: "13px"
+              padding: compact ? '6px 12px' : '6px 18px',
+              color: NAV_INK, whiteSpace: 'nowrap', textDecoration: 'none',
+              lineHeight: 1, fontSize: compact ? '12px' : '13px'
             }}>{r.label}</a>
-          {i < ROUTES.length - 1 &&
+          {i < NAV_ITEMS.length - 1 &&
             <span style={{
-              width: 3, height: 3, borderRadius: '50%',
-              background: effectiveLight ? 'rgba(255,255,255,.4)' : T.taupeSoft
+              width: 3, height: 3, borderRadius: '50%', flexShrink: 0,
+              background: T.taupeSoft
             }} />
           }
         </React.Fragment>
@@ -180,73 +188,130 @@ function NavLinks({ active, fg, effectiveLight, overHero, compact }) {
   );
 }
 
-// NavBar, centered editorial: logo top, links below in a discreet caps row.
-// `light` flips to white text for dark-stage / over-hero overlays.
-// `floating` makes it absolute over the hero (transparent, no border).
-function NavBar({ active, light = false, floating = false }) {
+// NavBar, always a solid white header with black navigation text.
+// Desktop: tall editorial header (logo top, links below) that collapses into a
+// slim single row once scrolled; the background never changes.
+// Mobile: one row, hamburger left, logo centered, shopping bag right, with a
+// white drop-down menu that opens beneath the header.
+// `light` is accepted for backwards compatibility but no longer changes colors.
+// `floating` skips the layout spacer (used over the home hero).
+function NavBar({ active, floating = false }) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 140);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-  // Floating nav (over hero) flips to a solid white look once you scroll past the hero.
-  const overHero = floating && !scrolled;
-  const effectiveLight = light && overHero;
-  const fg = effectiveLight ? T.cream : T.navy;
-  const solid = !overHero;
+  // Close the mobile menu on navigation, Escape, or when growing to desktop.
+  useEffect(() => {
+    const close = () => setMenuOpen(false);
+    const onKey = (e) => { if (e.key === 'Escape') close(); };
+    const mq = window.matchMedia('(min-width: 721px)');
+    const onMq = (e) => { if (e.matches) close(); };
+    window.addEventListener('hashchange', close);
+    document.addEventListener('keydown', onKey);
+    mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
+    return () => {
+      window.removeEventListener('hashchange', close);
+      document.removeEventListener('keydown', onKey);
+      mq.removeEventListener ? mq.removeEventListener('change', onMq) : mq.removeListener(onMq);
+    };
+  }, []);
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
   // Once scrolled, the tall editorial header collapses into a slim always-visible bar.
   const compact = scrolled;
   return (
     <React.Fragment>
-    <header style={{
+    <header className={'sa-header' + (compact ? ' is-compact' : '')} style={{
       position: 'fixed',
-      top: 0, left: 0, right: 0, zIndex: 50,
-      padding: compact ? '0 clamp(20px, 5vw, 56px)' : (overHero ? '12px 56px 8px' : '12px 56px 10px'),
-      background: solid ? 'rgba(255,255,255,.92)' : 'transparent',
-      backdropFilter: solid ? 'blur(14px)' : 'none',
-      WebkitBackdropFilter: solid ? 'blur(14px)' : 'none',
-      borderBottom: solid ? `1px solid ${T.hair}` : 'none',
+      top: 0, left: 0, right: 0, zIndex: 1000,
+      padding: compact ? '0 clamp(20px, 4vw, 56px)' : '12px 56px 10px',
+      background: HEADER_BG,
+      borderBottom: `1px solid ${T.hair}`,
       textAlign: 'center',
-      transition: 'background .3s ease, padding .3s ease, border-color .3s ease, height .3s ease',
-      height: compact ? '64px' : '180px',
-      display: compact ? 'flex' : 'block',
-      alignItems: compact ? 'center' : undefined,
-      justifyContent: compact ? 'space-between' : undefined,
+      height: compact ? 64 : 180,
+      boxSizing: 'border-box'
     }}>
-      {compact ? (
-        <React.Fragment>
-          {/* Slim bar: logo left, nav center, cart right */}
-          <a href="#/home" style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center' }}>
-            <Logo light={false} size={30} />
-          </a>
-          <NavLinks active={active} fg={T.navy} effectiveLight={false} overHero={false} compact />
-          <div style={{ flexShrink: 0 }}>
-            <CartIcon light={false} count={2} />
-          </div>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          {/* Cart anchored top-right */}
-          <div style={{ position: 'absolute', top: 22, right: 56 }}>
-            <CartIcon light={effectiveLight} count={2} />
-          </div>
+      {/* ---- Desktop layout ---- */}
+      <div className="sa-header-desktop" style={{
+        position: 'relative', height: '100%',
+        display: compact ? 'flex' : 'block',
+        alignItems: 'center', justifyContent: 'space-between', gap: 24
+      }}>
+        {compact ? (
+          <React.Fragment>
+            {/* Slim bar: logo left, nav center, cart right */}
+            <div className="sa-header-logo-slim" style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center' }}>
+              <Logo size={40} />
+            </div>
+            <NavLinks active={active} compact />
+            <div style={{ flexShrink: 0 }}>
+              <CartIcon count={2} />
+            </div>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            {/* Cart anchored top-right */}
+            <div style={{ position: 'absolute', top: 10, right: 0 }}>
+              <CartIcon count={2} />
+            </div>
 
-          {/* Logo, absolute, centered horizontally, positioned below the cart line */}
-          <div style={{ position: 'absolute', top: 45, left: '50%', transform: 'translateX(-50%)' }}>
-            <Logo light={effectiveLight} size={overHero ? 48 : 42} />
-          </div>
+            {/* Logo, centered horizontally, below the cart line */}
+            <div className="sa-header-logo-tall" style={{ position: 'absolute', top: 33, left: '50%', transform: 'translateX(-50%)' }}>
+              <Logo size={60} />
+            </div>
 
-          {/* Nav links, centered row, fills the space just below the logo */}
-          <NavLinks active={active} fg={fg} effectiveLight={effectiveLight} overHero={overHero} />
-        </React.Fragment>
-      )}
+            {/* Nav links, centered row just below the logo */}
+            <NavLinks active={active} />
+          </React.Fragment>
+        )}
+      </div>
+
+      {/* ---- Mobile layout: hamburger | logo | bag ---- */}
+      <div className="sa-header-mobile">
+        <button
+          type="button"
+          className={'sa-burger' + (menuOpen ? ' is-open' : '')}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          aria-controls="sa-mobile-menu"
+          onClick={() => setMenuOpen((o) => !o)}>
+          <span></span><span></span><span></span>
+        </button>
+        <div className="sa-header-mobile-logo">
+          <Logo size={38} />
+        </div>
+        <div className="sa-header-mobile-cart">
+          <CartIcon count={2} />
+        </div>
+      </div>
     </header>
+
+    {/* Mobile menu, white panel beneath the header (never covers it) */}
+    <div
+      id="sa-mobile-menu"
+      className={'sa-mobile-menu' + (menuOpen ? ' open' : '')}
+      aria-hidden={!menuOpen}>
+      <nav aria-label="Mobile">
+        {NAV_ITEMS.map((r) =>
+          <a key={r.id} href={r.href}
+            tabIndex={menuOpen ? 0 : -1}
+            aria-current={active === r.id ? 'page' : undefined}
+            onClick={() => setMenuOpen(false)}>{r.label}</a>
+        )}
+      </nav>
+    </div>
+
     {/* Spacer reserves the header's footprint on non-floating pages so content
         is never hidden underneath the fixed bar. */}
     {!floating &&
-      <div aria-hidden style={{ height: 180 }} />
+      <div aria-hidden className="sa-header-spacer" style={{ height: 180 }} />
     }
     </React.Fragment>);
 
