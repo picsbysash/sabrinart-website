@@ -84,32 +84,35 @@
     [data-screen-label="01 Home"] h1 { text-shadow: 0 2px 28px rgba(0,0,0,.42); }
     [data-screen-label="01 Home"] p  { text-shadow: 0 1px 16px rgba(0,0,0,.35); }
 
-    /* ---------- SCROLLED HEADER: dark translucent glass ---------- */
-    /* The slim bar that appears on scroll (height 64px) becomes a premium
-       dark blur instead of solid white — readable, minimal, never loud. */
-    header[style*="64px"] {
-      background: rgba(18,26,48,.72) !important;
-      -webkit-backdrop-filter: blur(16px) !important;
-      backdrop-filter: blur(16px) !important;
-      border-bottom: 1px solid rgba(255,255,255,.12) !important;
+    /* ---------- HEADER: always solid white, black navigation ---------- */
+    /* One look in every state (scroll, menu, route): opaque #FFFFFF background,
+       #000000 nav text, never transparent and no background transitions. */
+    header.sa-header {
+      background: #FFFFFF !important;
+      background-color: #FFFFFF !important;
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+      opacity: 1 !important;
+      transition: none !important;
+      z-index: 1000 !important;
     }
-    /* Logo reads as white on the dark bar (and stays crisp) */
-    header[style*="64px"] img {
-      filter: brightness(0) invert(1) drop-shadow(0 1px 8px rgba(0,0,0,.35)) !important;
-      height: 40px !important;
-    }
-    /* Nav + cart read as cream on the dark bar */
-    header[style*="64px"] nav a { color: #f4ece0 !important; }
-    header[style*="64px"] a[href="#/cart"] {
-      color: #f4ece0 !important;
-      border-color: rgba(255,255,255,.35) !important;
-      background: rgba(255,255,255,.08) !important;
-    }
-    header[style*="64px"] a[href="#/cart"] svg path { stroke: #f4ece0 !important; }
-    header[style*="64px"] a[href="#/cart"] svg circle { fill: #f4ece0 !important; }
+    header.sa-header nav a,
+    .sa-mobile-menu nav a { color: #000000 !important; }
+    header.sa-header img { filter: none !important; }
+    header.sa-header .sa-header-logo-tall img { height: 60px !important; }
+    header.sa-header .sa-header-logo-slim img { height: 40px !important; }
+    header.sa-header .sa-header-mobile-logo img { height: 38px !important; }
 
-    /* ---------- LOGO: slightly larger & crisp on the tall header ---------- */
-    header[style*="180px"] img { height: 60px !important; }
+    /* Mobile row + menu are hidden on desktop */
+    .sa-header-mobile, .sa-mobile-menu { display: none; }
+
+    /* Narrow desktops: tighten the slim one-row nav so all seven items fit */
+    @media (min-width: 721px) and (max-width: 1100px) {
+      header.sa-header.is-compact .sa-nav-links { letter-spacing: 1.2px !important; }
+      header.sa-header.is-compact .sa-nav-links a { padding: 6px 7px !important; font-size: 11px !important; }
+      header.sa-header:not(.is-compact) .sa-nav-links a { padding: 6px 10px !important; }
+      header.sa-header:not(.is-compact) .sa-nav-links { letter-spacing: 2px !important; }
+    }
 
     /* ---------- RESPONSIVE, Mobile first cascade ---------- */
 
@@ -174,22 +177,24 @@
         padding-right: max(24px, env(safe-area-inset-right)) !important;
       }
 
-      /* ---------- HEADER (mobile): hamburger takes over ---------- */
-      /* Comfortable side padding + landscape notch safe-area (≥24px) */
-      header[style*="180px"], header[style*="64px"] {
-        padding-left: max(24px, env(safe-area-inset-left)) !important;
-        padding-right: max(24px, env(safe-area-inset-right)) !important;
+      /* ---------- HEADER (mobile): hamburger | logo | bag ---------- */
+      header.sa-header {
+        height: calc(64px + env(safe-area-inset-top)) !important;
+        padding: env(safe-area-inset-top) max(12px, env(safe-area-inset-right)) 0 max(12px, env(safe-area-inset-left)) !important;
       }
-      /* Logo: centered and lowered, clearly off the top edge */
-      header[style*="180px"] > div[style*="left: 50%"] { top: 90px !important; }
-      /* Keep the slim (scrolled) logo centered too */
-      header[style*="64px"] > a[href="#/home"] {
-        position: absolute !important; left: 50% !important; transform: translateX(-50%) !important;
+      .sa-header-desktop { display: none !important; }
+      .sa-header-mobile {
+        display: grid; grid-template-columns: 48px 1fr 48px; align-items: center;
+        height: 64px; position: relative;
       }
-      /* Hide the desktop link row + cart on phones — the hamburger replaces them */
-      header nav { display: none !important; }
-      header[style*="180px"] > div[style*="position: absolute"][style*="right:"] { display: none !important; }
-      header[style*="64px"] a[href="#/cart"] { display: none !important; }
+      .sa-header-mobile-logo {
+        position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+        display: flex; align-items: center; justify-content: center;
+        max-width: calc(100vw - 132px);
+      }
+      .sa-header-mobile-logo a { min-height: 0 !important; }
+      .sa-header-mobile-cart { grid-column: 3; justify-self: end; display: flex; }
+      .sa-header-spacer { height: calc(64px + env(safe-area-inset-top)) !important; }
     }
 
     /* Mobile ≤ 480px: tighten further */
@@ -197,61 +202,47 @@
       section { padding: 64px 20px !important; }
       h1 { font-size: clamp(30px, 11vw, 48px) !important; }
       h2 { font-size: clamp(24px, 9vw, 36px) !important; }
-      header[style*="180px"], header[style*="64px"] {
-        padding-left: max(20px, env(safe-area-inset-left)) !important;
-        padding-right: max(20px, env(safe-area-inset-right)) !important;
-      }
-      header[style*="180px"] nav { font-size: 10.5px !important; letter-spacing: 1.4px !important; }
     }
 
-    /* ---------- MOBILE HAMBURGER MENU ---------- */
-    .sa-burger, .sa-menu-overlay { display: none; }
+    /* ---------- MOBILE HAMBURGER MENU (white, beneath the header) ---------- */
     @media (max-width: 720px) {
       .sa-burger {
+        grid-column: 1; justify-self: start;
         display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
-        position: fixed; z-index: 120; margin: 0; padding: 10px;
-        top: max(44px, calc(env(safe-area-inset-top) + 28px));
-        right: max(20px, env(safe-area-inset-right));
+        margin: 0; padding: 10px;
         width: 44px; height: 44px; background: transparent; border: 0; cursor: pointer;
       }
       .sa-burger span {
-        display: block; width: 24px; height: 2px; border-radius: 2px; background: #f4ece0;
-        transition: transform .3s ease, opacity .25s ease, background .25s ease;
+        display: block; width: 24px; height: 2px; border-radius: 2px; background: #000000;
+        transition: transform .3s ease, opacity .25s ease;
       }
-      .sa-burger.dark span { background: #1d2a4d; }
-      .sa-burger.is-open span { background: #f4ece0; }
       .sa-burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
       .sa-burger.is-open span:nth-child(2) { opacity: 0; }
       .sa-burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-      .sa-menu-overlay {
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        position: fixed; inset: 0; z-index: 110;
-        background: rgba(16,23,43,.97);
-        -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-        padding: max(72px, env(safe-area-inset-top)) 24px max(40px, env(safe-area-inset-bottom));
-        opacity: 0; pointer-events: none; transform: translateY(-6px);
-        transition: opacity .3s ease, transform .3s ease;
+      .sa-mobile-menu {
+        display: block;
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 999;
+        top: calc(64px + env(safe-area-inset-top));
+        background: #FFFFFF;
+        border-top: 1px solid rgba(29,42,77,.12);
+        overflow-y: auto;
+        padding: 24px max(24px, env(safe-area-inset-right)) max(40px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+        opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-6px);
+        transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
       }
-      .sa-menu-overlay.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
-      .sa-menu-close {
-        position: fixed; z-index: 130; top: max(40px, calc(env(safe-area-inset-top) + 22px)); right: 20px;
-        width: 44px; height: 44px; background: transparent; border: 0; cursor: pointer;
-        color: #f4ece0; font-family: Georgia, serif; font-size: 32px; line-height: 1;
+      .sa-mobile-menu.open {
+        opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+        transition: opacity .25s ease, transform .25s ease, visibility 0s;
       }
-      .sa-menu-nav { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-      .sa-menu-nav a {
-        font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500; font-size: 30px;
-        color: #f4ece0; text-decoration: none; padding: 10px 18px; letter-spacing: .3px;
-        transition: color .2s ease;
+      .sa-mobile-menu nav { display: flex !important; flex-direction: column; align-items: center; gap: 2px; }
+      .sa-mobile-menu nav a {
+        font-family: 'Inter', system-ui, sans-serif; font-weight: 400; font-size: 15px;
+        letter-spacing: 3px; text-transform: uppercase;
+        text-decoration: none; padding: 14px 18px;
+        justify-content: center;
       }
-      .sa-menu-nav a:active { color: #d9b463; }
-      .sa-menu-bag {
-        margin-top: 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace;
-        font-size: 11px; letter-spacing: 2.6px; text-transform: uppercase;
-        color: rgba(244,236,224,.75); text-decoration: none;
-        border: 1px solid rgba(244,236,224,.3); padding: 13px 26px;
-      }
+      .sa-mobile-menu nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: #b8852a; text-underline-offset: 6px; }
     }
 
     /* ---------- Image fade-in on load ---------- */
@@ -305,69 +296,7 @@
   if (document.readyState !== 'loading') tick();
   else document.addEventListener('DOMContentLoaded', tick);
 
-  // -------- 4. Mobile hamburger menu (premium, full-screen) --------
-  function buildMobileMenu() {
-    if (document.querySelector('.sa-burger') && document.querySelector('.sa-menu-overlay')) return;
-    var _pb = document.querySelector('.sa-burger'); if (_pb) _pb.remove();
-    var _po = document.querySelector('.sa-menu-overlay'); if (_po) _po.remove();
-    var routes = (window.ROUTES && window.ROUTES.length) ? window.ROUTES : [
-      { label: 'Home', href: '#/home' }, { label: 'Gallery', href: '#/gallery' },
-      { label: 'About', href: '#/about' }, { label: 'Studio & Process', href: '#/studio' },
-      { label: 'Exhibitions', href: '#/exhibitions' }, { label: 'Contact', href: '#/contact' }
-    ];
-    var burger = document.createElement('button');
-    burger.type = 'button';
-    burger.className = 'sa-burger';
-    burger.setAttribute('aria-label', 'Open menu');
-    burger.setAttribute('aria-expanded', 'false');
-    burger.innerHTML = '<span></span><span></span><span></span>';
-
-    var overlay = document.createElement('div');
-    overlay.className = 'sa-menu-overlay';
-    overlay.setAttribute('role', 'dialog');
-    overlay.setAttribute('aria-modal', 'true');
-    var html = '<button type="button" class="sa-menu-close" aria-label="Close menu">×</button><nav class="sa-menu-nav">';
-    routes.forEach(function (r) { html += '<a href="' + r.href + '">' + r.label + '</a>'; });
-    html += '</nav><a class="sa-menu-bag" href="#/cart">View bag</a>';
-    overlay.innerHTML = html;
-
-    document.body.appendChild(burger);
-    document.body.appendChild(overlay);
-
-    function setOpen(open) {
-      overlay.classList.toggle('open', open);
-      burger.classList.toggle('is-open', open);
-      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      document.body.style.overflow = open ? 'hidden' : '';
-    }
-    burger.addEventListener('click', function () { setOpen(!overlay.classList.contains('open')); });
-    overlay.querySelector('.sa-menu-close').addEventListener('click', function () { setOpen(false); });
-    overlay.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
-    window.addEventListener('hashchange', function () { setOpen(false); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
-
-    // Burger ink adapts: light over the dark hero / dark scrolled bar; dark on light interior headers.
-    function updateColor() {
-      var hash = window.location.hash || '#/home';
-      var isHome = hash.indexOf('#/home') === 0 || hash === '#/' || hash === '';
-      var light = isHome || window.scrollY > 140;
-      burger.classList.toggle('dark', !light);
-    }
-    window.addEventListener('scroll', updateColor, { passive: true });
-    window.addEventListener('hashchange', updateColor);
-    updateColor();
-  }
-  // Build after the app has mounted (the React mount sweeps body once on load),
-  // then re-assert a few times so the menu always survives that churn.
-  function scheduleMenu() {
-    buildMobileMenu();
-    setTimeout(buildMobileMenu, 1200);
-    setTimeout(buildMobileMenu, 3000);
-    setTimeout(buildMobileMenu, 6000);
-  }
-  if (document.readyState === 'complete') scheduleMenu();
-  else window.addEventListener('load', scheduleMenu);
+  // -------- 4. Mobile hamburger menu now lives in the React NavBar (04-chrome.jsx) --------
 
   // -------- 5. Logo / Home link always returns to the top of Home --------
   // Tapping the logo navigates Home (if elsewhere) and always snaps to the very
