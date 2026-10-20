@@ -173,15 +173,14 @@ function TabbedStory({ phases }) {
 }
 
 /* ---------- FooterV2, minimalist site footer shared by every page ---------- */
-// Footer destinations. Set `href` on Shipping / Commissions / Returns once those
-// pages exist; links without an href are not rendered.
+// Footer destinations, all existing routes.
 const FOOTER_INSTAGRAM = 'https://www.instagram.com/sabrinart_collection';
 const FOOTER_EMAIL = 'sabrinartcollection@gmail.com';
 const FOOTER_LINKS = [
 { label: 'Gallery', href: '#/gallery' },
-{ label: 'Shipping', href: null },
-{ label: 'Commissions', href: null },
-{ label: 'Returns', href: null },
+{ label: 'Shipping', href: '#/shipping' },
+{ label: 'Commissions', href: '#/commissions' },
+{ label: 'Returns', href: '#/returns' },
 { label: 'Contact', href: '#/contact' }];
 
 
@@ -190,7 +189,6 @@ function FooterV2({ dark = false }) {
   const fg = dark ? T.cream : T.ink;
   const fg2 = dark ? 'rgba(255,255,255,.66)' : T.taupe;
   const hair = dark ? 'rgba(255,255,255,.12)' : T.hair;
-  const links = FOOTER_LINKS.filter((l) => l.href);
   return (
     <footer className="sa-footer" style={{
       background: bg, color: fg, borderTop: `1px solid ${hair}`,
@@ -203,19 +201,21 @@ function FooterV2({ dark = false }) {
             <p className="sa-footer-tagline">Contemporary abstract art for modern interiors</p>
           </div>
 
-          <nav className="sa-footer-nav" aria-label="Footer">
-            {links.map((l) =>
-            <a key={l.label} href={l.href}>{l.label}</a>
-            )}
-          </nav>
+          <div className="sa-footer-links">
+            <nav className="sa-footer-nav" aria-label="Footer">
+              {FOOTER_LINKS.map((l) =>
+              <a key={l.label} href={l.href}>{l.label}</a>
+              )}
+            </nav>
 
-          <div className="sa-footer-contact">
-            <a href={`mailto:${FOOTER_EMAIL}`}>{FOOTER_EMAIL}</a>
-            <a href={FOOTER_INSTAGRAM} target="_blank" rel="noopener noreferrer"
-              aria-label="Instagram, @sabrinart_collection (opens in a new tab)">
-              <InstagramIcon size={15} />
-              Instagram
-            </a>
+            <div className="sa-footer-contact">
+              <a href={`mailto:${FOOTER_EMAIL}`}>{FOOTER_EMAIL}</a>
+              <a href={FOOTER_INSTAGRAM} target="_blank" rel="noopener noreferrer"
+                aria-label="Instagram, @sabrinart_collection (opens in a new tab)">
+                <InstagramIcon size={15} />
+                Instagram
+              </a>
+            </div>
           </div>
         </div>
 
