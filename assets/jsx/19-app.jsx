@@ -20,7 +20,7 @@ function AppV2() {
   switch (route) {
     case 'gallery':     return sub ? <CollectionDetailPage tag={sub} /> : <GalleryPageV2 />;
     case 'about':       return <AboutPage />;
-    case 'studio':      return <StudioPage />;
+    case 'studio':      return <StudioPage section={sub} />;
     case 'exhibitions': return <ExhibitionsPage />;
     case 'contact':     return <ContactPage />;
     case 'artwork':     return <ArtworkPage />;
