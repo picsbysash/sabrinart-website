@@ -317,7 +317,20 @@ function NavBar({ active, floating = false }) {
 
 }
 
+// Instagram glyph, thin outline to match the site's line-art icons.
+function InstagramIcon({ size = 16, color = 'currentColor', style }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color}
+      strokeWidth="1.6" aria-hidden="true" focusable="false" style={{ flexShrink: 0, ...style }}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17" cy="7" r="0.9" fill={color} />
+    </svg>);
+
+}
+
 window.ROUTES = ROUTES;
+window.InstagramIcon = InstagramIcon;
 window.Logo = Logo;
 window.CartIcon = CartIcon;
 window.NavBar = NavBar;
@@ -390,7 +403,7 @@ function Footer({ dark = false }) {
       }}>
         <span>© 2026 SabrinArt Collection</span>
         <span>sabrinart.com.au · Melbourne, Australia</span>
-        <a href="https://www.instagram.com/sabrinart_collection" target="_blank" rel="noopener noreferrer" style={{ color: fg2 }}>@sabrinart_collection</a>
+        <a href="https://www.instagram.com/sabrinart_collection" target="_blank" rel="noopener noreferrer" style={{ color: fg2, display: 'inline-flex', alignItems: 'center', gap: 8 }}><InstagramIcon size={13} />@sabrinart_collection</a>
       </div>
     </footer>);
 

@@ -24,6 +24,9 @@ function AppV2() {
     case 'exhibitions': return <ExhibitionsPage />;
     case 'contact':     return <ContactPage />;
     case 'artwork':     return <ArtworkPage />;
+    case 'shipping':
+    case 'returns':
+    case 'commissions': return <InfoPage topic={route} />;
     case 'home':
     default:            return <HomePageV2 />;
   }

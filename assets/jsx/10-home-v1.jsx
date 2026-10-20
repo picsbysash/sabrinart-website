@@ -82,26 +82,19 @@ function HomePage() {
           <div style={{
             marginTop: 8, display: 'flex', gap: 28, alignItems: 'center', justifyContent: 'center',
           }}>
-            {[
-              ['Facebook', 'M9.2 22v-8H6.6v-3.1h2.6V8.6c0-2.6 1.6-4 3.9-4 1.1 0 2 .1 2.3.1v2.7h-1.6c-1.2 0-1.5.6-1.5 1.4v1.8h3l-.4 3.1h-2.6V22'],
-              ['Instagram', 'M12 4.3c2.5 0 2.8 0 3.8.1 1 0 1.5.2 1.8.3.5.2.8.4 1.2.8.4.4.6.7.8 1.2.1.4.3.9.3 1.8.1 1 .1 1.3.1 3.8s0 2.8-.1 3.8c0 .9-.2 1.4-.3 1.8-.2.5-.4.8-.8 1.2-.4.4-.7.6-1.2.8-.4.1-.9.3-1.8.3-1 .1-1.3.1-3.8.1s-2.8 0-3.8-.1c-.9 0-1.4-.2-1.8-.3-.5-.2-.8-.4-1.2-.8-.4-.4-.6-.7-.8-1.2-.1-.4-.3-.9-.3-1.8-.1-1-.1-1.3-.1-3.8s0-2.8.1-3.8c0-.9.2-1.4.3-1.8.2-.5.4-.8.8-1.2.4-.4.7-.6 1.2-.8.4-.1.9-.3 1.8-.3 1-.1 1.3-.1 3.8-.1zm0-1.7c-2.6 0-2.9 0-3.9.1-1 0-1.7.2-2.3.5-.6.2-1.2.6-1.7 1.1-.5.5-.9 1.1-1.1 1.7-.3.6-.4 1.3-.5 2.3-.1 1-.1 1.3-.1 3.9s0 2.9.1 3.9c0 1 .2 1.7.5 2.3.2.6.6 1.2 1.1 1.7.5.5 1.1.9 1.7 1.1.6.3 1.3.4 2.3.5 1 .1 1.3.1 3.9.1s2.9 0 3.9-.1c1 0 1.7-.2 2.3-.5.6-.2 1.2-.6 1.7-1.1.5-.5.9-1.1 1.1-1.7.3-.6.4-1.3.5-2.3.1-1 .1-1.3.1-3.9s0-2.9-.1-3.9c0-1-.2-1.7-.5-2.3-.2-.6-.6-1.2-1.1-1.7-.5-.5-1.1-.9-1.7-1.1-.6-.3-1.3-.4-2.3-.5-1-.1-1.3-.1-3.9-.1zm0 4.6c-2.7 0-4.9 2.2-4.9 4.9s2.2 4.9 4.9 4.9 4.9-2.2 4.9-4.9-2.2-4.9-4.9-4.9zm0 8.1c-1.8 0-3.2-1.4-3.2-3.2s1.4-3.2 3.2-3.2 3.2 1.4 3.2 3.2-1.4 3.2-3.2 3.2zm6.2-8.3c0 .6-.5 1.1-1.1 1.1s-1.1-.5-1.1-1.1.5-1.1 1.1-1.1 1.1.5 1.1 1.1z'],
-              ['YouTube', 'M21.6 8.3c-.2-.9-.9-1.5-1.8-1.8C18.2 6 12 6 12 6s-6.2 0-7.8.5c-.9.2-1.5.9-1.8 1.8C2 9.9 2 13 2 13s0 3.1.5 4.7c.2.9.9 1.5 1.8 1.8C5.8 20 12 20 12 20s6.2 0 7.8-.5c.9-.2 1.5-.9 1.8-1.8.5-1.6.5-4.7.5-4.7s0-3.1-.5-4.7zM10 16v-6l5 3-5 3z'],
-            ].map(([name, d]) => (
-              <a key={name} href="#" aria-label={name} style={{
-                display: 'grid', placeItems: 'center',
-                width: 38, height: 38, borderRadius: '50%',
-                background: 'rgba(255,255,255,.12)',
-                border: '1px solid rgba(255,255,255,.35)',
-                transition: 'background .25s, border-color .25s',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,.95)'; e.currentTarget.firstChild.setAttribute('fill', T.navy); }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,.12)'; e.currentTarget.firstChild.setAttribute('fill', '#ffffff'); }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffffff">
-                  <path d={d} />
-                </svg>
-              </a>
-            ))}
+            <a href="https://www.instagram.com/sabrinart_collection" target="_blank" rel="noopener noreferrer"
+              aria-label="Instagram (opens in a new tab)" style={{
+              display: 'grid', placeItems: 'center',
+              width: 38, height: 38, borderRadius: '50%', color: '#ffffff',
+              background: 'rgba(255,255,255,.12)',
+              border: '1px solid rgba(255,255,255,.35)',
+              transition: 'background .25s, color .25s',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,.95)'; e.currentTarget.style.color = T.navy; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,.12)'; e.currentTarget.style.color = '#ffffff'; }}
+            >
+              <InstagramIcon size={16} />
+            </a>
           </div>
         </div>
       </PainterlyHero>
