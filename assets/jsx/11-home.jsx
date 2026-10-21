@@ -178,9 +178,8 @@ const FOOTER_INSTAGRAM = 'https://www.instagram.com/sabrinart_collection';
 const FOOTER_EMAIL = 'sabrinartcollection@gmail.com';
 const FOOTER_LINKS = [
 { label: 'Gallery', href: '#/gallery' },
-{ label: 'Shipping', href: '#/shipping' },
 { label: 'Commissions', href: '#/commissions' },
-{ label: 'Returns', href: '#/returns' },
+{ label: 'Shipping & Returns', href: '#/shipping' },
 { label: 'Contact', href: '#/contact' }];
 
 
@@ -313,6 +312,10 @@ function StatIcon({ kind, color = '#b8852a', size = 42, style }) {
       font-size: 16px !important; line-height: 1.55 !important; letter-spacing: .3px;
       color: #222222; margin: clamp(20px, 3vh, 32px) 0 0; overflow-wrap: break-word;
     }
+    .sa-home-hero-name { font-family: ${T.display}; font-weight: 500; font-size: clamp(40px, 4.4vw, 72px); line-height: 1.02; letter-spacing: -0.02em; color: #000; margin: 0; }
+    .sa-home-hero-sub { font-family: ${T.sans}; font-size: 16px; line-height: 1.5; color: #222; margin: 14px 0 0; }
+    .sa-home-hero-cap { font-family: ${T.sans}; font-size: 13px; letter-spacing: 1.2px; color: #444; margin: clamp(24px, 4vh, 40px) 0 0; }
+    .sa-home-hero-slogan { font-family: ${T.sans}; font-weight: 700; font-size: clamp(15px, 1.4vw, 19px); letter-spacing: 1.6px; line-height: 1.4; color: #000; margin: 8px 0 0; }
     .sa-home-hero-ctas {
       display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px;
       margin-top: clamp(32px, 4.5vh, 48px);
@@ -544,9 +547,23 @@ function HomePageV2() {
             fetchpriority="high" decoding="async" />
         </figure>
         <div className="sa-home-hero-text">
-          <p className="sa-home-hero-intro">I explore emotions through layers, colour and space, creating art that tells a story.</p>
-          <h1 className="sa-home-hero-title">SabrinArt Collection: Contemporary Abstract Art for Modern Interiors.</h1>
+          <h1 className="sa-home-hero-name">Sabrina Goria</h1>
+          <p className="sa-home-hero-sub">Italian Australian Abstract Expressionist Artist</p>
+          <p className="sa-home-hero-cap">WOW 11:11:11, 2011 (Painting)</p>
+          <p className="sa-home-hero-slogan">THE PAINTING THAT STARTED IT ALL.</p>
           <div className="sa-home-hero-ctas">
+            <a href="#/gallery" className="sa-home-hero-btn">EXPLORE THE COLLECTION →</a>
+            <a href="#/studio" className="sa-home-hero-link">Where it all began →</a>
+          </div>
+        </div>
+      </section>
+
+      {/* ====== SHORT INTRODUCTION ====== */}
+      <section style={{ padding: 'clamp(40px, 6vh, 80px) clamp(24px, 5vw, 80px)', background: '#ffffff', textAlign: 'center', borderTop: `1px solid ${T.hair}` }}>
+        <div style={{ maxWidth: 820, margin: '0 auto' }}>
+          <p style={{ fontFamily: T.display, fontWeight: 400, fontSize: 'clamp(28px, 3.2vw, 46px)', lineHeight: 1.2, letterSpacing: '-0.01em', color: '#000', margin: 0 }}>I explore emotions through layers, colour and space, creating art that tells a story.</p>
+          <p style={{ fontFamily: T.sans, fontSize: 16, lineHeight: 1.6, color: '#222', margin: '22px 0 0' }}>SabrinArt Collection: Contemporary Abstract Art for Modern Interiors.</p>
+          <div className="sa-home-hero-ctas" style={{ justifyContent: 'center' }}>
             <a href="#/about" className="sa-home-hero-btn">MEET SABRINA →</a>
             <a href="#/gallery" className="sa-home-hero-btn">DISCOVER THE COLLECTION →</a>
           </div>
@@ -560,11 +577,10 @@ function HomePageV2() {
           {/* Centered intro */}
           <ScrollReveal>
             <div style={{ textAlign: 'center', maxWidth: 860, margin: '0 auto' }}>
-              <Eyebrow style={{ display: 'inline-block' }}>01 · Originals you can take home</Eyebrow>
-              <h2 style={{
+                            <h2 style={{
                 fontFamily: T.display, fontStyle: 'italic', fontWeight: 500,
                 fontSize: 'clamp(48px, 6vw, 96px)', lineHeight: 1.0,
-                color: T.navy, margin: '24px 0 0', letterSpacing: '-0.022em',
+                color: T.navy, margin: '0', letterSpacing: '-0.022em',
                 textWrap: 'balance'
               }}>On Sale
 
@@ -664,403 +680,19 @@ function HomePageV2() {
 
       <ArtInteriors />
 
-      {/* ====== 4. TABBED STORY ====== */}
-      <section style={{ padding: 'clamp(32px, 4vh, 56px) clamp(32px, 5vw, 80px)', position: 'relative', background: "rgb(243, 244, 246)" }}>
-        <div style={{ maxWidth: 1480, margin: '0 auto', width: '100%' }}>
-          <TabbedStory phases={[
-          {
-            n: '01', shortLabel: 'The Beginning',
-            title: '11 November 2011, the painting that started it all',
-            body: "On a quiet Friday night in Melbourne, Sabrina put her hand on a canvas and didn't lift it for hours. The piece, later named WOW, became the seed of everything that followed",
-            work: 'WOW · 2011',
-            workMeta: 'Origins · Private',
-            img: ART.wow
-          },
-          {
-            n: '02', shortLabel: 'The Breakthrough',
-            title: 'Layers of Happiness, 2024',
-            body: 'Her first solo at Space2b. Eight works built around the idea that happiness is not a destination but a stack of moments, visible only when you look at the cross-section',
-            work: 'Layers of Happiness · 2024',
-            workMeta: 'Space2b · Solo show',
-            img: ART.confetti
-          },
-          {
-            n: '03', shortLabel: 'The Play',
-            title: 'Trilogy of Fun',
-            body: 'Three paintings in conversation, bold, colourful, almost reckless. The trilogy that gave Sabrina permission to be loud on the canvas',
-            work: 'Trilogy of Fun · 2023',
-            workMeta: 'Series · Thematic',
-            img: ART.joy
-          },
-          {
-            n: '04', shortLabel: 'The Stillness',
-            title: 'Ocean & Nature',
-            body: 'Quieter, slower works. Sea greens, sand, eucalyptus, salt. The series that brought the studio outside',
-            work: 'Ocean & Nature · 2022',
-            workMeta: 'Series · Available',
-            img: ART.turquoiseBeach
-          }]
-          } />
-        </div>
-      </section>
-
-      <PaintStrokeDivider variant="B" width="64%" margin="0 auto" />
-
-      {/* ====== 5. SHOP BY PALETTE ====== */}
-      <section style={{ padding: 'clamp(48px, 6vh, 84px) clamp(32px, 5vw, 80px)', background: "rgb(255, 255, 255)" }}>
-        <div style={{ maxWidth: 1320, margin: '0 auto' }}>
-          {/* Header block, eyebrow + title + subtitle, vertical rhythm */}
-          <div style={{
-            display: 'flex', flexDirection: 'column', alignItems: 'center',
-            textAlign: 'center', gap: 'clamp(16px, 2vh, 24px)',
-            marginBottom: 'clamp(40px, 5vh, 64px)', margin: "0px 0px 50px"
-          }}>
-            <ScrollReveal style={{ textAlign: 'center' }}>
-              <Eyebrow style={{ display: 'inline-block' }}>03 · Find the work that matches your space</Eyebrow>
-            </ScrollReveal>
-            <ScrollReveal delay={60} style={{ textAlign: 'center' }}>
-              <H2>
-                Shop by <em style={{ fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, color: T.gold }}>palette</em>
-              </H2>
-            </ScrollReveal>
-            <ScrollReveal delay={120} style={{ textAlign: 'center' }}>
-              <Body size={15} style={{ textAlign: 'center', margin: 0, whiteSpace: 'nowrap' }}>
-                Six recurring palettes run through the work. Pick one to filter the gallery, or browse them all.
-              </Body>
-            </ScrollReveal>
-          </div>
-
-          {/* Filter chips row */}
-          <div style={{
-            display: 'flex', justifyContent: 'center',
-            marginBottom: 'clamp(40px, 5vh, 64px)'
-          }}>
-            <ColorChips value={palette} onChange={setPalette} palettes={PALETTES} />
-          </div>
-
-          {/* Artwork grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: 'clamp(16px, 2vw, 24px)',
-            transition: 'opacity .35s'
-          }} key={palette}>
-            {shownWorks.map((w, i) =>
-            <ScrollReveal key={w.title} delay={i * 50}>
-                <HoverArtCard
-                title={w.title} price={w.price} size={w.size} year={w.year} src={w.src}
-                status={w.status} />
-              </ScrollReveal>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* ====== 6. CURATOR'S PICK (navy, cream text, gold accents) ====== */}
-      <section style={{ padding: 'clamp(48px, 6vh, 84px) clamp(32px, 5vw, 80px)', background: T.navy, color: T.cream, position: 'relative', overflow: 'hidden' }}>
-        {/* oversized italic faint name in the bg */}
-        {/* (watermark removed) */}
-
-        <div style={{ maxWidth: 1320, margin: '0 auto', position: 'relative' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 80, alignItems: 'start' }}>
-            <div style={{ position: 'relative' }}>
-              {/* stacked artworks */}
-              <div style={{ position: 'relative', height: 'clamp(360px, 42vw, 520px)' }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, width: '74%', transform: 'rotate(-3deg)' }}>
-                  <ImgPH label="Carnival of Venice" src={ART.carnivalOfVenice} ratio="4/5" dark />
-                </div>
-                <div style={{ position: 'absolute', bottom: 0, right: 0, width: '54%', transform: 'rotate(4deg)' }}>
-                  <ImgPH label="Gold Droplets" src={ART.goldDroplets} ratio="3/4" dark />
-                </div>
-                <div style={{
-                  position: 'absolute', top: '38%', left: '36%', width: '40%', transform: 'rotate(-1deg)',
-                  zIndex: 2
-                }}>
-                  <ImgPH label="Golden Heart" src={ART.goldenHeart} ratio="1/1" dark />
-                </div>
-              </div>
-            </div>
-
-            <ScrollReveal>
-              <Eyebrow color={T.goldShimmer}>04 · Curator's Pick of the Week</Eyebrow>
-              <h2 style={{
-                fontFamily: T.display, fontStyle: 'italic', fontWeight: 500,
-                fontSize: 'clamp(48px, 5.6vw, 88px)', lineHeight: 0.98,
-                color: T.cream, letterSpacing: '-0.02em', margin: "60px 0px 5px"
-              }}>
-                Three works,<br />one Italian summer
-              </h2>
-              <Body color="rgba(255,255,255,.78)" size={16} style={{ marginTop: 26, maxWidth: 480 }}>
-                A trio our advisor has been showing collectors all month, bold,
-                warm, full of gold. Together they tell one story. Separately, they
-                each rewrite a room
-              </Body>
-
-              <div style={{
-                marginTop: 36, padding: '24px 28px',
-                background: 'rgba(255,255,255,.04)',
-                border: `1px solid ${T.hairStrong}`,
-                display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24
-              }}>
-                {[
-                ['$5,250', 'AUD trio'],
-                ['+35', 'Pieces'],
-                ['Free', 'AU shipping']].
-                map(([n, l]) =>
-                <div key={l}>
-                    <div style={{ fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, color: T.goldShimmer, fontSize: 40, lineHeight: 1 }}>{n}</div>
-                    <div style={{ marginTop: 8, fontFamily: T.mono, color: 'rgba(255,255,255,.55)', letterSpacing: 2, fontSize: 11, textTransform: 'uppercase' }}>{l}</div>
-                  </div>
-                )}
-              </div>
-
-              <div style={{ display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap', margin: "50px 0px 0px" }}>
-                <MagneticBtn arrow primary style={{ background: T.gold, borderColor: T.gold, color: T.cream, padding: '9px 18px', fontSize: 9.5, letterSpacing: 2.4 }}>Enquire about the trio</MagneticBtn>
-                <MagneticBtn arrow dark style={{ padding: '9px 18px', fontSize: 9.5, letterSpacing: 2.4 }}>View each piece</MagneticBtn>
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ====== STATS, merged into Instagram section below ====== */}
-
-      {/* ====== 8. COMPACT TESTIMONIAL ====== */}
-      <section style={{ padding: 'clamp(40px, 5vh, 64px) clamp(32px, 5vw, 80px)', background: '#ffffff' }}>
-        <div style={{
-          maxWidth: 1100, margin: '0 auto',
-          display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 36, alignItems: 'center',
-          padding: '28px 36px',
-          borderTop: `1px solid ${T.hair}`, borderBottom: `1px solid ${T.hair}`, lineHeight: "1"
-        }}>
-          <Eyebrow style={{ whiteSpace: 'nowrap' }}>05 · Collectors &amp; press</Eyebrow>
-          <div>
-            <QuoteRotator quotes={[
-            { text: 'Her work has a literal weight to it, you can feel the layers from across the room',
-              author: 'Helena & Marco D.', role: 'Collectors, South Yarra' },
-            { text: 'Sabrina paints the way an Italian grandmother cooks, slowly, by feel, with tools that have nothing to do with painting',
-              author: 'Vespa Rossa Restaurant', role: 'Exhibition host, St Kilda' },
-            { text: 'The first piece I have ever bought where every visitor stops walking',
-              author: 'James R.', role: 'Collector, Brighton' }]
-            } interval={6500} compact />
-          </div>
-        </div>
-      </section>
-
-      {/* ====== 9b. STATS, same tone as Stay In ====== */}
-      <section style={{ padding: 'clamp(32px, 4vh, 56px) clamp(32px, 5vw, 80px)', background: "rgb(255, 255, 255)" }}>
-        <div style={{
-          maxWidth: 1100, margin: '0 auto',
-          display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: 'clamp(28px, 4vh, 48px) clamp(48px, 6vw, 96px)'
-        }}>
-          {[
-          [38, '', 'works in the collection', { c1: T.cerise, c2: T.fuchsia, c3: T.magenta, fade: 'rgba(217,70,140,0)' }, 'canvas'],
-          [15, '', 'available to buy', { c1: T.cobalt, c2: T.indigo, c3: T.navy, fade: 'rgba(46,88,180,0)' }, 'tag'],
-          [4, '', 'solo exhibitions', { c1: T.sunset, c2: T.coral, c3: T.poppy, fade: 'rgba(232,112,42,0)' }, 'frame'],
-          [14, '+ yrs', 'painting practice', { c1: T.sand, c2: T.goldSoft, c3: T.goldShimmer, fade: 'rgba(224,201,154,0)' }, 'brush']].
-          map(([n, suffix, label, halo, iconKey]) =>
-          <ScrollReveal key={label} style={{ textAlign: 'center' }}>
-              <div style={{
-              position: 'relative',
-              display: 'flex', justifyContent: 'center', alignItems: 'center',
-              gap: 14,
-              minHeight: 90
-            }}>
-                {/* Sutil halo radial detrás del número, color único por bloque */}
-                <div aria-hidden style={{
-                position: 'absolute',
-                top: '50%', left: '50%',
-                width: '85%', height: '150%',
-                transform: 'translate(-50%, -50%)',
-                background: `radial-gradient(ellipse at center,
-                  ${halo.c1}3D 0%,
-                  ${halo.c2}1F 28%,
-                  ${halo.c3}0A 55%,
-                  ${halo.fade} 75%)`,
-                filter: 'blur(14px)',
-                pointerEvents: 'none',
-                zIndex: 0
-              }} />
-                {/* Icono dorado a la izquierda del número */}
-                <StatIcon kind={iconKey} color={T.gold} size={32} />
-                <div style={{
-                position: 'relative', zIndex: 1,
-                fontFamily: T.display, fontStyle: 'italic', fontWeight: 600,
-                color: T.gold,
-                lineHeight: 0.92, letterSpacing: '-0.04em',
-                background: `linear-gradient(180deg, ${T.goldShimmer} 0%, ${T.gold} 55%, ${T.goldRich} 100%)`,
-                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                fontSize: 'clamp(64px, 7vw, 88px)', textAlign: "center",
-                paddingRight: "0.25em", paddingLeft: "0.04em"
-              }}>
-                  <Counter to={n} suffix={suffix} />
-                </div>
-              </div>
-              <div style={{
-              marginTop: 10, fontFamily: T.sans, fontSize: 11, color: T.taupe,
-              letterSpacing: 2.6, textTransform: 'uppercase', fontWeight: 300, textAlign: "center"
-            }}>{label}</div>
-            </ScrollReveal>
-          )}
-        </div>
-      </section>
-
-      {/* ====== 9. INSTAGRAM ====== */}
-      <section style={{ position: 'relative', background: "linear-gradient(0deg, rgb(209, 213, 219) 0%, rgb(229, 231, 235) 22%, rgb(243, 244, 246) 50%, rgb(255, 255, 255) 100%)", padding: "clamp(28px, 3vh, 44px) 0 clamp(16px, 2vh, 28px)" }}>
-        <div style={{ padding: '0 clamp(32px, 5vw, 80px)', maxWidth: 1480, marginLeft: 'auto', marginRight: 'auto', marginBottom: 'clamp(24px, 3vh, 40px)' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 'clamp(16px, 2vh, 24px)' }}>
-            <div style={{ textAlign: 'center' }}>
-              <Eyebrow style={{ display: 'inline-block' }}>06 · @sabrinart_collection</Eyebrow>
-              <h2 style={{
-                fontFamily: T.display, fontStyle: 'italic', fontWeight: 500,
-                fontSize: 'clamp(48px, 6vw, 88px)', lineHeight: 0.95,
-                color: T.gold, margin: '12px 0 0', letterSpacing: '-0.025em'
-              }}>
-                Follow the <span style={{ color: T.gold }}>journey</span>
-              </h2>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <Body size={15} style={{ textAlign: 'center', margin: 0, whiteSpace: 'nowrap' }}>
-                Studio moments, new work, behind-the-scenes, the unfiltered side of an Italian painter living in Melbourne
-              </Body>
-            </div>
-          </div>
-        </div>
-
-        {/* Instagram feed, full-bleed marquee of tall portrait tiles */}
-        <div style={{ padding: 'clamp(16px, 2vh, 28px) 0', overflow: 'hidden' }}
-        onMouseEnter={(e) => {const t = e.currentTarget.querySelector('.ig-track');if (t) t.style.animationPlayState = 'paused';}}
-        onMouseLeave={(e) => {const t = e.currentTarget.querySelector('.ig-track');if (t) t.style.animationPlayState = 'running';}}>
-          <div className="ig-track" style={{
-            display: 'flex', gap: 20, width: 'max-content',
-            animation: 'ig-scroll 80s linear infinite', willChange: 'transform'
-          }}>
-            {[...Array(12)].map((_, i) => {
-              const captions = [
-              'Studio · 24k gold leaf', 'Detail · Golden Path',
-              'Rolling pin · texture day', 'Layer 14 of 20',
-              'New canvas · Day 1', 'Brunswick studio',
-              'Pastry scraper · close up', 'Resin pour',
-              'Behind Layers of Happiness', 'Sketchbook · Asti',
-              'Studio cat approves', 'New collection · in progress'];
-              const feed = [
-              PHOTO.brushes, ART.goldDroplets, PHOTO.paintingAction, ART.confetti,
-              PHOTO.studioSitting, PHOTO.porch, ART.butterfly, PHOTO.holdingTurquoise,
-              ART.joy, PHOTO.holdingBlue, PHOTO.studioInterior, ART.turquoiseBeach];
-
-              return (
-                <div key={i} style={{ width: 'clamp(240px, 22vw, 320px)', flexShrink: 0 }}>
-                  <div style={{
-                    boxShadow: '0 36px 70px -32px rgba(28,20,16,.32), 0 14px 32px -16px rgba(28,20,16,.18)'
-                  }}>
-                    <ImgPH label={`@sabrinart · post ${i % 12 + 1}`} src={feed[i % feed.length]} ratio="3/4" />
-                  </div>
-                  <div style={{
-                    marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline'
-                  }}>
-                    <div style={{
-                      fontFamily: T.display, fontStyle: 'italic', fontWeight: 500,
-                      fontSize: 18, color: T.navy, letterSpacing: '-0.005em'
-                    }}>{captions[i % captions.length]}</div>
-                    <div style={{
-                      fontFamily: T.mono, fontSize: 10, color: T.gold, letterSpacing: 1.4
-                    }}>♥ {Math.floor(420 + i * 137)}</div>
-                  </div>
-                </div>);
-
-            })}
-          </div>
-        </div>
+      {/* ====== STUDIO & PROCESS TEASER ====== */}
+      <section style={{ padding: 'clamp(48px, 7vh, 96px) clamp(24px, 5vw, 80px)', background: '#ffffff', borderTop: `1px solid ${T.hair}` }}>
         <style>{`
-          @keyframes ig-scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-          }
+          .home-studio { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; max-width: 1320px; margin: 0 auto; }
+          .home-studio img { display: block; width: 100%; height: auto; }
+          @media (max-width: 820px) { .home-studio { grid-template-columns: 1fr; text-align: center; } }
         `}</style>
-
-        {/* CTA centered below the feed */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, marginTop: 'clamp(16px, 2vh, 28px)' }}>
-          <a href="https://www.instagram.com/sabrinart_collection" target="_blank" rel="noopener noreferrer" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 10,
-            padding: '11px 24px',
-            background: T.navy, color: T.cream,
-            border: `1px solid ${T.navy}`, borderRadius: 999,
-            fontFamily: T.sans, fontWeight: 500, letterSpacing: 2.4,
-            textTransform: 'uppercase', textDecoration: 'none',
-            boxShadow: '0 14px 32px -14px rgba(28,40,77,.45)',
-            transition: 'background .25s, transform .2s, box-shadow .25s', fontSize: "15px"
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = T.gold;
-            e.currentTarget.style.borderColor = T.gold;
-            e.currentTarget.style.boxShadow = '0 18px 38px -14px rgba(184,133,42,.5)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = T.navy;
-            e.currentTarget.style.borderColor = T.navy;
-            e.currentTarget.style.boxShadow = '0 14px 32px -14px rgba(28,40,77,.45)';
-          }}>
-            <InstagramIcon size={20} color={T.cream} />
-            Follow on Instagram
-            <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: 14 }}>→</span>
-          </a>
-          <a href="#" style={{
-            fontFamily: T.mono, fontSize: 11, letterSpacing: 2.4, color: T.taupe,
-            textTransform: 'uppercase',
-            borderBottom: `1px solid ${T.hairStrong}`, paddingBottom: 4
-          }}>21.4K followers</a>
-        </div>
-      </section>
-
-      {/* ====== 10. NEWSLETTER (soft navy gradient, before navy footer) ====== */}
-      <section style={{
-        position: 'relative', padding: 'clamp(36px, 4vh, 60px) clamp(32px, 5vw, 80px)', overflow: 'hidden',
-        background: `linear-gradient(180deg, rgb(209, 213, 219) 0%, rgba(229, 231, 235, 0) 35%), radial-gradient(ellipse 40% 50% at center, #c8d2e4 0%, #d8dfec 25%, #e8ecf2 55%, #f3f4f6 85%), #f3f4f6`
-      }}>
-        {/* soft luminous glow bg */}
-        <svg aria-hidden viewBox="0 0 1600 600" preserveAspectRatio="xMidYMid slice"
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.7 }}>
-          <defs>
-            <radialGradient id="ns-glow" cx=".5" cy=".4" r=".6">
-              <stop offset="0" stopColor="#ffffff" stopOpacity=".9" />
-              <stop offset=".5" stopColor="#dbe3f1" stopOpacity=".4" />
-              <stop offset="1" stopColor="#1d2a4d" stopOpacity="0" />
-            </radialGradient>
-            <filter id="ns-blur"><feGaussianBlur stdDeviation="40" /></filter>
-          </defs>
-          <ellipse cx="800" cy="300" rx="700" ry="280" fill="url(#ns-glow)" filter="url(#ns-blur)" />
-        </svg>
-
-        <div style={{ position: 'relative', maxWidth: 920, margin: '0 auto', textAlign: 'center' }}>
-          <Eyebrow color={T.goldRich} style={{ display: 'inline-block' }}>07 · Newsletter</Eyebrow>
-          <h2 style={{
-            fontFamily: T.display, fontStyle: 'italic', fontWeight: 500,
-            fontSize: 'clamp(40px, 5vw, 76px)', lineHeight: 1, marginTop: 24,
-            color: T.navy, letterSpacing: '-0.018em', textWrap: 'pretty'
-          }}>Stay in the picture</h2>
-          <Body color={T.taupe} size={15} style={{ marginTop: 18, maxWidth: 560, margin: '18px auto 0' }}>
-            New collections, exhibition news, studio stories, once a month, never more.
-            No noise. Just art
-          </Body>
-
-          <form onSubmit={(e) => e.preventDefault()} style={{
-            marginTop: 48, display: 'flex', gap: 0, maxWidth: 560,
-            margin: '48px auto 0', borderBottom: `1px solid ${T.navy}`, paddingBottom: 4
-          }}>
-            <input type="email" placeholder="your email address" style={{
-              flex: 1, background: 'transparent', border: 'none', outline: 'none',
-              fontFamily: T.mono, fontSize: 14, color: T.navy, padding: '14px 4px',
-              letterSpacing: 0.3
-            }} />
-            <button type="submit" style={{
-              background: 'transparent', border: 'none', cursor: 'pointer',
-              padding: '14px 8px', fontFamily: T.sans, fontSize: 11, fontWeight: 500,
-              letterSpacing: 3, textTransform: 'uppercase', color: T.navy,
-              display: 'inline-flex', alignItems: 'center', gap: 10
-            }}>Subscribe <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: 18, color: T.goldRich }}>→</span></button>
-          </form>
+        <div className="home-studio">
+          <a href="#/studio"><img src="assets/studio/sabrina-painting.jpg" alt="Sabrina Goria painting in her studio" loading="lazy" /></a>
+          <div>
+            <h2 style={{ fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(36px, 4vw, 60px)', lineHeight: 1.05, color: T.navy, margin: 0 }}>Studio &amp; Process</h2>
+            <div style={{ marginTop: 28 }}><a href="#/studio" className="sa-home-hero-btn">STEP INTO THE STUDIO →</a></div>
+          </div>
         </div>
       </section>
 

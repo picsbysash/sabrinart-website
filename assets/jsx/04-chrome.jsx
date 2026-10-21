@@ -195,8 +195,28 @@ function NavLinks({ active, compact }) {
 // white drop-down menu that opens beneath the header.
 // `light` is accepted for backwards compatibility but no longer changes colors.
 // `floating` skips the layout spacer (used over the home hero).
+// Cart count: number of items saved in this browser's cart (0 until checkout exists).
+function readCartCount() {
+  try { const c = JSON.parse(localStorage.getItem('sa_cart_v2') || '[]'); return Array.isArray(c) ? c.length : 0; } catch (e) { return 0; }
+}
+
+// Slim Italian Festa bar. Switch off with SHOW_FESTA_BAR = false; it also disappears after 18 Oct 2026.
+const SHOW_FESTA_BAR = true;
+const FESTA_BAR_H = 36;
+function festaBarVisible() {
+  return SHOW_FESTA_BAR && new Date() < new Date('2026-10-19T00:00:00+11:00');
+}
+
 function NavBar({ active, floating = false }) {
   const [scrolled, setScrolled] = useState(false);
+  const [cartCount, setCartCount] = useState(readCartCount);
+  useEffect(() => {
+    const upd = () => setCartCount(readCartCount());
+    window.addEventListener('storage', upd);
+    window.addEventListener('sa-cart', upd);
+    return () => { window.removeEventListener('storage', upd); window.removeEventListener('sa-cart', upd); };
+  }, []);
+  const barH = festaBarVisible() ? FESTA_BAR_H : 0;
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 140);
@@ -210,11 +230,11 @@ function NavBar({ active, floating = false }) {
     const onKey = (e) => { if (e.key === 'Escape') close(); };
     const mq = window.matchMedia('(min-width: 721px)');
     const onMq = (e) => { if (e.matches) close(); };
-    window.addEventListener('hashchange', close);
+    window.addEventListener('sa-nav', close);
     document.addEventListener('keydown', onKey);
     mq.addEventListener ? mq.addEventListener('change', onMq) : mq.addListener(onMq);
     return () => {
-      window.removeEventListener('hashchange', close);
+      window.removeEventListener('sa-nav', close);
       document.removeEventListener('keydown', onKey);
       mq.removeEventListener ? mq.removeEventListener('change', onMq) : mq.removeListener(onMq);
     };
@@ -228,9 +248,17 @@ function NavBar({ active, floating = false }) {
   const compact = scrolled;
   return (
     <React.Fragment>
+    {barH > 0 &&
+      <a href="https://italianfesta.com.au" target="_blank" rel="noopener noreferrer" className="sa-festa-bar" style={{
+        position: 'fixed', top: 0, left: 0, right: 0, height: FESTA_BAR_H, zIndex: 1001,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 12px',
+        background: T.navy, color: '#ffffff', textDecoration: 'none', textAlign: 'center',
+        fontFamily: T.mono, fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', boxSizing: 'border-box',
+      }}>Italian Festa · 17–18 October 2026 · Royal Exhibition Building, Carlton</a>
+    }
     <header className={'sa-header' + (compact ? ' is-compact' : '')} style={{
       position: 'fixed',
-      top: 0, left: 0, right: 0, zIndex: 1000,
+      top: barH, left: 0, right: 0, zIndex: 1000,
       padding: compact ? '0 clamp(20px, 4vw, 56px)' : '12px 56px 10px',
       background: HEADER_BG,
       borderBottom: `1px solid ${T.hair}`,
@@ -252,14 +280,14 @@ function NavBar({ active, floating = false }) {
             </div>
             <NavLinks active={active} compact />
             <div style={{ flexShrink: 0 }}>
-              <CartIcon count={2} />
+              <CartIcon count={cartCount} />
             </div>
           </React.Fragment>
         ) : (
           <React.Fragment>
             {/* Cart anchored top-right */}
             <div style={{ position: 'absolute', top: 10, right: 0 }}>
-              <CartIcon count={2} />
+              <CartIcon count={cartCount} />
             </div>
 
             {/* Logo, centered horizontally, below the cart line */}
@@ -288,7 +316,7 @@ function NavBar({ active, floating = false }) {
           <Logo size={38} />
         </div>
         <div className="sa-header-mobile-cart">
-          <CartIcon count={2} />
+          <CartIcon count={cartCount} />
         </div>
       </div>
     </header>
@@ -313,6 +341,7 @@ function NavBar({ active, floating = false }) {
     {!floating &&
       <div aria-hidden className="sa-header-spacer" style={{ height: 180 }} />
     }
+    {!floating && barH > 0 && <div aria-hidden style={{ height: barH }} />}
     </React.Fragment>);
 
 }

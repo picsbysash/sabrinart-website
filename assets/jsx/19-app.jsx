@@ -49,6 +49,7 @@ function AppV2() {
       if (WORKS_CATALOG.some((w) => w.slug === sub)) return <ArtworkPage slug={sub} />;
       return <CollectionDetailPage tag={sub} />;
     }
+    case 'cart':        return <CartPage />;
     case 'about':       return <AboutPage />;
     case 'studio':      return <StudioPage section={sub} />;
     case 'exhibitions': return <ExhibitionsPage />;

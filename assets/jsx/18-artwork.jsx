@@ -1,6 +1,59 @@
 // Artwork page: one page per work, route /gallery/<slug>. Data from WORKS_CATALOG (Excel + Brief v3 appendix).
 
+// ---- Cart (kept in this browser; checkout/payment is not connected yet) ----
+window.saCart = {
+  get() { try { const c = JSON.parse(localStorage.getItem('sa_cart_v2') || '[]'); return Array.isArray(c) ? c.filter((x) => typeof x === 'string') : []; } catch (e) { return []; } },
+  set(list) { try { localStorage.setItem('sa_cart_v2', JSON.stringify(list)); } catch (e) {} window.dispatchEvent(new Event('sa-cart')); },
+  add(slugs) { const cur = this.get(); const next = cur.concat([].concat(slugs).filter((x) => cur.indexOf(x) < 0)); this.set(next); },
+  remove(slug) { this.set(this.get().filter((x) => x !== slug)); },
+};
+const PAIRS = { 'green-orchid': { other: 'blue-lotus', word: 'blue' }, 'blue-lotus': { other: 'green-orchid', word: 'green' } };
+
+function CartPage() {
+  const [, force] = useState(0);
+  useEffect(() => { const f = () => force((n) => n + 1); window.addEventListener('sa-cart', f); return () => window.removeEventListener('sa-cart', f); }, []);
+  const items = window.saCart.get().map((sl) => WORKS_CATALOG.find((w) => w.slug === sl)).filter((w) => w && w.status === 'ON SALE');
+  const total = items.reduce((n, w) => n + (parseInt(String(w.price).replace(/[^0-9]/g, ''), 10) || 0), 0);
+  return (
+    <div style={{ background: T.paper, minHeight: '100vh' }} data-screen-label="08 Cart">
+      <NavBar active="cart" />
+      <Section padding="clamp(40px,6vh,72px) clamp(24px,5vw,80px) clamp(64px,9vh,110px)">
+        <div style={{ maxWidth: 980, margin: '0 auto' }}>
+          <h1 style={{ fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(44px,5vw,72px)', color: T.navy, margin: '0 0 32px' }}>Cart</h1>
+          {items.length === 0 ?
+            <div>
+              <p style={{ fontFamily: T.sans, fontSize: 16, color: T.taupe, margin: '0 0 24px' }}>Your cart is empty.</p>
+              <Btn arrow href="#/gallery/on-sale">View all works on sale</Btn>
+            </div> :
+            <React.Fragment>
+              {items.map((w) =>
+                <div key={w.slug} style={{ display: 'grid', gridTemplateColumns: '110px 1fr auto', gap: 20, alignItems: 'center', padding: '18px 0', borderTop: `1px solid ${T.hair}` }}>
+                  <a href={`#/gallery/${w.slug}`}><img src={w.src} alt={w.t} style={{ display: 'block', width: 110, height: 110, objectFit: 'contain', background: '#f6f7f9' }} /></a>
+                  <div>
+                    <a href={`#/gallery/${w.slug}`} style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 24, color: T.navy }}>{w.t}</a>
+                    <div style={{ marginTop: 6, fontFamily: T.mono, fontSize: 10, letterSpacing: 1.6, textTransform: 'uppercase', color: T.taupe }}>{w.year} · {w.sizeCm} · {w.medium}</div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 22, color: T.gold }}>AUD {w.price}</div>
+                    <button onClick={() => window.saCart.remove(w.slug)} style={{ marginTop: 8, background: 'none', border: 'none', cursor: 'pointer', fontFamily: T.mono, fontSize: 10, letterSpacing: 1.6, textTransform: 'uppercase', color: T.taupe, textDecoration: 'underline' }}>Remove</button>
+                  </div>
+                </div>
+              )}
+              <div style={{ borderTop: `1px solid ${T.gold}`, marginTop: 8, paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+                <div style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 30, color: T.navy }}>Total · AUD ${total.toLocaleString('en-US')}</div>
+                <Btn primary size="lg" arrow href="#/contact">Proceed to checkout</Btn>
+              </div>
+            </React.Fragment>
+          }
+        </div>
+      </Section>
+      <FooterV2 dark />
+    </div>);
+}
+window.CartPage = CartPage;
+
 function ArtworkPage({ slug }) {
+  const [added, setAdded] = useState(false);
   const w = WORKS_CATALOG.find((x) => x.slug === slug);
   const [zoom, setZoom] = useState(false);
   useEffect(() => {
@@ -11,6 +64,8 @@ function ArtworkPage({ slug }) {
   }, [zoom]);
   if (!w) return null;
   const onSale = w.status === 'ON SALE';
+  const pair = PAIRS[w.slug] ? { ...PAIRS[w.slug], work: WORKS_CATALOG.find((x) => x.slug === PAIRS[w.slug].other) } : null;
+  const edition = w.slug === 'green-orchid' || w.slug === 'blue-lotus';
   const more = WORKS_CATALOG.filter((x) => x.status === 'ON SALE' && x.slug !== w.slug && x.src).slice(0, 4);
   const row = { display: 'flex', justifyContent: 'space-between', gap: 16, padding: '13px 0', borderBottom: `1px solid ${T.hair}` };
   const k = { fontFamily: T.mono, fontSize: 10, color: T.gold, letterSpacing: 2, textTransform: 'uppercase' };
@@ -57,18 +112,26 @@ function ArtworkPage({ slug }) {
               <div style={row}><span style={k}>Year</span><span style={v}>{w.year}</span></div>
               <div style={row}><span style={k}>Medium</span><span style={v}>{w.medium}</span></div>
               <div style={row}><span style={k}>Size</span><span style={v}>{w.sizeCm}</span></div>
+              {edition && <div style={row}><span style={k}>Edition</span><span style={v}>Limited edition of 10</span></div>}
               {onSale && w.price && <div style={row}><span style={k}>Price</span><span style={{ ...v, fontSize: 24, color: T.gold, fontStyle: 'normal' }}>AUD {w.price}</span></div>}
             </div>
 
             <div style={{ marginTop: 28, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               {onSale ?
                 <React.Fragment>
-                  <Btn primary size="lg" href="#/contact">Add to Cart</Btn>
-                  <Btn size="lg" href="#/contact">Buy Now</Btn>
+                  <Btn primary size="lg" onClick={() => { window.saCart.add(w.slug); setAdded(true); }}>{added ? 'Added to cart ✓' : 'Add to Cart'}</Btn>
+                  <Btn size="lg" onClick={() => { window.saCart.add(w.slug); window.saNavigate('/cart'); }}>Buy Now</Btn>
+                  {pair && <Btn size="lg" onClick={() => { window.saCart.add([w.slug, pair.other]); setAdded(true); }}>Add the pair</Btn>}
                 </React.Fragment> :
                 <Btn arrow href="#/commissions">Enquire about a commission</Btn>
               }
             </div>
+
+            {pair && pair.work &&
+              <div style={{ marginTop: 24 }}>
+                <a href={`#/gallery/${pair.other}`} style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: 18, color: T.gold, textDecoration: 'underline', textUnderlineOffset: 5 }}>Also in {pair.word}: {pair.work.t} →</a>
+              </div>
+            }
 
             {w.long &&
               <div style={{ marginTop: 36 }}>
