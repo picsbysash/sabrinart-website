@@ -303,23 +303,15 @@ function StatIcon({ kind, color = '#b8852a', size = 42, style }) {
     }
     .sa-home-hero-text { min-width: 0; max-width: 520px; color: #111111; }
     .sa-home-hero-text h1, .sa-home-hero-text p { text-shadow: none !important; }
-    .sa-home-hero h1.sa-home-hero-name {
+    .sa-home-hero-intro {
       font-family: ${T.display}; font-weight: 400; font-style: normal;
-      font-size: clamp(52px, 5.6vw, 92px) !important; line-height: 1 !important;
-      letter-spacing: -0.015em; color: #000000; margin: 0;
+      font-size: clamp(30px, 2.9vw, 46px); line-height: 1.18; letter-spacing: -0.01em;
+      color: #000000; margin: 0; overflow-wrap: break-word;
     }
-    .sa-home-hero-sub {
-      font-family: ${T.sans}; font-weight: 300; font-size: 15px; line-height: 1.5;
-      letter-spacing: .3px; color: #222222; margin: 14px 0 0;
-    }
-    .sa-home-hero-caption {
-      font-family: ${T.mono}; font-size: 11px; letter-spacing: 1.6px; line-height: 1.5;
-      color: #555555; margin: clamp(36px, 5vh, 56px) 0 0;
-    }
-    .sa-home-hero-statement {
-      font-family: ${T.display}; font-weight: 500;
-      font-size: clamp(24px, 2.3vw, 34px); line-height: 1.15; letter-spacing: .06em;
-      color: #000000; margin: 10px 0 0;
+    .sa-home-hero h1.sa-home-hero-title {
+      font-family: ${T.sans}; font-weight: 400; font-style: normal;
+      font-size: 16px !important; line-height: 1.55 !important; letter-spacing: .3px;
+      color: #222222; margin: clamp(20px, 3vh, 32px) 0 0; overflow-wrap: break-word;
     }
     .sa-home-hero-ctas {
       display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px;
@@ -355,10 +347,8 @@ function StatIcon({ kind, color = '#b8852a', size = 42, style }) {
         gap: 22px;
         padding: 20px max(20px, env(safe-area-inset-right)) 48px max(20px, env(safe-area-inset-left)) !important;
       }
-      .sa-home-hero h1.sa-home-hero-name { font-size: clamp(40px, 12vw, 54px) !important; }
-      .sa-home-hero-sub { font-size: 14px; margin-top: 10px; }
-      .sa-home-hero-caption { margin-top: 22px; }
-      .sa-home-hero-statement { font-size: 22px; }
+      .sa-home-hero-intro { font-size: clamp(24px, 7vw, 30px); }
+      .sa-home-hero h1.sa-home-hero-title { font-size: 15px !important; margin-top: 16px; }
       .sa-home-hero-ctas { margin-top: 22px; gap: 6px 24px; }
       .sa-home-hero-btn { padding: 0 22px; min-height: 44px; }
     }
@@ -399,13 +389,11 @@ function HomePageV2() {
             fetchpriority="high" decoding="async" />
         </figure>
         <div className="sa-home-hero-text">
-          <h1 className="sa-home-hero-name">Sabrina Goria</h1>
-          <p className="sa-home-hero-sub">Italian Australian Abstract Expressionist Artist</p>
-          <p className="sa-home-hero-caption">WOW 11:11:11, 2011 (Painting)</p>
-          <p className="sa-home-hero-statement">THE PAINTING THAT STARTED IT ALL.</p>
+          <p className="sa-home-hero-intro">I explore emotions through layers, colour and space, creating art that tells a story.</p>
+          <h1 className="sa-home-hero-title">SabrinArt Collection: Contemporary Abstract Art for Modern Interiors.</h1>
           <div className="sa-home-hero-ctas">
-            <a href="#/gallery" className="sa-home-hero-btn">Explore the Collection →</a>
-            <a href="#/studio/the-moment-it-began" className="sa-home-hero-link">Where it all began →</a>
+            <a href="#/about" className="sa-home-hero-btn">MEET SABRINA →</a>
+            <a href="#/gallery" className="sa-home-hero-btn">DISCOVER THE COLLECTION →</a>
           </div>
         </div>
       </section>
