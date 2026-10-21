@@ -521,7 +521,7 @@ function HomePageV2() {
           <p className="sa-home-hero-slogan">THE PAINTING THAT STARTED IT ALL.</p>
           <div className="sa-home-hero-ctas">
             <a href="#/gallery" className="sa-home-hero-btn">EXPLORE THE COLLECTION →</a>
-            <a href="#/studio" className="sa-home-hero-link">Where it all began →</a>
+            <a href="#/studio/moment" className="sa-home-hero-link">Where it all began →</a>
           </div>
         </div>
       </section>
