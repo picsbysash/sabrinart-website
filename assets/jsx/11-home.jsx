@@ -370,7 +370,7 @@ function parseCm(s) {
   return m ? [parseFloat(m[1]), parseFloat(m[2])] : [40, 40];
 }
 
-function RoomArt({ title, cx, bottom }) {
+function RoomArt({ title, cx, bottom, scale = 1, floorY = FLOOR_Y, minY = FLOOR_Y - 255 }) {
   const work = WORKS_CATALOG.find((w) => w.t === title);
   const [ratio, setRatio] = useState(null);
   useEffect(() => {
@@ -383,11 +383,10 @@ function RoomArt({ title, cx, bottom }) {
   const [a, b] = parseCm(work.sizeCm);
   const long = Math.max(a, b);
   const r = ratio || a / b;
-  const w = r >= 1 ? long : long * r;
-  const h = r >= 1 ? long / r : long;
-  const bot = Math.min(bottom, 255 - h);
+  const w = (r >= 1 ? long : long * r) * scale;
+  const h = (r >= 1 ? long / r : long) * scale;
   const x = cx - w / 2;
-  const y = FLOOR_Y - bot - h;
+  const y = Math.max(minY, floorY - bottom * scale - h);
   return (
     <g>
       <rect x={x + 1.5} y={y + 2.5} width={w} height={h} fill="rgba(20,29,54,.22)" />
@@ -414,7 +413,8 @@ const ROOMS = [
       fr(75, 40, 0, 38, FURN_DARK, 'l8', 4), fr(85, 20, 38, 130, '#8fa391', 'l9', 10),
     ] },
   { id: 'office', label: 'Office',
-    art: [{ t: 'Echoes in Red', cx: 300, bottom: 125 }],
+    photo: { src: 'assets/interiors/office.jpg', w: 1024, h: 572, scale: 1.5, floorY: 462, minY: 62 },
+    art: [{ t: 'Echoes in Red', cx: 520, bottom: 150 }],
     furniture: () => [
       fr(130, 290, 70, 74, FURN_DARK, 'o1'), fr(136, 5, 0, 70, FURN_DARK, 'o2'), fr(409, 5, 0, 70, FURN_DARK, 'o3'),
       fr(250, 50, 74, 114, '#2f3441', 'o4', 2), fr(270, 10, 74, 84, FURN_DARK, 'o5'),
@@ -481,19 +481,26 @@ function ArtInteriors() {
           )}
         </div>
         <div style={{ position: 'relative', marginTop: 28, border: `1px solid ${T.hair}` }}>
-          <svg viewBox="0 0 625 325" style={{ display: 'block', width: '100%', height: 'auto' }} role="img" aria-label={`${room.label} illustrative mock-up`}>
-            <rect x="0" y="0" width="625" height={FLOOR_Y} fill="#eef0f3" />
-            <rect x="0" y={FLOOR_Y} width="625" height="55" fill="#d8d1c6" />
-            <rect x="0" y={FLOOR_Y - 8} width="625" height="8" fill="#e4e6eb" />
-            {room.art.map((p) => <RoomArt key={p.t} title={p.t} cx={p.cx} bottom={p.bottom} />)}
-            {room.furniture()}
-            <g transform={`translate(20 ${FLOOR_Y + 28})`}>
-              <line x1="0" y1="0" x2="100" y2="0" stroke="#5a5e66" strokeWidth="1" />
-              <line x1="0" y1="-4" x2="0" y2="4" stroke="#5a5e66" strokeWidth="1" />
-              <line x1="100" y1="-4" x2="100" y2="4" stroke="#5a5e66" strokeWidth="1" />
-              <text x="50" y="-8" textAnchor="middle" fontSize="9" fill="#5a5e66" fontFamily="Inter, sans-serif">100 cm</text>
-            </g>
-          </svg>
+          {room.photo ?
+            <svg viewBox={`0 0 ${room.photo.w} ${room.photo.h}`} style={{ display: 'block', width: '100%', height: 'auto' }} role="img" aria-label={`${room.label} illustrative mock-up`}>
+              <image href={room.photo.src} x="0" y="0" width={room.photo.w} height={room.photo.h} />
+              {room.art.map((p) => <RoomArt key={p.t} title={p.t} cx={p.cx} bottom={p.bottom} scale={room.photo.scale} floorY={room.photo.floorY} minY={room.photo.minY} />)}
+            </svg>
+            :
+            <svg viewBox="0 0 625 325" style={{ display: 'block', width: '100%', height: 'auto' }} role="img" aria-label={`${room.label} illustrative mock-up`}>
+              <rect x="0" y="0" width="625" height={FLOOR_Y} fill="#eef0f3" />
+              <rect x="0" y={FLOOR_Y} width="625" height="55" fill="#d8d1c6" />
+              <rect x="0" y={FLOOR_Y - 8} width="625" height="8" fill="#e4e6eb" />
+              {room.art.map((p) => <RoomArt key={p.t} title={p.t} cx={p.cx} bottom={p.bottom} />)}
+              {room.furniture()}
+              <g transform={`translate(20 ${FLOOR_Y + 28})`}>
+                <line x1="0" y1="0" x2="100" y2="0" stroke="#5a5e66" strokeWidth="1" />
+                <line x1="0" y1="-4" x2="0" y2="4" stroke="#5a5e66" strokeWidth="1" />
+                <line x1="100" y1="-4" x2="100" y2="4" stroke="#5a5e66" strokeWidth="1" />
+                <text x="50" y="-8" textAnchor="middle" fontSize="9" fill="#5a5e66" fontFamily="Inter, sans-serif">100 cm</text>
+              </g>
+            </svg>
+          }
           <div style={{ position: 'absolute', right: 12, bottom: 10, fontFamily: T.mono, fontSize: 10, letterSpacing: 1.8, textTransform: 'uppercase', color: T.taupe, background: 'rgba(255,255,255,.9)', padding: '5px 9px' }}>Illustrative mock-up</div>
         </div>
         <div style={{ marginTop: 16, textAlign: 'center', fontFamily: T.sans, fontSize: 13, color: T.taupe, lineHeight: 1.7 }}>
