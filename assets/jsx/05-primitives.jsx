@@ -141,19 +141,23 @@ function ImgPH({ label = 'artwork', height, width, ratio, dark = false, style, b
   // Real image mode, render the photo cover-filling the frame, keep the gallery
   // shadow + optional badge/caption overlays, drop the placeholder gradient/label.
   if (src) {
+    // Paintings are always shown whole, at their real shape (never cropped or stretched).
+    const isArt = typeof src === 'string' && /assets\/artworks\//.test(src);
+    const imgFit = isArt && fit === 'cover' ? 'contain' : fit;
+    const pad = isArt ? 10 : 0;
     return (
       <div style={{
         position: 'relative', width: width || '100%',
         height: height || (ratio ? undefined : '100%'),
         aspectRatio: ratio || undefined,
-        background: bg, border: `1px solid ${border}`,
+        background: isArt && !dark ? '#f6f7f9' : bg, border: `1px solid ${border}`,
         overflow: 'hidden',
         boxShadow: frame ? dark ? T.artShadowDark : T.artShadow : 'none',
         ...style
       }}>
         <img src={src} alt={alt || label} loading="lazy" style={{
-          position: 'absolute', inset: 0, width: '100%', height: '100%',
-          objectFit: fit, objectPosition: 'center', display: 'block'
+          position: 'absolute', top: pad, left: pad, width: `calc(100% - ${pad * 2}px)`, height: `calc(100% - ${pad * 2}px)`,
+          objectFit: imgFit, objectPosition: 'center', display: 'block'
         }} />
         {badge &&
         <div style={{ position: 'absolute', top: 14, left: 14, zIndex: 2 }}>
