@@ -1,4 +1,2 @@
-# Old artwork paths (used by Netlify snippets) -> new photos
-/assets/art/oil-painting.jpg  /assets/artworks/autumn.jpg  200
-/assets/art/party-time.jpg  /assets/artworks/aboriginal-sunset.jpg  200
 /assets/art/*  /assets/artworks/:splat  200
+/*  /index.html  200
