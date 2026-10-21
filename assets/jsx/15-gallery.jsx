@@ -4,15 +4,15 @@
 const COLLECTIONS_V2 = [
 { n: '01', tag: 'New', title: 'New Collection', sub: 'Current Projects · 2025-2026',
   body: 'The latest works, fresh from the studio, new pieces and current projects, including art being prepared for upcoming exhibitions. Available to purchase.',
-  count: 6, status: 'ON SALE', range: '$210 to $2,360 AUD', feature: 'SMILE',
+  count: 9, status: 'ON SALE', range: '$520 to $2,360 AUD', feature: 'SMILE',
   palette: [T.gold, T.goldRich, T.terracotta], img: ART.smile },
 { n: '02', tag: 'Available', title: 'Available Collection', sub: 'Originals ready to find a new home',
   body: 'Original works currently available. Each piece shows its full details, size, medium, year and price, ready to add to your cart or enquire about.',
-  count: 11, status: 'AVAILABLE', range: '$210 to $670 AUD', feature: 'Silver Sea',
-  palette: [T.ocean, T.eucalyptus, T.sand], img: ART.silverSea },
+  count: 5, status: 'AVAILABLE', range: '$470 to $630 AUD', feature: 'Turquoise Beach',
+  palette: [T.ocean, T.eucalyptus, T.sand], img: ART.turquoiseBeach },
 { n: '03', tag: 'Acquired', title: 'Acquired Collection', sub: 'Works that have found their homes',
   body: "Works collected by private collectors, through exhibitions, and from the artist's own collection. Not for sale, but part of the story.",
-  count: 22, status: 'ACQUIRED', range: null, feature: 'Confetti and Falling Stars',
+  count: 23, status: 'ACQUIRED', range: null, feature: 'Confetti and Falling Stars',
   palette: [T.indigo, T.gold, T.cream], img: ART.confetti },
 { n: '04', tag: 'Private', title: 'Private Collection', sub: "Not for Sale, the artist's personal works",
   body: "The most personal works, including WOW, the painting that started it all on 11 November 2011.",
@@ -21,7 +21,7 @@ const COLLECTIONS_V2 = [
 { n: '05', tag: 'Exhibitions', title: 'Exhibition Collections', sub: '4 solo shows · Melbourne',
   body: 'Works grouped by the exhibitions they appeared in, a chance to revisit each show as it was first seen.',
   count: 4, status: null, range: null, feature: 'Layers of Happiness · Space2b',
-  palette: [T.cobalt, T.gold, T.paperDeep], img: ART.installCarnival },
+  palette: [T.cobalt, T.gold, T.paperDeep], img: ART.carnival },
 { n: '06', tag: 'Thematic', title: 'Thematic Collections', sub: '5 themes · feelings, palettes, origins',
   body: 'Works grouped by theme and feeling: the Gold Collection, the Trilogy of Fun, the Ocean & Nature Series, Emotional Landscapes, and Origins.',
   count: 5, status: null, range: null, feature: 'Gold Series',
@@ -83,7 +83,7 @@ function GalleryFilterRail({ active, onSelect, query, setQuery }) {
         Filter collections
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        {[{ tag: 'all', count: 41, n: '00' }, ...COLLECTIONS_V2].map((c) =>
+        {[{ tag: 'all', count: 39, n: '00' }, ...COLLECTIONS_V2].map((c) =>
         <button key={c.tag} onClick={() => onSelect(c.tag)} style={{
           display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
           gap: 14, padding: '10px 0',
@@ -290,7 +290,7 @@ function GalleryPageV2() {
         overflow: 'hidden'
       }}>
         <Marquee
-          items={['New · 5', 'Available · 10', 'Acquired · 21', 'Private · 2', 'Exhibitions · 4', 'Thematic · 5']}
+          items={['New · 9', 'Available · 5', 'Acquired · 23', 'Private · 2', 'Exhibitions · 4', 'Thematic · 5']}
           speed={80} fontSize={56} gap={80} italic color={T.navy} separator="✦" />
         
       </section>

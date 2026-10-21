@@ -445,7 +445,7 @@ function HomePageV2() {
             {/* COL 1, dominant tall + square */}
             <div className="nc-col nc-col--left">
               <ScrollReveal>
-                <HoverArtCard title="Silver Sea" price="$670" size="18 × 18 in" year="2019" status="AVAILABLE" ratio="3/4" src={ART.silverSea} />
+                <HoverArtCard title="Turquoise Beach" price="$630" size="12 × 12 in" year="2021" status="AVAILABLE" ratio="3/4" src={ART.turquoiseBeach} />
               </ScrollReveal>
               <ScrollReveal delay={80}>
                 <HoverArtCard title="Gold Droplets" price="$620" size="18 × 18 in" year="2019" status="AVAILABLE" ratio="3/4" src={ART.goldDroplets} />
@@ -455,20 +455,20 @@ function HomePageV2() {
             {/* COL 2, square + tall */}
             <div className="nc-col nc-col--center">
               <ScrollReveal delay={120}>
-                <HoverArtCard title="Butterfly" price="$480" size="12 × 12 in" year="2024" status="AVAILABLE" ratio="3/4" src={ART.butterfly} />
+                <HoverArtCard title="Butterfly" price="$560" size="12 × 12 in" year="2024" status="AVAILABLE" ratio="3/4" src={ART.butterfly} />
               </ScrollReveal>
               <ScrollReveal delay={200}>
-                <HoverArtCard title="Party Time" price="$320" size="16 × 12 in" year="2024" status="AVAILABLE" ratio="3/4" src={ART.partyTime} />
+                <HoverArtCard title="Aboriginal Sunset" price="$520" size="12 × 12 in" year="2026" status="AVAILABLE" ratio="3/4" src={ART.aboriginalSunset} />
               </ScrollReveal>
             </div>
 
             {/* COL 3, square + tall (mirrors col 2 for balanced heights) */}
             <div className="nc-col nc-col--right">
               <ScrollReveal delay={240}>
-                <HoverArtCard title="Carnival" price="$420" size="12 × 12 in" year="2019" status="AVAILABLE" ratio="3/4" src={ART.carnival} />
+                <HoverArtCard title="Summer" price="$470" size="10 × 10 in" year="2024" status="AVAILABLE" ratio="3/4" src={ART.summer} />
               </ScrollReveal>
               <ScrollReveal delay={320}>
-                <HoverArtCard title="Autumn" price="$210" size="10 × 10 in" year="2024" status="AVAILABLE" ratio="3/4" src={ART.oilPainting} />
+                <HoverArtCard title="Autumn" price="$470" size="10 × 10 in" year="2024" status="AVAILABLE" ratio="3/4" src={ART.autumn} />
               </ScrollReveal>
             </div>
           </div>

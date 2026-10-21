@@ -23,7 +23,7 @@ const ARTWORK_DEMO = {
     { l: 'Gold detail', src: ART.goldDroplets },
     { l: 'Angle', src: ART.goldDroplets },
   ],
-  roomImgs: [ART.installBlue, ART.install025, ART.installCarnival, ART.install029],
+  roomImgs: [],
   shortDesc: 'A textural exploration of gold, light and emotional richness.',
   longDesc: `Gold Droplets explores the emotional language of gold, texture and light. The composition is built through layered surfaces that reflect and absorb light differently across the canvas. Gold becomes both material and symbol, representing value, energy and inner richness. The work balances delicacy with intensity through controlled spontaneity, so the surface shifts and catches the light from every angle.`,
 };
