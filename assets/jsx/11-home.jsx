@@ -525,8 +525,8 @@ function HomePageV2() {
   // Palette browser draws from the canonical catalog, only photographed works,
   // each keeping its real availability status.
   const WORKS = WORKS_CATALOG.
-  filter((w) => w.src && w.pal).
-  map((w) => ({ title: w.t, price: w.price, size: w.sizeIn || w.medium, year: w.year, src: w.src, status: w.status, p: w.pal }));
+  filter((w) => w.src && w.pal && w.status === 'ON SALE').
+  map((w) => ({ title: w.t, price: w.price, size: w.sizeCm, year: w.year, src: w.src, status: w.status, p: w.pal }));
   const shownWorks = palette === 'all' ? WORKS : WORKS.filter((w) => w.p.includes(palette));
 
   return (
@@ -581,7 +581,7 @@ function HomePageV2() {
           <div className="on-sale-grid">
             {WORKS_CATALOG.filter((w) => w.status === 'ON SALE' && w.src).slice(0, 9).map((w, i) =>
               <ScrollReveal key={w.t} delay={(i % 3) * 80}>
-                <HoverArtCard title={w.t} price={w.price} size={w.sizeIn} year={w.year} status="ON SALE" ratio="3/4" src={w.src} />
+                <HoverArtCard title={w.t} price={w.price} size={w.sizeCm} year={w.year} status="ON SALE" ratio="3/4" src={w.src} />
               </ScrollReveal>
             )}
           </div>

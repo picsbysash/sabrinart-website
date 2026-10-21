@@ -204,199 +204,52 @@ function CollectionCardV2({ c }) {
 }
 
 function GalleryPageV2() {
-  const [active, setActive] = useState('all');
-  const [query, setQuery] = useState('');
-  const filtered = active === 'all' ? COLLECTIONS_V2 : COLLECTIONS_V2.filter((c) => c.tag.toLowerCase() === active.toLowerCase());
-
-  // Search across every artwork (by title/medium/status) and every collection.
-  const q = query.trim().toLowerCase();
-  const searching = q.length > 0;
-  const COL_LABEL = { new: 'New Collection', available: 'Available Collection', acquired: 'Acquired Collection', private: 'Private Collection' };
-  const matchedWorks = searching ? WORKS_CATALOG.filter((w) => {
-    const colName = (COL_LABEL[w.col] || w.col || '').toLowerCase();
-    return [w.t, w.medium, w.status, colName, w.label].filter(Boolean).join(' ').toLowerCase().includes(q);
-  }) : [];
-  const matchedCollections = searching ? COLLECTIONS_V2.filter((c) =>
-    [c.title, c.tag, c.sub, c.body].join(' ').toLowerCase().includes(q)
-  ) : [];
-
+  const SECTIONS = [
+    { key: 'ON SALE', title: 'On Sale' },
+    { key: 'SOLD', title: 'Sold' },
+    { key: 'NOT FOR SALE', title: 'Not for Sale' },
+  ];
   return (
     <div style={{ background: T.paper, minHeight: '100vh', overflow: 'hidden' }} data-screen-label="02 Gallery">
       <NavBar active="gallery" />
-
-      {/* HERO, asymmetric editorial: title left, descriptive paragraph right */}
-      <section style={{ padding: 'clamp(48px, 6vh, 72px) clamp(24px, 5vw, 80px) 0', position: 'relative' }}>
-        <div className="gallery-hero-grid" style={{
-          maxWidth: 1320, margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: '1.1fr 1fr',
-          gap: 'clamp(48px, 7vw, 120px)',
-          alignItems: 'start',
-        }}>
-          {/* LEFT, eyebrow + title */}
-          <div style={{ minWidth: 0 }}>
-            <Eyebrow style={{ margin: 0, marginBottom: 20 }}>06 · The Gallery</Eyebrow>
-            <h1 style={{
-              fontFamily: T.display, fontStyle: 'normal', fontWeight: 600,
-              lineHeight: 0.94,
-              color: T.navy, letterSpacing: '-0.035em',
-              fontSize: 'clamp(72px, 9vw, 144px)', margin: 0,
-            }}>
-              <em style={{ fontStyle: 'italic', fontWeight: 500, color: T.gold }}>The</em> Gallery
-            </h1>
-          </div>
-
-          {/* RIGHT, descriptive paragraph, left-aligned, navy with soft opacity */}
-          <div style={{ minWidth: 0, paddingTop: 'clamp(12px, 2vw, 28px)' }}>
-            <p style={{
-              fontFamily: T.sans, fontSize: 'clamp(15px, 1.1vw, 17px)', fontWeight: 300,
-              lineHeight: 1.7, color: 'rgba(29, 42, 77, 0.82)',
-              letterSpacing: 0.05, margin: 0, maxWidth: 540,
-            }}>
-              Sabrina's work is organised into six collections, six ways into the
-              same world of colour, texture and emotion. Browse by what is new, what
-              is available, or by the themes and exhibitions that connect them.
-            </p>
-          </div>
-        </div>
-
-        {/* Closing hairline, full-width, ultra-thin, light gray */}
-        <div aria-hidden style={{
-          marginTop: 'clamp(48px, 6vh, 80px)',
-          marginLeft: 'calc(50% - 50vw)',
-          width: '100vw',
-          height: 1,
-          background: T.hair,
-        }} />
-
-        <style>{`
-          @media (max-width: 760px) {
-            .gallery-hero-grid {
-              grid-template-columns: 1fr !important;
-              gap: 32px !important;
-            }
-            .gallery-hero-grid > div:last-child { padding-top: 0 !important; }
-          }
-        `}</style>
-      </section>
-
-      {/* MARQUEE, contained editorial strip, subtle gray bg, secondary scale */}
-      <section style={{
-        marginTop: 'clamp(36px, 5vh, 56px)',
-        padding: 'clamp(20px, 2.4vh, 32px) 0',
-        background: T.paper2,
-        borderTop: `1px solid ${T.hair}`,
-        borderBottom: `1px solid ${T.hair}`,
-        overflow: 'hidden'
-      }}>
-        <Marquee
-          items={['New · 9', 'Available · 5', 'Acquired · 23', 'Private · 2', 'Exhibitions · 4', 'Thematic · 5']}
-          speed={80} fontSize={56} gap={80} italic color={T.navy} separator="✦" />
-        
-      </section>
-
-      {/* MAIN, sticky filter rail + 3-column editorial grid of collection cards */}
-      <section style={{ padding: 'clamp(40px, 5vh, 64px) clamp(24px, 5vw, 80px) clamp(64px, 8vh, 96px)' }}>
-        <div className="gallery-main-grid" style={{
-          maxWidth: 1320, margin: '0 auto',
-          display: 'grid', gridTemplateColumns: '240px 1fr', gap: 'clamp(40px, 5vw, 72px)', alignItems: 'start'
-        }}>
-          <GalleryFilterRail active={active} onSelect={setActive} query={query} setQuery={setQuery} />
-
-          <div style={{ minWidth: 0 }}>
-            {searching &&
-              <div style={{ marginBottom: 'clamp(28px, 3vh, 40px)' }}>
+      <style>{`
+        .gal-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(36px, 3.4vw, 56px) clamp(24px, 2.6vw, 40px); }
+        @media (max-width: 980px) { .gal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 600px) { .gal-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <section style={{ padding: 'clamp(48px, 6vh, 72px) clamp(24px, 5vw, 80px) clamp(64px, 8vh, 96px)' }}>
+        <div style={{ maxWidth: 1320, margin: '0 auto' }}>
+          <h1 style={{
+            fontFamily: T.display, fontWeight: 600, lineHeight: 0.94, textAlign: 'center',
+            color: T.navy, letterSpacing: '-0.035em',
+            fontSize: 'clamp(56px, 8vw, 120px)', margin: '0 0 clamp(40px, 6vh, 72px)',
+          }}>
+            <em style={{ fontStyle: 'italic', fontWeight: 500, color: T.gold }}>The</em> Gallery
+          </h1>
+          {SECTIONS.map((s) => {
+            const list = WORKS_CATALOG.filter((w) => w.status === s.key);
+            return (
+              <div key={s.key} id={s.key.toLowerCase().replace(/ /g, '-')} style={{ marginBottom: 'clamp(56px, 8vh, 96px)' }}>
                 <div style={{
-                  display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
-                  gap: 16, flexWrap: 'wrap', paddingBottom: 16, borderBottom: `1px solid ${T.hair}`,
+                  display: 'flex', alignItems: 'baseline', gap: 14, paddingBottom: 16,
+                  borderBottom: `1px solid ${T.hair}`, marginBottom: 'clamp(28px, 4vh, 44px)',
                 }}>
-                  <div style={{ fontFamily: T.display, fontStyle: 'italic', fontWeight: 400, fontSize: 'clamp(22px, 2.4vw, 30px)', color: T.navy }}>
-                    {matchedWorks.length} {matchedWorks.length === 1 ? 'work' : 'works'} for "{query}"
-                  </div>
-                  {matchedCollections.length > 0 &&
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                      <span style={{ fontFamily: T.mono, fontSize: 9, color: T.taupe, letterSpacing: 1.8, textTransform: 'uppercase' }}>Collections</span>
-                      {matchedCollections.map((c) =>
-                        <a key={c.tag} href={`#/gallery/${c.tag.toLowerCase()}`} style={{
-                          fontFamily: T.sans, fontSize: 12, color: T.gold,
-                          border: `1px solid ${T.gold}`, padding: '5px 11px', letterSpacing: 0.3,
-                        }}>{c.title} →</a>
-                      )}
-                    </div>
-                  }
+                  <h2 style={{ fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(30px, 3.4vw, 46px)', color: T.navy, margin: 0 }}>{s.title}</h2>
+                  <span style={{ fontFamily: T.mono, fontSize: 12, letterSpacing: 2, color: T.taupe }}>({list.length})</span>
                 </div>
-              </div>
-            }
-
-            {searching && matchedWorks.length === 0 &&
-              <div style={{ padding: '60px 0', textAlign: 'center' }}>
-                <div style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 24, color: T.navy, marginBottom: 10 }}>No works found</div>
-                <p style={{ fontFamily: T.sans, fontSize: 14, fontWeight: 300, color: T.taupe, margin: 0 }}>
-                  Try another title, or browse the collections below.
-                </p>
-                <div style={{ marginTop: 22 }}>
-                  <button onClick={() => setQuery('')} style={{
-                    fontFamily: T.sans, fontSize: 11, letterSpacing: 2.5, textTransform: 'uppercase',
-                    color: T.gold, background: 'transparent', border: `1px solid ${T.gold}`, padding: '11px 22px', cursor: 'pointer',
-                  }}>Clear search</button>
+                <div className="gal-grid">
+                  {list.map((w, i) =>
+                    <ScrollReveal key={w.t} delay={(i % 3) * 40}>
+                      <GalleryWorkCard w={w} />
+                    </ScrollReveal>
+                  )}
                 </div>
-              </div>
-            }
-
-            <div className="gallery-cards-grid" style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-              gap: 'clamp(36px, 3.4vw, 56px) clamp(28px, 2.6vw, 44px)',
-            }}>
-              {!searching && filtered.map((c) => <CollectionCardV2 key={c.tag} c={c} />)}
-              {searching && matchedWorks.map((w, i) =>
-                <ScrollReveal key={w.t + i} delay={i * 25}>
-                  <GalleryWorkCard w={w} showCollection />
-                </ScrollReveal>
-              )}
-            </div>
-          </div>
-        </div>
-        <style>{`
-          @media (max-width: 880px) {
-            .gallery-main-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
-            .gallery-main-grid aside { position: static !important; }
-          }
-          @media (max-width: 600px) {
-            .gallery-cards-grid { grid-template-columns: 1fr !important; }
-          }
-        `}</style>
-      </section>
-
-      {/* STATS FOOTER */}
-      <section style={{ padding: 'clamp(64px, 8vh, 96px) clamp(32px, 5vw, 80px)', background: T.navy, color: T.cream, position: 'relative', overflow: 'hidden' }}>
-        <div aria-hidden style={{
-          position: 'absolute', right: -80, top: -40,
-          fontFamily: T.display, fontStyle: 'italic', fontWeight: 500,
-          fontSize: 'clamp(160px, 22vw, 360px)', lineHeight: 0.85,
-          color: T.indigo, opacity: 0.5, letterSpacing: '-0.05em', userSelect: 'none'
-        }}>Collection</div>
-
-        <div style={{
-          maxWidth: 1200, margin: '0 auto', position: 'relative',
-          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 40, textAlign: 'center'
-        }}>
-          {[[38, 'works total'], [15, 'available'], [6, 'collections'], [4, 'solo shows']].map(([n, l]) =>
-          <ScrollReveal key={l}>
-              <div style={{
-              fontFamily: T.display, fontStyle: 'italic', fontWeight: 500,
-              fontSize: 'clamp(72px, 8vw, 132px)', color: T.goldShimmer,
-              lineHeight: 1, letterSpacing: '-0.025em'
-            }}><Counter to={n} /></div>
-              <div style={{ marginTop: 16, fontFamily: T.mono, fontSize: 10.5, color: 'rgba(255,255,255,.6)', letterSpacing: 2.4, textTransform: 'uppercase' }}>{l}</div>
-            </ScrollReveal>
-          )}
+              </div>);
+          })}
         </div>
       </section>
-
       <FooterV2 dark />
     </div>);
-
 }
 
 window.GalleryPageV2 = GalleryPageV2;
@@ -414,84 +267,32 @@ function worksForCollection(key) {
 // Gallery card, shows price for sale works, prestige/context label otherwise.
 // Works without a photo render a tasteful "photography in progress" plate.
 // Works with a `gallery` array of multiple photos get a small carousel.
-function GalleryWorkCard({ w, showCollection }) {
-  const onSale = w.status === 'ON SALE' || w.status === 'AVAILABLE';
-  const COL_NAME = { new: 'New Collection', available: 'Available Collection', acquired: 'Acquired Collection', private: 'Private Collection' };
-  const photos = (w.gallery && w.gallery.length > 1) ? w.gallery : (w.src ? [w.src] : []);
-  const [idx, setIdx] = useState(0);
-  const multi = photos.length > 1;
-  const go = (dir, e) => { e.preventDefault(); e.stopPropagation(); setIdx((i) => (i + dir + photos.length) % photos.length); };
+function GalleryWorkCard({ w }) {
+  const onSale = w.status === 'ON SALE';
   return (
     <article style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <div style={{ position: 'relative' }}>
-        <ImgPH label={w.src ? w.t : `${w.t} · photo soon`} src={photos[idx] || undefined} ratio="4 / 5" badge={w.status} />
-        {!w.src &&
-          <div style={{
-            position: 'absolute', bottom: 12, left: 12, right: 12, textAlign: 'center',
-            fontFamily: T.mono, fontSize: 8.5, letterSpacing: 1.8, textTransform: 'uppercase',
-            color: T.taupe, background: 'rgba(255,255,255,.9)', padding: '5px 8px',
-          }}>Photography in progress</div>
-        }
-        {multi &&
-          <React.Fragment>
-            <button onClick={(e) => go(-1, e)} aria-label="Previous photo" style={{
-              position: 'absolute', top: '50%', left: 10, transform: 'translateY(-50%)',
-              width: 36, height: 36, borderRadius: '50%', border: 'none', cursor: 'pointer',
-              background: 'rgba(255,255,255,.92)', color: T.navy, fontSize: 16, lineHeight: 1,
-              display: 'grid', placeItems: 'center', boxShadow: '0 6px 18px -6px rgba(28,20,16,.4)',
-            }}>‹</button>
-            <button onClick={(e) => go(1, e)} aria-label="Next photo" style={{
-              position: 'absolute', top: '50%', right: 10, transform: 'translateY(-50%)',
-              width: 36, height: 36, borderRadius: '50%', border: 'none', cursor: 'pointer',
-              background: 'rgba(255,255,255,.92)', color: T.navy, fontSize: 16, lineHeight: 1,
-              display: 'grid', placeItems: 'center', boxShadow: '0 6px 18px -6px rgba(28,20,16,.4)',
-            }}>›</button>
-            <div style={{
-              position: 'absolute', bottom: 12, left: 0, right: 0,
-              display: 'flex', justifyContent: 'center', gap: 7,
-            }}>
-              {photos.map((_, i) =>
-                <button key={i} onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIdx(i); }} aria-label={`Photo ${i + 1}`} style={{
-                  width: 7, height: 7, borderRadius: '50%', border: 'none', cursor: 'pointer', padding: 0,
-                  background: i === idx ? T.gold : 'rgba(255,255,255,.7)',
-                  boxShadow: '0 1px 4px rgba(28,20,16,.3)',
-                }} />
-              )}
-            </div>
-          </React.Fragment>
-        }
-      </div>
+      <ImgPH label={w.t} src={w.src || undefined} ratio="1 / 1" badge={w.status} />
       <div>
         <h4 style={{
-          fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, fontSize: 22,
+          fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, fontSize: 24,
           color: T.navy, margin: 0, letterSpacing: '-0.01em',
         }}>{w.t}</h4>
-        <div style={{
-          marginTop: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10,
-          fontFamily: T.mono, fontSize: 9.5, color: T.taupe, letterSpacing: 1.4, textTransform: 'uppercase',
-        }}>
-          <span>{[w.sizeIn, w.year].filter(Boolean).join(' · ')}</span>
-          {onSale && w.price &&
-            <span style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 18, fontWeight: 500, color: T.gold, letterSpacing: 0 }}>{w.price}</span>
-          }
-        </div>
-        {w.label &&
-          <div style={{
-            marginTop: 8, fontFamily: T.serif, fontStyle: 'italic', fontSize: 13, color: T.gold, letterSpacing: 0.2,
-          }}>{w.label}</div>
+        {w.short &&
+          <p style={{ fontFamily: T.sans, fontSize: 14, fontWeight: 300, lineHeight: 1.55, color: T.taupe, margin: '8px 0 0' }}>{w.short}</p>
         }
-        {showCollection && COL_NAME[w.col] &&
-          <a href={`#/gallery/${w.col}`} style={{
-            marginTop: 12, display: 'inline-flex', alignItems: 'center', gap: 7,
-            fontFamily: T.mono, fontSize: 9, color: T.taupe, letterSpacing: 1.8, textTransform: 'uppercase',
-          }}>
-            <span style={{ width: 16, height: 1, background: T.gold }} />
-            {COL_NAME[w.col]}
-          </a>
+        <div style={{
+          marginTop: 10, fontFamily: T.mono, fontSize: 10, color: T.taupe, letterSpacing: 1.4, textTransform: 'uppercase', lineHeight: 1.7,
+        }}>
+          <div>{[w.year, w.sizeCm].filter(Boolean).join(' · ')}</div>
+          <div>{w.medium}</div>
+        </div>
+        {onSale && w.price &&
+          <div style={{ marginTop: 8, fontFamily: T.display, fontStyle: 'italic', fontSize: 22, fontWeight: 500, color: T.gold }}>AUD {w.price}</div>
         }
       </div>
     </article>);
 }
+
 
 // Exhibitions + thematic groupings (these route through to their own pages / themes).
 const EXH_SHOWS = [

@@ -105,13 +105,12 @@ function Rule({ width = '100%', margin = '0', dark = false }) {
 function StatusTag({ status, floating = false, style }) {
   const map = {
     'ON SALE': { bg: T.cobalt, fg: '#ffffff', border: T.cobalt },
-    'AVAILABLE': { bg: T.ocean, fg: T.cream, border: T.ocean },
+    
     'SOLD': { bg: T.fuchsia, fg: '#ffffff', border: T.fuchsia },
-    'ACQUIRED': { bg: T.sunset, fg: T.cream, border: T.sunset },
     'NOT FOR SALE': { bg: T.gold, fg: T.cream, border: T.goldRich },
     'NEW': { bg: T.sunset, fg: T.cream, border: T.sunset }
   };
-  const s = map[status] || map['AVAILABLE'];
+  const s = map[status] || map['ON SALE'];
   return (
     <span style={{
       display: 'inline-block', background: s.bg, color: s.fg,
