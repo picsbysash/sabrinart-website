@@ -457,6 +457,56 @@ function HomePageV2() {
         </div>
       </section>
 
+      {/* ====== 3. EXHIBITIONS, Now showing / Coming up ====== */}
+      <section style={{ padding: 'clamp(40px, 5vh, 72px) clamp(32px, 5vw, 80px)', background: '#ffffff', borderTop: `1px solid ${T.hair}` }}>
+        <div style={{ maxWidth: 1320, margin: '0 auto' }}>
+          <style>{`
+            .home-exh-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 36px; }
+            @media (max-width: 760px) { .home-exh-grid { grid-template-columns: 1fr; } }
+          `}</style>
+          <ScrollReveal>
+            <div style={{ textAlign: 'center' }}>
+              <Eyebrow style={{ display: 'inline-block' }}>02 · Exhibitions</Eyebrow>
+              <h2 style={{
+                fontFamily: T.display, fontStyle: 'italic', fontWeight: 500,
+                fontSize: 'clamp(40px, 5vw, 80px)', lineHeight: 1.0, color: T.navy,
+                margin: '20px 0 0', letterSpacing: '-0.022em'
+              }}>Exhibitions</h2>
+            </div>
+          </ScrollReveal>
+          {(() => {
+            // Italian Festa ran 17-18 Oct 2026: "Coming up" until it ends, then "Recently".
+            const festaOver = new Date() > new Date('2026-10-19T00:00:00+11:00');
+            const cards = [
+              { label: 'Now showing', title: 'Al Naturale Café', dates: '20 Sep – 20 Nov 2026',
+                venue: '6 Acland Street, St Kilda', note: '5 paintings · opening details to come' },
+              { label: festaOver ? 'Recently' : 'Coming up', title: 'Art & Design Expo: Italian Festa', dates: '17–18 Oct 2026',
+                venue: 'First Floor, Royal Exhibition Building, 9 Nicholson St, Carlton',
+                note: 'Free entry · Sat 11 am–10:30 pm, Sun 11 am–8:30 pm', href: 'https://italianfesta.com.au' }
+            ];
+            return (
+              <div className="home-exh-grid">
+                {cards.map((c, i) =>
+                  <ScrollReveal key={c.title} delay={i * 80}>
+                    <div style={{ border: `1px solid ${T.hairStrong}`, padding: 'clamp(24px, 3vw, 40px)', height: '100%', boxSizing: 'border-box' }}>
+                      <div style={{ fontFamily: T.mono, fontSize: 11, letterSpacing: 2.4, textTransform: 'uppercase', color: T.gold }}>{c.label}</div>
+                      <div style={{ fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(26px, 2.6vw, 38px)', color: T.navy, marginTop: 12, lineHeight: 1.1 }}>{c.title}</div>
+                      <div style={{ fontFamily: T.sans, fontSize: 14, color: T.ink, marginTop: 16 }}>{c.dates}</div>
+                      <div style={{ fontFamily: T.sans, fontSize: 14, fontWeight: 300, color: T.taupe, marginTop: 4, lineHeight: 1.6 }}>{c.venue}</div>
+                      <div style={{ fontFamily: T.sans, fontSize: 13, fontWeight: 300, color: T.taupe, marginTop: 4, lineHeight: 1.6 }}>{c.note}</div>
+                      {c.href && <a href={c.href} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: 16, fontFamily: T.sans, fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', color: T.navy }}>italianfesta.com.au →</a>}
+                    </div>
+                  </ScrollReveal>
+                )}
+              </div>
+            );
+          })()}
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
+            <a href="#/exhibitions" style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 500, letterSpacing: 2.4, textTransform: 'uppercase', color: T.navy, textDecoration: 'none', borderBottom: `1px solid ${T.navy}`, paddingBottom: 4 }}>All exhibitions →</a>
+          </div>
+        </div>
+      </section>
+
       {/* ====== 4. TABBED STORY ====== */}
       <section style={{ padding: 'clamp(32px, 4vh, 56px) clamp(32px, 5vw, 80px)', position: 'relative', background: "rgb(243, 244, 246)" }}>
         <div style={{ maxWidth: 1480, margin: '0 auto', width: '100%' }}>
