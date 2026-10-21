@@ -271,12 +271,14 @@ function GalleryWorkCard({ w }) {
   const onSale = w.status === 'ON SALE';
   return (
     <article style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <ImgPH label={w.t} src={w.src || undefined} ratio="1 / 1" badge={w.status} />
+      <a href={`#/gallery/${w.slug}`} aria-label={w.t} style={{ display: 'block' }}>
+        <ImgPH label={w.t} src={w.src || undefined} ratio="1 / 1" badge={w.status} />
+      </a>
       <div>
         <h4 style={{
           fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, fontSize: 24,
           color: T.navy, margin: 0, letterSpacing: '-0.01em',
-        }}>{w.t}</h4>
+        }}><a href={`#/gallery/${w.slug}`}>{w.t}</a></h4>
         {w.short &&
           <p style={{ fontFamily: T.sans, fontSize: 14, fontWeight: 300, lineHeight: 1.55, color: T.taupe, margin: '8px 0 0' }}>{w.short}</p>
         }
@@ -323,7 +325,7 @@ function CollectionDetailPage({ tag }) {
 
   // Unknown tag → bounce back to the overview.
   if (!meta) {
-    if (typeof window !== 'undefined') window.location.hash = '#/gallery';
+    if (typeof window !== 'undefined') setTimeout(function () { window.saNavigate('/gallery'); }, 0);
     return null;
   }
 
