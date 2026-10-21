@@ -405,62 +405,25 @@ const fr = (x, w, h0, h1, fill, key, rx) =>
 
 const ROOMS = [
   { id: 'living', label: 'Living room',
-    art: [{ t: 'Smile', cx: 312, bottom: 118 }],
-    furniture: () => [
-      fr(165, 295, 0, 8, FURN_DARK, 'l1'),
-      fr(165, 295, 8, 45, FURN, 'l2', 4),
-      fr(175, 275, 45, 90, FURN, 'l3', 6),
-      fr(165, 22, 8, 68, FURN_DARK, 'l4', 5),
-      fr(438, 22, 8, 68, FURN_DARK, 'l5', 5),
-      fr(500, 35, 0, 55, FURN, 'l6', 3), fr(512, 11, 55, 62, FURN_DARK, 'l7'),
-      fr(75, 40, 0, 38, FURN_DARK, 'l8', 4), fr(85, 20, 38, 130, '#8fa391', 'l9', 10),
-    ] },
+    photo: { src: 'assets/interiors/living.jpg', w: 1024, h: 637, scale: 1.65, floorY: 493, minY: 72 },
+    art: [{ t: 'Smile', cx: 575, bottom: 112 }] },
   { id: 'office', label: 'Office',
     photo: { src: 'assets/interiors/office.jpg', w: 1024, h: 572, scale: 1.5, floorY: 462, minY: 62 },
-    art: [{ t: 'Echoes in Red', cx: 520, bottom: 150 }],
-    furniture: () => [
-      fr(130, 290, 70, 74, FURN_DARK, 'o1'), fr(136, 5, 0, 70, FURN_DARK, 'o2'), fr(409, 5, 0, 70, FURN_DARK, 'o3'),
-      fr(250, 50, 74, 114, '#2f3441', 'o4', 2), fr(270, 10, 74, 84, FURN_DARK, 'o5'),
-      fr(440, 55, 0, 46, FURN, 'o6', 5), fr(446, 43, 46, 100, FURN, 'o7', 6),
-      fr(60, 55, 0, 190, FURN, 'o8', 2), fr(62, 51, 95, 98, FURN_DARK, 'o9'), fr(62, 51, 145, 148, FURN_DARK, 'o10'),
-    ] },
+    art: [{ t: 'Echoes in Red', cx: 520, bottom: 150 }] },
   { id: 'meeting', label: 'Meeting room',
-    art: [{ t: 'Passion and Fire', cx: 312, bottom: 82 }],
-    furniture: () => {
-      const out = [fr(95, 435, 70, 76, FURN_DARK, 'm1'), fr(300, 8, 0, 70, FURN_DARK, 'm2')];
-      [130, 215, 300, 385, 470].forEach((x, i) => {
-        out.push(fr(x - 20, 40, 0, 44, FURN, 'mc' + i, 5), fr(x - 18, 36, 44, 92, FURN, 'mb' + i, 6));
-      });
-      return out;
-    } },
+    // the blank whiteboard on the wall is covered with a matching wall tone so the painting hangs on the wall
+    photo: { src: 'assets/interiors/meeting.jpg', w: 1024, h: 687, scale: 1.5, floorY: 497, minY: 97,
+      patch: { x: 343, y: 160, w: 349, h: 230 } },
+    art: [{ t: 'Passion and Fire', cx: 517, bottom: 80 }] },
   { id: 'reception', label: 'Reception',
-    art: [{ t: 'Lights and Shadows', cx: 312, bottom: 150 }],
-    furniture: () => [
-      fr(170, 285, 0, 108, FURN, 'r1', 3), fr(160, 305, 108, 114, FURN_DARK, 'r2'),
-      fr(240, 30, 114, 138, '#2f3441', 'r3', 2),
-      fr(70, 40, 0, 40, FURN_DARK, 'r4', 4), fr(82, 16, 40, 140, '#8fa391', 'r5', 8),
-      fr(510, 40, 0, 40, FURN_DARK, 'r6', 4), fr(522, 16, 40, 140, '#8fa391', 'r7', 8),
-    ] },
+    photo: { src: 'assets/interiors/reception.jpg', w: 1024, h: 572, scale: 1.4, floorY: 440, minY: 160 },
+    art: [{ t: 'Lights and Shadows', cx: 662, bottom: 116 }] },
   { id: 'waiting', label: 'Waiting room',
-    art: [{ t: 'Green Orchid', cx: 262, bottom: 130 }, { t: 'Blue Lotus', cx: 362, bottom: 130 }],
-    furniture: () => {
-      const out = [];
-      [150, 230, 310, 390].forEach((x, i) => {
-        out.push(fr(x, 72, 0, 8, FURN_DARK, 'wl' + i), fr(x, 72, 8, 44, FURN, 'ws' + i, 5), fr(x + 4, 64, 44, 88, FURN, 'wb' + i, 6));
-      });
-      out.push(fr(500, 50, 0, 50, FURN, 'wt', 3), fr(75, 40, 0, 38, FURN_DARK, 'wp1', 4), fr(85, 20, 38, 120, '#8fa391', 'wp2', 9));
-      return out;
-    } },
+    photo: { src: 'assets/interiors/waiting.jpg', w: 1024, h: 572, scale: 1.7, floorY: 487, minY: 40 },
+    art: [{ t: 'Green Orchid', cx: 440, bottom: 130 }, { t: 'Blue Lotus', cx: 560, bottom: 130 }] },
   { id: 'hospital', label: 'Hospital',
-    art: [{ t: 'Harmony of Nature', cx: 255, bottom: 125 }, { t: 'Gold Droplets', cx: 370, bottom: 125 }],
-    furniture: () => {
-      const out = [fr(0, 625, 0, 100, 'rgba(160,190,200,.35)', 'h0'), fr(0, 625, 98, 102, FURN_DARK, 'h1'),
-        fr(0, 625, 88, 93, FURN, 'h2'), fr(25, 100, 0, 205, '#dfe3e8', 'hd', 1), fr(112, 8, 100, 106, FURN_DARK, 'hk')];
-      [210, 300, 390, 480].forEach((x, i) => {
-        out.push(fr(x, 70, 0, 8, FURN_DARK, 'hl' + i), fr(x, 70, 8, 46, FURN, 'hs' + i, 5), fr(x + 4, 62, 46, 86, FURN, 'hb' + i, 6));
-      });
-      return out;
-    } },
+    photo: { src: 'assets/interiors/hospital.jpg', w: 1024, h: 687, scale: 1.8, floorY: 578, minY: 92 },
+    art: [{ t: 'Harmony of Nature', cx: 270, bottom: 115 }, { t: 'Gold Droplets', cx: 400, bottom: 115 }] },
 ];
 
 function ArtInteriors() {
@@ -486,7 +449,12 @@ function ArtInteriors() {
         <div style={{ position: 'relative', marginTop: 28, border: `1px solid ${T.hair}` }}>
           {room.photo ?
             <svg viewBox={`0 0 ${room.photo.w} ${room.photo.h}`} style={{ display: 'block', width: '100%', height: 'auto' }} role="img" aria-label={`${room.label} illustrative mock-up`}>
+              <defs>
+                <linearGradient id="wallH" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stopColor="#efefef" /><stop offset="0.45" stopColor="#e6e6e6" /><stop offset="1" stopColor="#d2d2d2" /></linearGradient>
+                <linearGradient id="wallV" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#000" stopOpacity="0.11" /><stop offset="0.4" stopColor="#000" stopOpacity="0" /></linearGradient>
+              </defs>
               <image href={room.photo.src} x="0" y="0" width={room.photo.w} height={room.photo.h} />
+              {room.photo.patch && <g><rect x={room.photo.patch.x} y={room.photo.patch.y} width={room.photo.patch.w} height={room.photo.patch.h} fill="url(#wallH)" /><rect x={room.photo.patch.x} y={room.photo.patch.y} width={room.photo.patch.w} height={room.photo.patch.h} fill="url(#wallV)" /></g>}
               {room.art.map((p) => <RoomArt key={p.t} title={p.t} cx={p.cx} bottom={p.bottom} scale={room.photo.scale} floorY={room.photo.floorY} minY={room.photo.minY} />)}
             </svg>
             :
