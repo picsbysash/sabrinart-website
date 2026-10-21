@@ -5,8 +5,11 @@ function StudioPage({ section }) {
   const ANCHOR = { moment: 'the-moment-it-began' };
   useEffect(() => {
     if (!section) return;
-    const el = document.getElementById(ANCHOR[section] || section);
-    if (el) requestAnimationFrame(() => el.scrollIntoView({ behavior: 'instant', block: 'start' }));
+    const go = () => { const el = document.getElementById(ANCHOR[section] || section); if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' }); };
+    requestAnimationFrame(go);
+    // photos above the section load later and shift the layout, so align again
+    const t1 = setTimeout(go, 500), t2 = setTimeout(go, 1500);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [section]);
 
   const img = { display: 'block', width: '100%', height: 'auto' };
