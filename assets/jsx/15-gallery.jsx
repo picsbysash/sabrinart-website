@@ -510,8 +510,15 @@ const THEMES = [
 
 function CollectionDetailPage({ tag }) {
   const key = (tag || '').toLowerCase();
-  const meta = COLLECTIONS_V2.find((c) => c.tag.toLowerCase() === key);
-  const works = ['new', 'available', 'acquired', 'private'].includes(key) ? worksForCollection(key) : null;
+  const onSaleWorks = WORKS_CATALOG.filter((w) => w.status === 'ON SALE');
+  const onSalePrices = onSaleWorks.map((w) => parseInt(String(w.price).replace(/[^0-9]/g, ''), 10)).filter((n) => n);
+  const ON_SALE_META = { n: '00', tag: 'On Sale', title: 'On Sale',
+    body: 'Original works currently on sale. Each piece shows its full details, size, medium, year and price, ready to add to your cart or enquire about.',
+    count: onSaleWorks.length, status: 'ON SALE',
+    range: onSalePrices.length ? `$${Math.min(...onSalePrices).toLocaleString('en-US')} to $${Math.max(...onSalePrices).toLocaleString('en-US')} AUD` : null,
+    palette: [T.gold, T.goldRich, T.terracotta] };
+  const meta = key === 'on-sale' ? ON_SALE_META : COLLECTIONS_V2.find((c) => c.tag.toLowerCase() === key);
+  const works = key === 'on-sale' ? onSaleWorks : (['new', 'available', 'acquired', 'private'].includes(key) ? worksForCollection(key) : null);
 
   // Unknown tag → bounce back to the overview.
   if (!meta) {
@@ -544,7 +551,7 @@ function CollectionDetailPage({ tag }) {
               }} />
             )}
           </div>
-          <Eyebrow style={{ margin: 0, marginBottom: 14 }}>{meta.n} · {meta.tag} Collection</Eyebrow>
+          <Eyebrow style={{ margin: 0, marginBottom: 14 }}>{key === 'on-sale' ? 'Works on sale' : `${meta.n} · ${meta.tag} Collection`}</Eyebrow>
           <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 'clamp(32px,5vw,80px)', alignItems: 'end' }} className="cd-head">
             <h1 style={{
               fontFamily: T.display, fontStyle: 'normal', fontWeight: 600, lineHeight: 0.94,

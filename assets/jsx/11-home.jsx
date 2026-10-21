@@ -405,77 +405,35 @@ function HomePageV2() {
           {/* Centered intro */}
           <ScrollReveal>
             <div style={{ textAlign: 'center', maxWidth: 860, margin: '0 auto' }}>
-              <Eyebrow style={{ display: 'inline-block' }}>01 · Available now, originals you can take home</Eyebrow>
+              <Eyebrow style={{ display: 'inline-block' }}>01 · Originals you can take home</Eyebrow>
               <h2 style={{
                 fontFamily: T.display, fontStyle: 'italic', fontWeight: 500,
                 fontSize: 'clamp(48px, 6vw, 96px)', lineHeight: 1.0,
                 color: T.navy, margin: '24px 0 0', letterSpacing: '-0.022em',
                 textWrap: 'balance'
-              }}>Available Works
+              }}>On Sale
 
               </h2>
             </div>
           </ScrollReveal>
 
-          {/* Editorial masonry, 3 columns, each an independent stack */}
+          {/* On Sale grid, ON SALE works only, 3 per row. First row: SMILE | PASSION AND FIRE | GOLDEN PATH */}
           <style>{`
-            .new-collection-grid {
-              display: grid;
-              grid-template-columns: repeat(3, 1fr);
-              gap: 24px;
-              margin-top: 32px;
-              align-items: start;
-            }
-            .nc-col {
-              display: flex;
-              flex-direction: column;
-              gap: 24px;
-            }
-            @media (max-width: 960px) {
-              .new-collection-grid { grid-template-columns: repeat(2, 1fr); }
-              .nc-col--right { grid-column: span 2; flex-direction: row; }
-              .nc-col--right > * { flex: 1; }
-            }
-            @media (max-width: 640px) {
-              .new-collection-grid { grid-template-columns: 1fr; gap: 32px; }
-              .nc-col--right { grid-column: auto; flex-direction: column; }
-            }
+            .on-sale-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 24px; margin-top: 40px; align-items: start; }
+            @media (max-width: 960px) { .on-sale-grid { grid-template-columns: repeat(2, 1fr); } }
+            @media (max-width: 560px) { .on-sale-grid { grid-template-columns: 1fr; gap: 32px; } }
           `}</style>
-          <div className="new-collection-grid">
-            {/* COL 1, dominant tall + square */}
-            <div className="nc-col nc-col--left">
-              <ScrollReveal>
-                <HoverArtCard title="Turquoise Beach" price="$630" size="12 × 12 in" year="2021" status="AVAILABLE" ratio="3/4" src={ART.turquoiseBeach} />
+          <div className="on-sale-grid">
+            {WORKS_CATALOG.filter((w) => w.status === 'ON SALE' && w.src).slice(0, 9).map((w, i) =>
+              <ScrollReveal key={w.t} delay={(i % 3) * 80}>
+                <HoverArtCard title={w.t} price={w.price} size={w.sizeIn} year={w.year} status="ON SALE" ratio="3/4" src={w.src} />
               </ScrollReveal>
-              <ScrollReveal delay={80}>
-                <HoverArtCard title="Gold Droplets" price="$620" size="18 × 18 in" year="2019" status="AVAILABLE" ratio="3/4" src={ART.goldDroplets} />
-              </ScrollReveal>
-            </div>
-
-            {/* COL 2, square + tall */}
-            <div className="nc-col nc-col--center">
-              <ScrollReveal delay={120}>
-                <HoverArtCard title="Butterfly" price="$560" size="12 × 12 in" year="2024" status="AVAILABLE" ratio="3/4" src={ART.butterfly} />
-              </ScrollReveal>
-              <ScrollReveal delay={200}>
-                <HoverArtCard title="Aboriginal Sunset" price="$520" size="12 × 12 in" year="2026" status="AVAILABLE" ratio="3/4" src={ART.aboriginalSunset} />
-              </ScrollReveal>
-            </div>
-
-            {/* COL 3, square + tall (mirrors col 2 for balanced heights) */}
-            <div className="nc-col nc-col--right">
-              <ScrollReveal delay={240}>
-                <HoverArtCard title="Summer" price="$470" size="10 × 10 in" year="2024" status="AVAILABLE" ratio="3/4" src={ART.summer} />
-              </ScrollReveal>
-              <ScrollReveal delay={320}>
-                <HoverArtCard title="Autumn" price="$470" size="10 × 10 in" year="2024" status="AVAILABLE" ratio="3/4" src={ART.autumn} />
-              </ScrollReveal>
-            </div>
+            )}
           </div>
 
           {/* CTA centered below the grid */}
           <div style={{ textAlign: 'center', marginTop: 72 }}>
-            <a href="#/gallery/available" style={{
+            <a href="#/gallery/on-sale" style={{
               display: 'inline-flex', alignItems: 'center', gap: 10,
               padding: '12px 24px',
               background: T.navy, color: T.cream,
@@ -492,7 +450,7 @@ function HomePageV2() {
               e.currentTarget.style.background = T.navy;
               e.currentTarget.style.borderColor = T.navy;
             }}>
-              See the available works
+              View all works on sale
               <span style={{ fontFamily: T.serif, fontStyle: 'italic', fontSize: 18, letterSpacing: 0 }}>→</span>
             </a>
           </div>
