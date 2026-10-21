@@ -7,6 +7,8 @@ window.saCart = {
   add(slugs) { const cur = this.get(); const next = cur.concat([].concat(slugs).filter((x) => cur.indexOf(x) < 0)); this.set(next); },
   remove(slug) { this.set(this.get().filter((x) => x !== slug)); },
 };
+// Copies left of each limited edition (edit by hand when a copy sells, until checkout is connected).
+const EDITION_LEFT = { 'green-orchid': 10, 'blue-lotus': 10 };
 const PAIRS = { 'green-orchid': { other: 'blue-lotus', word: 'blue' }, 'blue-lotus': { other: 'green-orchid', word: 'green' } };
 
 function CartPage() {
@@ -112,7 +114,7 @@ function ArtworkPage({ slug }) {
               <div style={row}><span style={k}>Year</span><span style={v}>{w.year}</span></div>
               <div style={row}><span style={k}>Medium</span><span style={v}>{w.medium}</span></div>
               <div style={row}><span style={k}>Size</span><span style={v}>{w.sizeCm}</span></div>
-              {edition && <div style={row}><span style={k}>Edition</span><span style={v}>Limited edition of 10</span></div>}
+              {edition && <div style={row}><span style={k}>Edition</span><span style={v}>Limited edition of 10 · {EDITION_LEFT[w.slug]} of 10 available</span></div>}
               {onSale && w.price && <div style={row}><span style={k}>Price</span><span style={{ ...v, fontSize: 24, color: T.gold, fontStyle: 'normal' }}>AUD {w.price}</span></div>}
             </div>
 
