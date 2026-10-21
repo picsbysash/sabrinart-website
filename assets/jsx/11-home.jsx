@@ -356,6 +356,154 @@ function StatIcon({ kind, color = '#b8852a', size = 42, style }) {
   document.head.appendChild(s);
 })();
 
+// ---------------------------------------------------------------------------
+// ART IN INTERIORS, illustrative room mock-ups. Everything is drawn in
+// centimetres (1 SVG unit = 1 cm), so each painting is scaled from its real size.
+// Wall height 270 cm, floor line at y = 270. Painting shape comes from the photo.
+// ---------------------------------------------------------------------------
+const FLOOR_Y = 270;
+const FURN = '#c3c7d0';
+const FURN_DARK = '#9aa0ac';
+
+function parseCm(s) {
+  const m = String(s || '').match(/([\d.]+)\s*×\s*([\d.]+)/);
+  return m ? [parseFloat(m[1]), parseFloat(m[2])] : [40, 40];
+}
+
+function RoomArt({ title, cx, bottom }) {
+  const work = WORKS_CATALOG.find((w) => w.t === title);
+  const [ratio, setRatio] = useState(null);
+  useEffect(() => {
+    if (!work || !work.src) return;
+    const im = new Image();
+    im.onload = () => setRatio(im.naturalWidth / im.naturalHeight);
+    im.src = work.src;
+  }, [work && work.src]);
+  if (!work || !work.src) return null;
+  const [a, b] = parseCm(work.sizeCm);
+  const long = Math.max(a, b);
+  const r = ratio || a / b;
+  const w = r >= 1 ? long : long * r;
+  const h = r >= 1 ? long / r : long;
+  const bot = Math.min(bottom, 255 - h);
+  const x = cx - w / 2;
+  const y = FLOOR_Y - bot - h;
+  return (
+    <g>
+      <rect x={x + 1.5} y={y + 2.5} width={w} height={h} fill="rgba(20,29,54,.22)" />
+      <image href={work.src} x={x} y={y} width={w} height={h} preserveAspectRatio="none" />
+      <rect x={x} y={y} width={w} height={h} fill="none" stroke="rgba(0,0,0,.18)" strokeWidth="0.6" />
+    </g>
+  );
+}
+
+// helpers: rect from the floor up (x, width, from-height, to-height)
+const fr = (x, w, h0, h1, fill, key, rx) =>
+  <rect key={key} x={x} y={FLOOR_Y - h1} width={w} height={h1 - h0} fill={fill} rx={rx || 0} />;
+
+const ROOMS = [
+  { id: 'living', label: 'Living room',
+    art: [{ t: 'Smile', cx: 312, bottom: 118 }],
+    furniture: () => [
+      fr(165, 295, 0, 8, FURN_DARK, 'l1'),
+      fr(165, 295, 8, 45, FURN, 'l2', 4),
+      fr(175, 275, 45, 90, FURN, 'l3', 6),
+      fr(165, 22, 8, 68, FURN_DARK, 'l4', 5),
+      fr(438, 22, 8, 68, FURN_DARK, 'l5', 5),
+      fr(500, 35, 0, 55, FURN, 'l6', 3), fr(512, 11, 55, 62, FURN_DARK, 'l7'),
+      fr(75, 40, 0, 38, FURN_DARK, 'l8', 4), fr(85, 20, 38, 130, '#8fa391', 'l9', 10),
+    ] },
+  { id: 'office', label: 'Office',
+    art: [{ t: 'Echoes in Red', cx: 300, bottom: 125 }],
+    furniture: () => [
+      fr(130, 290, 70, 74, FURN_DARK, 'o1'), fr(136, 5, 0, 70, FURN_DARK, 'o2'), fr(409, 5, 0, 70, FURN_DARK, 'o3'),
+      fr(250, 50, 74, 114, '#2f3441', 'o4', 2), fr(270, 10, 74, 84, FURN_DARK, 'o5'),
+      fr(440, 55, 0, 46, FURN, 'o6', 5), fr(446, 43, 46, 100, FURN, 'o7', 6),
+      fr(60, 55, 0, 190, FURN, 'o8', 2), fr(62, 51, 95, 98, FURN_DARK, 'o9'), fr(62, 51, 145, 148, FURN_DARK, 'o10'),
+    ] },
+  { id: 'meeting', label: 'Meeting room',
+    art: [{ t: 'Passion and Fire', cx: 312, bottom: 82 }],
+    furniture: () => {
+      const out = [fr(95, 435, 70, 76, FURN_DARK, 'm1'), fr(300, 8, 0, 70, FURN_DARK, 'm2')];
+      [130, 215, 300, 385, 470].forEach((x, i) => {
+        out.push(fr(x - 20, 40, 0, 44, FURN, 'mc' + i, 5), fr(x - 18, 36, 44, 92, FURN, 'mb' + i, 6));
+      });
+      return out;
+    } },
+  { id: 'reception', label: 'Reception',
+    art: [{ t: 'Lights and Shadows', cx: 312, bottom: 150 }],
+    furniture: () => [
+      fr(170, 285, 0, 108, FURN, 'r1', 3), fr(160, 305, 108, 114, FURN_DARK, 'r2'),
+      fr(240, 30, 114, 138, '#2f3441', 'r3', 2),
+      fr(70, 40, 0, 40, FURN_DARK, 'r4', 4), fr(82, 16, 40, 140, '#8fa391', 'r5', 8),
+      fr(510, 40, 0, 40, FURN_DARK, 'r6', 4), fr(522, 16, 40, 140, '#8fa391', 'r7', 8),
+    ] },
+  { id: 'waiting', label: 'Waiting room',
+    art: [{ t: 'Green Orchid', cx: 262, bottom: 130 }, { t: 'Blue Lotus', cx: 362, bottom: 130 }],
+    furniture: () => {
+      const out = [];
+      [150, 230, 310, 390].forEach((x, i) => {
+        out.push(fr(x, 72, 0, 8, FURN_DARK, 'wl' + i), fr(x, 72, 8, 44, FURN, 'ws' + i, 5), fr(x + 4, 64, 44, 88, FURN, 'wb' + i, 6));
+      });
+      out.push(fr(500, 50, 0, 50, FURN, 'wt', 3), fr(75, 40, 0, 38, FURN_DARK, 'wp1', 4), fr(85, 20, 38, 120, '#8fa391', 'wp2', 9));
+      return out;
+    } },
+  { id: 'hospital', label: 'Hospital',
+    art: [{ t: 'Harmony of Nature', cx: 255, bottom: 125 }, { t: 'Gold Droplets', cx: 370, bottom: 125 }],
+    furniture: () => {
+      const out = [fr(0, 625, 0, 100, 'rgba(160,190,200,.35)', 'h0'), fr(0, 625, 98, 102, FURN_DARK, 'h1'),
+        fr(0, 625, 88, 93, FURN, 'h2'), fr(25, 100, 0, 205, '#dfe3e8', 'hd', 1), fr(112, 8, 100, 106, FURN_DARK, 'hk')];
+      [210, 300, 390, 480].forEach((x, i) => {
+        out.push(fr(x, 70, 0, 8, FURN_DARK, 'hl' + i), fr(x, 70, 8, 46, FURN, 'hs' + i, 5), fr(x + 4, 62, 46, 86, FURN, 'hb' + i, 6));
+      });
+      return out;
+    } },
+];
+
+function ArtInteriors() {
+  const [i, setI] = useState(0);
+  const room = ROOMS[i];
+  const captions = room.art.map((p) => WORKS_CATALOG.find((w) => w.t === p.t)).filter(Boolean);
+  return (
+    <section style={{ padding: 'clamp(40px, 5vh, 72px) clamp(24px, 5vw, 80px)', background: '#ffffff', borderTop: `1px solid ${T.hair}` }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center' }}>
+          <Eyebrow style={{ display: 'inline-block' }}>03 · Art in Interiors</Eyebrow>
+          <h2 style={{ fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(40px, 5vw, 80px)', lineHeight: 1.0, color: T.navy, margin: '20px 0 0', letterSpacing: '-0.022em' }}>Art in Interiors</h2>
+        </div>
+        <div role="tablist" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginTop: 32 }}>
+          {ROOMS.map((r, k) =>
+            <button key={r.id} role="tab" aria-selected={k === i} onClick={() => setI(k)} style={{
+              fontFamily: T.sans, fontSize: 11, fontWeight: 500, letterSpacing: 2, textTransform: 'uppercase', cursor: 'pointer',
+              padding: '10px 16px', border: `1px solid ${k === i ? T.navy : T.hairStrong}`,
+              background: k === i ? T.navy : '#ffffff', color: k === i ? '#ffffff' : T.navy,
+            }}>{r.label}</button>
+          )}
+        </div>
+        <div style={{ position: 'relative', marginTop: 28, border: `1px solid ${T.hair}` }}>
+          <svg viewBox="0 0 625 325" style={{ display: 'block', width: '100%', height: 'auto' }} role="img" aria-label={`${room.label} illustrative mock-up`}>
+            <rect x="0" y="0" width="625" height={FLOOR_Y} fill="#eef0f3" />
+            <rect x="0" y={FLOOR_Y} width="625" height="55" fill="#d8d1c6" />
+            <rect x="0" y={FLOOR_Y - 8} width="625" height="8" fill="#e4e6eb" />
+            {room.art.map((p) => <RoomArt key={p.t} title={p.t} cx={p.cx} bottom={p.bottom} />)}
+            {room.furniture()}
+            <g transform={`translate(20 ${FLOOR_Y + 28})`}>
+              <line x1="0" y1="0" x2="100" y2="0" stroke="#5a5e66" strokeWidth="1" />
+              <line x1="0" y1="-4" x2="0" y2="4" stroke="#5a5e66" strokeWidth="1" />
+              <line x1="100" y1="-4" x2="100" y2="4" stroke="#5a5e66" strokeWidth="1" />
+              <text x="50" y="-8" textAnchor="middle" fontSize="9" fill="#5a5e66" fontFamily="Inter, sans-serif">100 cm</text>
+            </g>
+          </svg>
+          <div style={{ position: 'absolute', right: 12, bottom: 10, fontFamily: T.mono, fontSize: 10, letterSpacing: 1.8, textTransform: 'uppercase', color: T.taupe, background: 'rgba(255,255,255,.9)', padding: '5px 9px' }}>Illustrative mock-up</div>
+        </div>
+        <div style={{ marginTop: 16, textAlign: 'center', fontFamily: T.sans, fontSize: 13, color: T.taupe, lineHeight: 1.7 }}>
+          {captions.map((w, k) => <span key={w.t}>{k > 0 ? '  ·  ' : ''}<a href="#/gallery/on-sale" style={{ color: T.navy }}>{w.t}</a> · {w.sizeCm}</span>)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HomePageV2() {
   const [palette, setPalette] = useState('all');
   const PALETTES = [
@@ -506,6 +654,8 @@ function HomePageV2() {
           </div>
         </div>
       </section>
+
+      <ArtInteriors />
 
       {/* ====== 4. TABBED STORY ====== */}
       <section style={{ padding: 'clamp(32px, 4vh, 56px) clamp(32px, 5vw, 80px)', position: 'relative', background: "rgb(243, 244, 246)" }}>
