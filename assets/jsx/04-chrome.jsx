@@ -97,8 +97,8 @@ function CartIcon({ light, count = 0 }) {
 
 }
 
-// Header nav items, the six page routes followed by the cart.
-const NAV_ITEMS = [...ROUTES, { id: 'cart', label: 'Cart', href: '#/cart' }];
+// Header nav items, the six page routes. The cart is reached via the bag icon.
+const NAV_ITEMS = ROUTES;
 const NAV_INK = '#000000';
 const HEADER_BG = '#FFFFFF';
 
