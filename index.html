@@ -20,6 +20,16 @@
   <div id="sa-splash"><div><div class="sa">SA</div><div class="wm">SABRINART</div></div></div>
   <div id="root"></div>
 
+  <!-- Static twins of the React forms so Netlify Forms can detect them (not visible) -->
+  <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+    <input name="bot-field"><input name="first-name"><input name="surname"><input name="email"><input name="phone">
+    <input name="heard-about"><textarea name="message"></textarea>
+  </form>
+  <form name="commission" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+    <input name="bot-field"><input name="name"><input name="email"><input name="phone"><input name="address">
+    <input name="preferred-size-cm"><input name="colours-style"><textarea name="description"></textarea><input name="budget">
+  </form>
+
   <script>window.__SA_ASSET_BASE = "";</script>
 
   <!-- React runtime + Babel (same bundle as the original design) -->
@@ -39,16 +49,16 @@
   <script type="text/babel" src="assets/jsx/08-video-reveal.jsx?v=20260607"></script>
   <script type="text/babel" src="assets/jsx/09-motion.jsx?v=20260607"></script>
   <script type="text/babel" src="assets/jsx/10-home-v1.jsx?v=20261021"></script>
-  <script type="text/babel" src="assets/jsx/11-home.jsx?v=20261025"></script>
+  <script type="text/babel" src="assets/jsx/11-home.jsx?v=20261026"></script>
   <script type="text/babel" src="assets/jsx/12-about.jsx?v=20260607"></script>
   <script type="text/babel" src="assets/jsx/13-studio.jsx?v=20261024"></script>
   <script type="text/babel" src="assets/jsx/14-gallery-v1.jsx?v=20260607"></script>
   <script type="text/babel" src="assets/jsx/15-gallery.jsx?v=20260607"></script>
   <script type="text/babel" src="assets/jsx/16-exhibitions.jsx?v=20260607"></script>
-  <script type="text/babel" src="assets/jsx/17-contact.jsx?v=20261021"></script>
+  <script type="text/babel" src="assets/jsx/17-contact.jsx?v=20261026"></script>
   <script type="text/babel" src="assets/jsx/18-artwork.jsx?v=20260607"></script>
-  <script type="text/babel" src="assets/jsx/20-info.jsx?v=20261022"></script>
-  <script type="text/babel" src="assets/jsx/19-app.jsx?v=20261024"></script>
+  <script type="text/babel" src="assets/jsx/20-info.jsx?v=20261026"></script>
+  <script type="text/babel" src="assets/jsx/19-app.jsx?v=20261026"></script>
 
   <script>
     (function () {
