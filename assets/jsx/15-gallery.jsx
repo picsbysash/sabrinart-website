@@ -179,7 +179,7 @@ function GalleryWorkCard({ w }) {
         <h4 style={{
           fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, fontSize: 24,
           color: T.navy, margin: 0, letterSpacing: '-0.01em',
-        }}><a href={`#/gallery/${w.slug}`}>{w.t}</a></h4>
+        }}><a href={`#/gallery/${w.slug}`} style={{ color: 'inherit', textDecoration: 'none' }}>{w.t}</a></h4>
         {w.short &&
           <p style={{ fontFamily: T.sans, fontSize: 14, fontWeight: 300, lineHeight: 1.55, color: T.taupe, margin: '8px 0 0' }}>{w.short}</p>
         }

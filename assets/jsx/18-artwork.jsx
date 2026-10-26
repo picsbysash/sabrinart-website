@@ -32,7 +32,7 @@ function CartPage() {
                 <div key={w.slug} style={{ display: 'grid', gridTemplateColumns: '110px 1fr auto', gap: 20, alignItems: 'center', padding: '18px 0', borderTop: `1px solid ${T.hair}` }}>
                   <a href={`#/gallery/${w.slug}`}><img src={w.src} alt={w.t} style={{ display: 'block', width: 110, height: 110, objectFit: 'contain', background: '#f6f7f9' }} /></a>
                   <div>
-                    <a href={`#/gallery/${w.slug}`} style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 24, color: T.navy }}>{w.t}</a>
+                    <a href={`#/gallery/${w.slug}`} style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 24, color: T.navy, textDecoration: 'none' }}>{w.t}</a>
                     <div style={{ marginTop: 6, fontFamily: T.mono, fontSize: 10, letterSpacing: 1.6, textTransform: 'uppercase', color: T.taupe }}>{w.year} · {w.sizeCm} · {w.medium}</div>
                   </div>
                   <div style={{ textAlign: 'right' }}>
