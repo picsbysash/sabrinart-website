@@ -311,6 +311,18 @@ function ArtInteriors() {
   );
 }
 
+// Home card that takes the shape of the painting itself (no empty mat above/below).
+function FitArtCard({ w }) {
+  const [r, setR] = useState(null);
+  useEffect(() => {
+    const im = new Image();
+    im.onload = () => setR(im.naturalWidth / im.naturalHeight);
+    im.src = w.src;
+  }, [w.src]);
+  const ratio = r ? String(Math.min(2.6, Math.max(0.6, r))) : '1 / 1';
+  return <HoverArtCard title={w.t} price={w.price} size={w.sizeCm} year={w.year} status="ON SALE" ratio={ratio} src={w.src} />;
+}
+
 function HomePageV2() {
   const [palette, setPalette] = useState('all');
   const PALETTES = [
@@ -387,14 +399,14 @@ function HomePageV2() {
 
           {/* On Sale grid, ON SALE works only, 3 per row. First row: SMILE | PASSION AND FIRE | GOLDEN PATH */}
           <style>{`
-            .on-sale-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 24px; margin-top: 40px; align-items: start; }
+            .on-sale-grid { align-items: start; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 24px; margin-top: 40px; align-items: start; }
             @media (max-width: 960px) { .on-sale-grid { grid-template-columns: repeat(2, 1fr); } }
             @media (max-width: 560px) { .on-sale-grid { grid-template-columns: 1fr; gap: 32px; } }
           `}</style>
           <div className="on-sale-grid">
             {WORKS_CATALOG.filter((w) => w.status === 'ON SALE' && w.src).slice(0, 9).map((w, i) =>
               <ScrollReveal key={w.t} delay={(i % 3) * 80}>
-                <HoverArtCard title={w.t} price={w.price} size={w.sizeCm} year={w.year} status="ON SALE" ratio="3/4" src={w.src} />
+                <FitArtCard w={w} />
               </ScrollReveal>
             )}
           </div>
