@@ -23,7 +23,7 @@ const EXHIBITIONS = [
   note: 'Free entry · Sat 11 am–10:30 pm, Sun 11 am–8:30 pm',
   link: { label: 'italianfesta.com.au', href: 'https://italianfesta.com.au' },
   photos: 17,
-  video: 'https://drive.google.com/file/d/1hTK0rmjoET1tP87ukabOLilDMg7wVumo/view'
+  video: 'assets/exhibitions/italian-festa-2026.mp4'
 },
 {
   slug: 'the-hallway-edition-2025',
@@ -47,7 +47,7 @@ const EXHIBITIONS = [
   title: 'My Journey with Nature: Second Exhibition',
   dates: 'Sunday 24 November 2019 · 5–8 pm',
   venue: 'Da Noi Restaurant, 95 Toorak Rd, South Yarra',
-  photos: 13,
+  photos: 14,
   video: null
 },
 {
@@ -95,7 +95,7 @@ function ExhibitionCard({ e, i }) {
           {e.note && <div style={{ fontFamily: T.sans, fontSize: 13, fontWeight: 300, color: T.taupe, marginTop: 4, lineHeight: 1.6 }}>{e.note}</div>}
           <div style={{ marginTop: 24, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
             {hasPhotos && <a href={`#/exhibitions/${e.slug}`} style={exhLinkStyle}>View Exhibition Photos →</a>}
-            {e.video && <a href={e.video} target="_blank" rel="noopener noreferrer" style={exhLinkStyle}>Watch Video →</a>}
+            {e.video && <a href={`#/exhibitions/${e.slug}`} style={exhLinkStyle}>Watch Video →</a>}
             {e.link && <a href={e.link.href} target="_blank" rel="noopener noreferrer" style={exhLinkStyle}>{e.link.label} →</a>}
           </div>
         </div>
@@ -168,7 +168,10 @@ function ExhibitionGalleryPage({ slug }) {
           <div style={{ fontFamily: T.sans, fontSize: 15, color: T.ink, marginTop: 16 }}>{e.dates}</div>
           <div style={{ fontFamily: T.sans, fontSize: 14, fontWeight: 300, color: T.taupe, marginTop: 4 }}>{e.venue}</div>
           {e.video &&
-          <div style={{ marginTop: 20 }}><a href={e.video} target="_blank" rel="noopener noreferrer" style={exhLinkStyle}>Watch Video →</a></div>}
+          <div style={{ marginTop: 32, maxWidth: 560 }}>
+            <video src={e.video} controls playsInline preload="metadata" poster={exhImg(e, 1)}
+              style={{ width: '100%', maxHeight: '80vh', display: 'block', background: '#f6f4f0' }} />
+          </div>}
           <div className="exg-grid" style={{ marginTop: 40 }}>
             {nums.map((n) =>
             <button key={n} onClick={() => setOpen(n)} aria-label={`Open photo ${n}`}>
