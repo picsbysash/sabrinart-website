@@ -79,8 +79,7 @@ function useSeo(path) {
     const w = (route === 'gallery' || route === 'artwork') && sub ? WORKS_CATALOG.find((x) => x.slug === sub) : null;
     if (w) {
       const txt = (window.WORK_TEXT && window.WORK_TEXT[w.t] && window.WORK_TEXT[w.t].short) || '';
-      const st = w.status === 'ON SALE' ? `ON SALE, AUD ${w.price}.` : `${w.status}.`;
-      saSetMeta(`${w.t} · ${w.medium} · SabrinArt Collection`, `${txt} ${w.year}, ${w.sizeCm}, ${w.medium}. ${st}`.trim(), w.src);
+      saSetMeta(`${w.t} · ${w.medium} · SabrinArt Collection`, `${txt} ${w.year}, ${w.sizeCm}, ${w.medium}.`.trim(), w.src);
     } else {
       const p = SA_PAGES[route] || SA_PAGES.home;
       saSetMeta(p[0], p[1], 'assets/artworks/wow.jpg');
@@ -90,6 +89,8 @@ function useSeo(path) {
 
 function AppV2() {
   const path = useRouteV2();
+  const [, bumpData] = useState(0);
+  useEffect(() => { const f = () => bumpData((n) => n + 1); window.addEventListener('sa-data', f); return () => window.removeEventListener('sa-data', f); }, []);
   useSeo(path);
   const parts = path.replace(/\/+$/, '').split('/');
   const route = parts[1] || 'home';

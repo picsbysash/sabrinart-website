@@ -62,7 +62,7 @@ const EXHIBITIONS = [
 
 window.EXHIBITIONS = EXHIBITIONS;
 
-const exhImg = (e, n) => `assets/exhibitions/${e.slug}-${String(n).padStart(2, "0")}.jpg`;
+const exhImg = (e, n) => `assets/exhibitions/${e.slug}-${String(n).padStart(2, "0")}.webp`;
 
 const exhLinkStyle = {
   fontFamily: T.sans, fontSize: 11, fontWeight: 500, letterSpacing: 2.2, textTransform: 'uppercase',
