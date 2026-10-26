@@ -173,7 +173,7 @@ function GalleryWorkCard({ w }) {
   return (
     <article style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <a href={`#/gallery/${w.slug}`} aria-label={w.t} style={{ display: 'block' }}>
-        <ImgPH label={w.t} src={w.src || undefined} ratio="1 / 1" badge={w.status} />
+        <ImgPH label={w.t} alt={`${w.t}, ${w.medium}`} src={w.src || undefined} ratio="1 / 1" badge={w.status} />
       </a>
       <div>
         <h4 style={{

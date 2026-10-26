@@ -30,7 +30,7 @@ function CartPage() {
             <React.Fragment>
               {items.map((w) =>
                 <div key={w.slug} style={{ display: 'grid', gridTemplateColumns: '110px 1fr auto', gap: 20, alignItems: 'center', padding: '18px 0', borderTop: `1px solid ${T.hair}` }}>
-                  <a href={`#/gallery/${w.slug}`}><img src={w.src} alt={w.t} style={{ display: 'block', width: 110, height: 110, objectFit: 'contain', background: '#f6f7f9' }} /></a>
+                  <a href={`#/gallery/${w.slug}`}><img src={w.src} alt={`${w.t}, ${w.medium}`} style={{ display: 'block', width: 110, height: 110, objectFit: 'contain', background: '#f6f7f9' }} /></a>
                   <div>
                     <a href={`#/gallery/${w.slug}`} style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 24, color: T.navy, textDecoration: 'none' }}>{w.t}</a>
                     <div style={{ marginTop: 6, fontFamily: T.mono, fontSize: 10, letterSpacing: 1.6, textTransform: 'uppercase', color: T.taupe }}>{w.year} · {w.sizeCm} · {w.medium}</div>
@@ -97,7 +97,7 @@ function ArtworkPage({ slug }) {
               display: 'block', width: '100%', padding: 'clamp(12px, 2vw, 28px)', border: `1px solid ${T.hair}`,
               background: '#f6f7f9', cursor: 'zoom-in',
             }}>
-              <img src={w.src} alt={w.t} style={{ display: 'block', width: '100%', height: 'auto', maxHeight: '78vh', objectFit: 'contain' }} />
+              <img src={w.src} alt={`${w.t}, ${w.medium}`} style={{ display: 'block', width: '100%', height: 'auto', maxHeight: '78vh', objectFit: 'contain' }} />
             </button>
             <div style={{ marginTop: 10, fontFamily: T.mono, fontSize: 10, letterSpacing: 2, color: T.taupeSoft, textTransform: 'uppercase', textAlign: 'center' }}>Click to zoom</div>
           </div>
@@ -166,7 +166,7 @@ function ArtworkPage({ slug }) {
           position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(10,14,28,.92)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, cursor: 'zoom-out',
         }}>
-          <img src={w.src} alt={w.t} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+          <img src={w.src} alt={`${w.t}, ${w.medium}`} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
           <button onClick={() => setZoom(false)} aria-label="Close" style={{
             position: 'absolute', top: 16, right: 20, background: 'transparent', border: 'none', color: '#fff', fontSize: 34, cursor: 'pointer',
           }}>×</button>
