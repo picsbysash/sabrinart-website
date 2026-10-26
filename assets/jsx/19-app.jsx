@@ -55,9 +55,11 @@ function AppV2() {
     case 'exhibitions': return sub ? <ExhibitionGalleryPage slug={sub} /> : <ExhibitionsPage />;
     case 'contact':     return <ContactPage />;
     case 'artwork':     return WORKS_CATALOG.some((w) => w.slug === sub) ? <ArtworkPage slug={sub} /> : <GalleryPageV2 />;
+    case 'commissions': return <CommissionsPage />;
+    case 'returns':     return <InfoPage topic="shipping" />;
     case 'shipping':
-    case 'returns':
-    case 'commissions': return <InfoPage topic={route} />;
+    case 'terms':
+    case 'privacy':     return <InfoPage topic={route} />;
     case 'home':
     default:            return <HomePageV2 />;
   }

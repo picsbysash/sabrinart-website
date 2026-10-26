@@ -4,36 +4,29 @@
 
 const INFO_PAGES = {
   shipping: {
-    label: '06 Shipping',
-    eyebrow: 'Shipping',
-    title: <>Shipping <span style={{ fontStyle: 'italic', fontWeight: 500, color: T.gold }}>your artwork</span>.</>,
+    label: 'Shipping & Returns',
+    eyebrow: 'Shipping & Returns',
+    title: <>Shipping <span style={{ fontStyle: 'italic', fontWeight: 500, color: T.gold }}>&amp; returns</span>.</>,
     body: [
     'Every original painting is signed by Sabrina Goria and shipped from her studio in Melbourne, Australia.',
-    'Shipping is calculated at checkout, and payment is processed securely by Stripe.',
-    'For delivery questions or a shipping quote to your location, please get in touch, Sabrina replies personally to every message, usually within a few days.'],
+    'For delivery questions or a shipping quote to your location, please get in touch. Sabrina replies personally to every message, usually within a few days.',
+    'If you have a question about returning an artwork, please contact Sabrina directly with your name and the title of the work.'],
 
-    cta: 'Ask about shipping'
+    cta: 'Contact Sabrina'
   },
-  returns: {
-    label: '06 Returns',
-    eyebrow: 'Returns',
-    title: <>Returns <span style={{ fontStyle: 'italic', fontWeight: 500, color: T.gold }}>&amp; questions</span>.</>,
-    body: [
-    'Each work is an original, signed painting sent directly from Sabrina’s Melbourne studio.',
-    'If you have a question about returning an artwork, please contact Sabrina directly with your name and the title of the work, and she will reply personally from the studio, usually within a few days.'],
-
-    cta: 'Contact about a return'
+  terms: {
+    label: 'Terms of Sale',
+    eyebrow: 'Terms of Sale',
+    title: <>Terms <span style={{ fontStyle: 'italic', fontWeight: 500, color: T.gold }}>of sale</span>.</>,
+    body: ['This page is being prepared. For any question about a purchase, please contact Sabrina.'],
+    cta: 'Contact Sabrina'
   },
-  commissions: {
-    label: '06 Commissions',
-    eyebrow: 'Commissions',
-    title: <>Commission <span style={{ fontStyle: 'italic', fontWeight: 500, color: T.gold }}>a painting</span>.</>,
-    body: [
-    'Sabrina welcomes commission enquiries for original contemporary abstract works for modern interiors.',
-    'To start a conversation, send a message through the contact form and choose “Commission enquiry” as the subject. Tell Sabrina a little about your space, the colours you love and the size you have in mind.',
-    'Designers and curators are welcome to get in touch about trade enquiries in the same way.'],
-
-    cta: 'Start a commission enquiry'
+  privacy: {
+    label: 'Privacy Policy',
+    eyebrow: 'Privacy Policy',
+    title: <>Privacy <span style={{ fontStyle: 'italic', fontWeight: 500, color: T.gold }}>policy</span>.</>,
+    body: ['This page is being prepared. For any question about your personal information, please contact Sabrina.'],
+    cta: 'Contact Sabrina'
   }
 };
 

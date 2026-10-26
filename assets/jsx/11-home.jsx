@@ -49,6 +49,7 @@ function FooterV2({ dark = false }) {
 
         <div className="sa-footer-base">
           <span>© 2026 SabrinArt Collection</span>
+          <span><a href="#/terms" style={{ color: "inherit" }}>Terms of Sale</a> · <a href="#/privacy" style={{ color: "inherit" }}>Privacy Policy</a></span>
           <span>Melbourne, Australia</span>
         </div>
       </div>
