@@ -37,7 +37,9 @@
     <input name="preferred-size-cm"><input name="colours-style"><textarea name="description"></textarea><input name="budget">
   </form>
 
-  <script>window.__SA_ASSET_BASE = "";</script>
+  <script>window.__SA_ASSET_BASE = "";
+  // Published Google Sheets (CSV) that feed artworks and exhibitions. See the editing guide.
+  window.SA_SHEETS = { artworks: "", exhibitions: "" };</script>
 
   <!-- React runtime + Babel (same bundle as the original design) -->
   <script src="assets/vendor/react.js?v=20260607"></script>
@@ -61,11 +63,12 @@
   <script type="text/babel" src="assets/jsx/13-studio.jsx?v=20261024"></script>
   <script type="text/babel" src="assets/jsx/14-gallery-v1.jsx?v=20260607"></script>
   <script type="text/babel" src="assets/jsx/15-gallery.jsx?v=20261028"></script>
-  <script type="text/babel" src="assets/jsx/16-exhibitions.jsx?v=20260607"></script>
+  <script type="text/babel" src="assets/jsx/16-exhibitions.jsx?v=20261029"></script>
   <script type="text/babel" src="assets/jsx/17-contact.jsx?v=20261026"></script>
   <script type="text/babel" src="assets/jsx/18-artwork.jsx?v=20261028"></script>
   <script type="text/babel" src="assets/jsx/20-info.jsx?v=20261027"></script>
-  <script type="text/babel" src="assets/jsx/19-app.jsx?v=20261026"></script>
+  <script type="text/babel" src="assets/jsx/21-sheet-data.jsx?v=20261029"></script>
+  <script type="text/babel" src="assets/jsx/19-app.jsx?v=20261029"></script>
 
   <script>
     (function () {
