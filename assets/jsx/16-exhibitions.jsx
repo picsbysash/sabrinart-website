@@ -1,241 +1,195 @@
-// Exhibitions, full hi-fi page following doc section 7.
+// Exhibitions (brief section 7): newest first. Each show: title, dates, venue, one main photo,
+// "View Exhibition Photos →" (its own gallery page) and "Watch Video →" where a video exists.
+// To add or edit a show, edit this list only. Photos live in assets/exhibitions/ as <slug>-01.jpg, <slug>-02.jpg ... (01 = main image).
 
 const EXHIBITIONS = [
 {
-  y: '2025',
-  t: 'Solo Exhibition',
-  v: 'The Alley Edition Cafe',
-  l: 'Collins Street, Melbourne',
-  dates: null,
-  body: "Sabrina's most recent solo exhibition, bringing colour and movement to the heart of Melbourne.",
-  feature: true,
-  img: null
+  slug: 'al-naturale-cafe',
+  status: 'Now showing',
+  title: 'Al Naturale Café',
+  dates: '20 Sep – 20 Nov 2026',
+  venue: '6 Acland Street, St Kilda',
+  note: '5 paintings · opening details to come',
+  photos: 0,
+  video: null
 },
 {
-  y: '2024',
-  t: 'Layers of Happiness',
-  v: 'Space2b',
-  l: 'St Kilda',
-  dates: '1 October to 1 November 2024',
-  body: "A solo exhibition tracing Sabrina's evolution from 2011 to 2024, layers of paint as layers of memory, growth and joy.",
-  quote: "Each layer of paint was a layer of memory, growth and joy.",
-  img: 'assets/photos/exhib-reddot.jpg'
+  slug: 'italian-festa-2026',
+  status: 'Recently',
+  title: 'Art & Design Expo: Italian Festa',
+  sub: 'Transformation in Colour',
+  dates: '17–18 Oct 2026',
+  venue: 'First Floor, Royal Exhibition Building, 9 Nicholson St, Carlton',
+  note: 'Free entry · Sat 11 am–10:30 pm, Sun 11 am–8:30 pm',
+  link: { label: 'italianfesta.com.au', href: 'https://italianfesta.com.au' },
+  photos: 17,
+  video: 'https://drive.google.com/file/d/1hTK0rmjoET1tP87ukabOLilDMg7wVumo/view'
 },
 {
-  y: '2024',
-  t: 'Solo Exhibition',
-  v: 'Vespa Rossa Restaurant',
-  l: 'St Kilda',
-  dates: null,
-  body: "A solo showing of vibrant, texture-rich works in one of St Kilda's much-loved Italian dining rooms.",
-  img: null
+  slug: 'the-hallway-edition-2025',
+  title: 'The Hallway Edition',
+  sub: 'Solo exhibition',
+  dates: '2025',
+  venue: 'Café, Collins Street, Melbourne',
+  photos: 0,
+  video: null
 },
 {
-  y: '2019',
-  t: 'My Journey with Nature',
-  v: 'Da Noi Restaurant',
-  l: '95 Toorak Road, South Yarra',
-  dates: '15 September to 15 November 2019',
-  body: "Sabrina's professional debut as a visual artist. A first chapter, exploring nature, colour, and the beginning of a creative life in Australia.",
-  quote: "A first chapter, exploring nature, colour, and the beginning of a creative life in Australia.",
-  img: 'assets/photos/da-noi.jpg'
+  slug: 'layers-of-happiness-2024',
+  title: 'Layers of Happiness',
+  dates: '1 October – 2 November 2024',
+  venue: 'ArtSpace @ Space2b, 144 Chapel Street, St Kilda',
+  photos: 14,
+  video: null
+},
+{
+  slug: 'my-journey-with-nature-second-exhibition-2019',
+  title: 'My Journey with Nature: Second Exhibition',
+  dates: 'Sunday 24 November 2019 · 5–8 pm',
+  venue: 'Da Noi Restaurant, 95 Toorak Rd, South Yarra',
+  photos: 13,
+  video: null
+},
+{
+  slug: 'my-journey-with-nature-2019',
+  title: 'My Journey with Nature',
+  dates: '15 Sep – 15 Nov 2019',
+  venue: 'Da Noi Restaurant, 95 Toorak Rd, South Yarra',
+  note: 'Opening Sunday 15 September, 4–7 pm',
+  photos: 7,
+  video: null
 }];
 
+window.EXHIBITIONS = EXHIBITIONS;
+
+const exhImg = (e, n) => `assets/exhibitions/${e.slug}-${String(n).padStart(2, "0")}.jpg`;
+
+const exhLinkStyle = {
+  fontFamily: T.sans, fontSize: 11, fontWeight: 500, letterSpacing: 2.2, textTransform: 'uppercase',
+  color: T.navy, textDecoration: 'none', borderBottom: `1px solid ${T.navy}`, paddingBottom: 3
+};
+
+function ExhibitionCard({ e, i }) {
+  const hasPhotos = e.photos > 0;
+  return (
+    <ScrollReveal>
+      <article className="exh-row">
+        <div className="exh-media">
+          {hasPhotos ?
+          <a href={`#/exhibitions/${e.slug}`} aria-label={`${e.title} photos`}>
+              <img src={exhImg(e, 1)} alt={`${e.title}, ${e.venue}`} loading={i < 2 ? 'eager' : 'lazy'}
+            style={{ width: '100%', height: 'auto', display: 'block', background: '#f6f4f0' }} />
+            </a> :
+          <div className="exh-nophoto">Photos coming soon</div>}
+        </div>
+        <div className="exh-text">
+          {e.status &&
+          <div style={{ fontFamily: T.mono, fontSize: 11, letterSpacing: 2.4, textTransform: 'uppercase', color: T.gold }}>{e.status}</div>}
+          <h2 style={{
+            fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, color: T.navy, margin: '12px 0 0',
+            fontSize: 'clamp(28px, 3vw, 44px)', lineHeight: 1.1, letterSpacing: '-0.015em'
+          }}>{e.title}</h2>
+          {e.sub && <div style={{ fontFamily: T.display, fontStyle: 'italic', fontSize: 'clamp(16px, 1.4vw, 20px)', color: T.taupe, marginTop: 6 }}>{e.sub}</div>}
+          <div style={{ fontFamily: T.sans, fontSize: 15, color: T.ink, marginTop: 18 }}>{e.dates}</div>
+          <div style={{ fontFamily: T.sans, fontSize: 14, fontWeight: 300, color: T.taupe, marginTop: 4, lineHeight: 1.6 }}>{e.venue}</div>
+          {e.note && <div style={{ fontFamily: T.sans, fontSize: 13, fontWeight: 300, color: T.taupe, marginTop: 4, lineHeight: 1.6 }}>{e.note}</div>}
+          <div style={{ marginTop: 24, display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+            {hasPhotos && <a href={`#/exhibitions/${e.slug}`} style={exhLinkStyle}>View Exhibition Photos →</a>}
+            {e.video && <a href={e.video} target="_blank" rel="noopener noreferrer" style={exhLinkStyle}>Watch Video →</a>}
+            {e.link && <a href={e.link.href} target="_blank" rel="noopener noreferrer" style={exhLinkStyle}>{e.link.label} →</a>}
+          </div>
+        </div>
+      </article>
+    </ScrollReveal>);
+}
 
 function ExhibitionsPage() {
   return (
-    <div style={{ background: T.paper, minHeight: '100vh', overflow: 'hidden' }} data-screen-label="05 Exhibitions">
+    <div style={{ background: '#ffffff', minHeight: '100vh' }} data-screen-label="Exhibitions">
       <NavBar active="exhibitions" />
-
-      {/* HERO, centered editorial composition (mirrors "Shop by palette" header) */}
-      <section style={{ padding: 'clamp(40px, 5vh, 68px) clamp(32px, 5vw, 80px) 0', position: 'relative' }}>
-        <div style={{ maxWidth: 1320, margin: '0 auto' }}>
-          <div style={{
-            display: 'flex', flexDirection: 'column', alignItems: 'center',
-            textAlign: 'center', gap: 'clamp(16px, 2vh, 24px)'
-          }}>
-            <ScrollReveal style={{ textAlign: 'center' }}>
-              <Eyebrow style={{ display: 'inline-block', margin: 0 }}>07 · The Exhibitions</Eyebrow>
-            </ScrollReveal>
-
-            <ScrollReveal delay={60} style={{ textAlign: 'center' }}>
-              <h1 style={{
-                fontFamily: T.display, fontStyle: 'normal', fontWeight: 600,
-                lineHeight: 0.94,
-                color: T.navy, letterSpacing: '-0.035em',
-                fontSize: 'clamp(56px, 7vw, 112px)', margin: 0
-              }}>
-                <em style={{ fontStyle: 'italic', fontWeight: 500, color: T.gold }}>Exhi</em>bitions
-              </h1>
-            </ScrollReveal>
-
-            <ScrollReveal delay={120} style={{ textAlign: 'center', width: '100%' }}>
-              <p style={{
-                fontFamily: T.sans, fontSize: 'clamp(15px, 1.1vw, 17px)', fontWeight: 300,
-                lineHeight: 1.7, color: 'rgba(29, 42, 77, 0.82)',
-                letterSpacing: 0.05, margin: '0 auto', maxWidth: 940, textAlign: 'center', textWrap: 'balance'
-              }}>A decade of painting, shown across Melbourne's restaurants, cafés and creative spaces. Four solo shows tracing Sabrina's evolution as a colourist each chapter its own collection.
-
-
-
-              </p>
-            </ScrollReveal>
-
-            <ScrollReveal delay={180} style={{ textAlign: 'center' }}>
-              <div style={{
-                display: 'flex', gap: 28, marginTop: 'clamp(8px, 1.5vh, 16px)',
-                alignItems: 'baseline', justifyContent: 'center', flexWrap: 'wrap'
-              }}>
-                <span style={{
-                  fontFamily: T.mono, fontSize: 11, letterSpacing: 2.4,
-                  color: T.gold, borderBottom: `1px solid ${T.gold}`, paddingBottom: 4
-                }}>PAST · 4 SHOWS</span>
-                <span style={{
-                  fontFamily: T.mono, fontSize: 11, letterSpacing: 2.4,
-                  color: T.taupeSoft
-                }}>UPCOMING · TBC</span>
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
-
-        {/* Full-width closing hairline */}
-        <div aria-hidden style={{
-          marginTop: 'clamp(56px, 7vh, 88px)',
-          marginLeft: 'calc(50% - 50vw)',
-          width: '100vw',
-          height: 1,
-          background: T.hair
-        }} />
-      </section>
-
-      {/* EXHIBITION BLOCKS, vertical, alternating left/right composition */}
-      <section style={{ padding: 'clamp(40px, 6vh, 72px) clamp(24px, 5vw, 80px)' }}>
-        <div style={{ maxWidth: 1320, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'clamp(40px, 6vh, 72px)' }}>
-          {EXHIBITIONS.map((e, i) => {
-            const reverse = i % 2 === 1;
-            return (
-              <ScrollReveal key={i}>
-                <article className="exh-block" style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1.2fr 1fr',
-                  gap: 'clamp(32px, 4vw, 64px)',
-                  alignItems: 'stretch'
-                }}>
-                  {/* IMAGE */}
-                  <div style={{ order: reverse ? 2 : 1, minWidth: 0, position: 'relative' }}>
-                    <ImgPH label={`${e.v} · install view`} src={e.img} ratio="4 / 3" />
-                    {i === 0 &&
-                    <div style={{
-                      position: 'absolute', top: 16, left: 16,
-                      padding: '5px 12px', background: T.sunset, color: T.cream,
-                      fontFamily: T.mono, fontSize: 9, letterSpacing: 2.2
-                    }}>MOST RECENT</div>
-                    }
-                  </div>
-
-                  {/* TEXT BLOCK */}
-                  <div style={{
-                    order: reverse ? 1 : 2, minWidth: 0,
-                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                    paddingTop: 'clamp(4px, 1vh, 12px)', paddingBottom: 'clamp(4px, 1vh, 12px)'
-                  }}>
-                    <div>
-                    {/* Year eyebrow */}
-                    <div style={{
-                        display: 'inline-flex', alignItems: 'baseline', gap: 14,
-                        marginBottom: 18
-                      }}>
-                      <span style={{
-                          fontFamily: T.display, fontStyle: 'italic', fontWeight: 500,
-                          fontSize: 'clamp(40px, 4vw, 64px)', color: T.gold, lineHeight: 0.9, letterSpacing: '-0.03em'
-                        }}>{e.y}</span>
-                      <span style={{
-                          fontFamily: T.mono, fontSize: 10.5, letterSpacing: 2.6,
-                          color: T.ochre, textTransform: 'uppercase'
-                        }}>{`0${i + 1} · ${i === 0 ? 'Latest' : i === EXHIBITIONS.length - 1 ? 'Debut' : 'Solo show'}`}</span>
-                    </div>
-
-                    <H2 size={'clamp(32px, 3.4vw, 52px)'} style={{ marginTop: 0, lineHeight: 1.08 }}>
-                      {e.t}
-                    </H2>
-
-                    <div style={{
-                        fontFamily: T.display, fontStyle: 'italic', fontWeight: 400,
-                        fontSize: 'clamp(16px, 1.4vw, 20px)', color: T.taupe, marginTop: 14, lineHeight: 1.4
-                      }}>
-                      {e.v} <span style={{ color: T.taupeSoft }}>·</span> {e.l}
-                    </div>
-
-                    {e.dates &&
-                      <div style={{
-                        marginTop: 12, fontFamily: T.mono, fontSize: 11, color: T.gold,
-                        letterSpacing: 2.2, textTransform: 'uppercase'
-                      }}>{e.dates}</div>
-                      }
-
-                    <p style={{
-                        fontFamily: T.sans, fontSize: 'clamp(14px, 1.1vw, 16px)', fontWeight: 300, lineHeight: 1.7,
-                        color: T.taupe, margin: '22px 0 0', maxWidth: 520
-                      }}>{e.body}</p>
-                    </div>
-
-                    <div style={{ marginTop: 28, display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
-                      <Btn arrow>View Exhibition</Btn>
-                      <a href="#" style={{
-                        fontFamily: T.sans, fontSize: 10.5, color: T.taupe, letterSpacing: 2.4,
-                        textTransform: 'uppercase', borderBottom: `1px solid ${T.taupeSoft}`,
-                        paddingBottom: 3
-                      }}>Quick preview</a>
-                    </div>
-                  </div>
-                </article>
-              </ScrollReveal>);
-
-          })}
-        </div>
+      <section style={{ padding: 'clamp(40px, 6vh, 72px) clamp(24px, 5vw, 80px) clamp(56px, 8vh, 96px)' }}>
         <style>{`
-          @media (max-width: 760px) {
-            .exh-block {
-              grid-template-columns: 1fr !important;
-              gap: 32px !important;
-              align-items: start !important;
-            }
-            .exh-block > div { order: initial !important; }
-          }
+          .exh-list { display: flex; flex-direction: column; gap: clamp(48px, 7vh, 88px); }
+          .exh-row { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(28px, 4vw, 64px); align-items: center; }
+          .exh-media { min-width: 0; }
+          .exh-nophoto { aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; background: #f6f4f0;
+            font-family: ${T.mono}; font-size: 11px; letter-spacing: 2.4px; text-transform: uppercase; color: ${T.taupeSoft}; }
+          @media (max-width: 760px) { .exh-row { grid-template-columns: 1fr; gap: 20px; } }
         `}</style>
-      </section>
-
-      {/* UPCOMING, full dark stage cinematic anticipation */}
-      <Section padding="clamp(56px, 7vh, 84px) clamp(24px, 5vw, 80px)" bg={T.darkStage} dark>
-        <div style={{ textAlign: 'center', maxWidth: 800, margin: '0 auto' }}>
-          <Eyebrow color={T.goldShimmer} style={{ margin: 0, marginBottom: 28, display: 'inline-block' }}>Upcoming</Eyebrow>
-          <h2 style={{
-            fontFamily: T.display, fontStyle: 'italic', fontWeight: 500,
-            fontSize: 'clamp(48px, 5vw, 76px)', lineHeight: 1.0, color: T.cream,
-            margin: 0, letterSpacing: '-0.02em'
-          }}>
-            What comes <span style={{ color: T.goldShimmer }}>next.</span>
-          </h2>
-          <p style={{
-            fontFamily: T.sans, fontSize: 16, fontWeight: 300, lineHeight: 1.75,
-            color: 'rgba(255,255,255,.78)', margin: '32px 0 0', maxWidth: 620,
-            marginLeft: 'auto', marginRight: 'auto'
-          }}>
-            Upcoming exhibition details will be announced here once confirmed.
-            Join the newsletter to be the first to know when, where, and how to see
-            the next chapter in person.
-          </p>
-          <div style={{ marginTop: 44, display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Btn dark arrow href="#/contact">Subscribe for announcements</Btn>
-            <Btn dark arrow href="#/gallery">Browse the Gallery</Btn>
+        <div style={{ maxWidth: 1320, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 'clamp(40px, 6vh, 72px)' }}>
+            <h1 style={{
+              fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, color: T.navy, margin: 0,
+              fontSize: 'clamp(48px, 6vw, 96px)', lineHeight: 1, letterSpacing: '-0.03em'
+            }}>Exhibitions</h1>
+          </div>
+          <div className="exh-list">
+            {EXHIBITIONS.map((e, i) => <ExhibitionCard key={e.slug} e={e} i={i} />)}
           </div>
         </div>
-      </Section>
-
-      <FooterV2 dark />
+      </section>
+      <FooterV2 />
     </div>);
+}
 
+// One page per exhibition with all of its photos.
+function ExhibitionGalleryPage({ slug }) {
+  const e = EXHIBITIONS.find((x) => x.slug === slug);
+  const [open, setOpen] = useState(null);
+  if (!e) return <ExhibitionsPage />;
+  const nums = Array.from({ length: e.photos }, (_, k) => k + 1);
+  useEffect(() => {
+    if (open === null) return;
+    const onKey = (ev) => {
+      if (ev.key === 'Escape') setOpen(null);
+      if (ev.key === 'ArrowRight') setOpen((o) => o % e.photos + 1);
+      if (ev.key === 'ArrowLeft') setOpen((o) => (o - 2 + e.photos) % e.photos + 1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+  return (
+    <div style={{ background: '#ffffff', minHeight: '100vh' }} data-screen-label={`Exhibition ${e.title}`}>
+      <NavBar active="exhibitions" />
+      <section style={{ padding: 'clamp(32px, 5vh, 64px) clamp(24px, 5vw, 80px) clamp(56px, 8vh, 96px)' }}>
+        <style>{`
+          .exg-grid { columns: 3; column-gap: 16px; }
+          .exg-grid button { display: block; width: 100%; padding: 0; margin: 0 0 16px; border: 0; background: #f6f4f0; cursor: zoom-in; break-inside: avoid; }
+          .exg-grid img { width: 100%; height: auto; display: block; }
+          @media (max-width: 900px) { .exg-grid { columns: 2; } }
+          @media (max-width: 520px) { .exg-grid { columns: 1; } }
+        `}</style>
+        <div style={{ maxWidth: 1320, margin: '0 auto' }}>
+          <a href="#/exhibitions" style={{ ...exhLinkStyle, display: 'inline-block' }}>← All exhibitions</a>
+          <h1 style={{
+            fontFamily: T.display, fontStyle: 'italic', fontWeight: 500, color: T.navy, margin: '28px 0 0',
+            fontSize: 'clamp(36px, 4.5vw, 68px)', lineHeight: 1.05, letterSpacing: '-0.02em'
+          }}>{e.title}</h1>
+          <div style={{ fontFamily: T.sans, fontSize: 15, color: T.ink, marginTop: 16 }}>{e.dates}</div>
+          <div style={{ fontFamily: T.sans, fontSize: 14, fontWeight: 300, color: T.taupe, marginTop: 4 }}>{e.venue}</div>
+          {e.video &&
+          <div style={{ marginTop: 20 }}><a href={e.video} target="_blank" rel="noopener noreferrer" style={exhLinkStyle}>Watch Video →</a></div>}
+          <div className="exg-grid" style={{ marginTop: 40 }}>
+            {nums.map((n) =>
+            <button key={n} onClick={() => setOpen(n)} aria-label={`Open photo ${n}`}>
+                <img src={exhImg(e, n)} alt={`${e.title}, photo ${n}`} loading="lazy" />
+              </button>)}
+          </div>
+        </div>
+      </section>
+      {open !== null &&
+      <div role="dialog" aria-modal="true" onClick={() => setOpen(null)} style={{
+        position: 'fixed', inset: 0, zIndex: 1000, background: 'rgba(255,255,255,.97)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, cursor: 'zoom-out'
+      }}>
+          <img src={exhImg(e, open)} alt={`${e.title}, photo ${open}`} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+          <button onClick={() => setOpen(null)} aria-label="Close" style={{
+          position: 'absolute', top: 16, right: 20, border: 0, background: 'none', fontSize: 32, color: T.navy, cursor: 'pointer'
+        }}>×</button>
+        </div>}
+      <FooterV2 />
+    </div>);
 }
 
 window.ExhibitionsPage = ExhibitionsPage;
+window.ExhibitionGalleryPage = ExhibitionGalleryPage;

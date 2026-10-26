@@ -52,7 +52,7 @@ function AppV2() {
     case 'cart':        return <CartPage />;
     case 'about':       return <AboutPage />;
     case 'studio':      return <StudioPage section={sub} />;
-    case 'exhibitions': return <ExhibitionsPage />;
+    case 'exhibitions': return sub ? <ExhibitionGalleryPage slug={sub} /> : <ExhibitionsPage />;
     case 'contact':     return <ContactPage />;
     case 'artwork':     return WORKS_CATALOG.some((w) => w.slug === sub) ? <ArtworkPage slug={sub} /> : <GalleryPageV2 />;
     case 'shipping':
