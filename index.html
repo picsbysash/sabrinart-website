@@ -17,14 +17,15 @@
   <style>
     html, body { margin: 0; padding: 0; background: #ffffff; }
     #root a { text-decoration: none; }
-    #sa-splash { position: fixed; inset: 0; z-index: 9998; display: flex; align-items: center; justify-content: center; background: #1d2a4d; transition: opacity .5s ease; }
+    #sa-splash { position: fixed; inset: 0; z-index: 9998; display: flex; align-items: center; justify-content: center; background: #ffffff; transition: opacity .5s ease; }
     #sa-splash.hide { opacity: 0; pointer-events: none; }
-    #sa-splash .sa { font-family: Georgia, serif; font-style: italic; font-size: 56px; color: #e8c87a; text-align:center; }
-    #sa-splash .wm { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 6px; color: #fff; margin-top: 6px; text-align:center; }
+    #sa-splash img { position: fixed; top: 13px; left: 50%; transform: translateX(-50%); height: 38px; width: auto; max-width: 60vw; display: block; }
+    @media (min-width: 721px) { #sa-splash img { top: 14px; height: 55px; } }
+    #sa-splash .cart { position: fixed; top: 8px; right: 12px; width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(29,42,77,.25); display: flex; align-items: center; justify-content: center; color: #1d2a4d; text-decoration: none; }
   </style>
 </head>
 <body>
-  <div id="sa-splash"><div><div class="sa">SA</div><div class="wm">SABRINART</div></div></div>
+  <div id="sa-splash"><img src="/assets/img/logo-sabrinart-black.png" alt="SabrinArt Collection"><a class="cart" href="/cart" aria-label="Shopping bag"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></a></div>
   <div id="root"></div>
 
   <!-- Static twins of the React forms so Netlify Forms can detect them (not visible) -->
