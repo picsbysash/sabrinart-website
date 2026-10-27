@@ -25,6 +25,12 @@
     #sa-splash img { position: fixed; top: 13px; left: 50%; transform: translateX(-50%); height: 38px; width: auto; max-width: 60vw; display: block; }
     @media (min-width: 721px) { #sa-splash img { top: 14px; height: 55px; } }
     #sa-splash .cart { position: fixed; top: 8px; right: 12px; width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(29,42,77,.25); display: flex; align-items: center; justify-content: center; color: #1d2a4d; text-decoration: none; }
+    /* Netlify-injected legacy snippets hide the real header on phones; keep it visible and hide the legacy bar. */
+    @media (max-width: 768px) {
+      html body header.sa-header { display: block !important; }
+      html body #sa-mobnav, html body #sa-mobmenu { display: none !important; }
+      html body header.sa-header + div.sa-header-spacer { height: calc(64px + env(safe-area-inset-top)) !important; }
+    }
   </style>
 </head>
 <body>
