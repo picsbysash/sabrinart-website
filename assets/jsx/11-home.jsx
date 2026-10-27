@@ -259,6 +259,15 @@ const ROOMS = [
 function ArtInteriors() {
   const [i, setI] = useState(0);
   const room = ROOMS[i];
+  // Preload every room photo and the paintings shown in them, so switching rooms is instant.
+  useEffect(() => {
+    const seen = {};
+    ROOMS.forEach((r) => {
+      if (r.photo && r.photo.src) seen[r.photo.src] = 1;
+      (r.art || []).forEach((p) => { const w = WORKS_CATALOG.find((x) => x.t === p.t); if (w && w.src) seen[w.src] = 1; });
+    });
+    Object.keys(seen).forEach((src) => { const im = new Image(); im.decoding = 'async'; im.src = src; });
+  }, []);
   const captions = room.art.map((p) => WORKS_CATALOG.find((w) => w.t === p.t)).filter(Boolean);
   return (
     <section style={{ padding: 'clamp(40px, 5vh, 72px) clamp(24px, 5vw, 80px)', background: '#ffffff', borderTop: `1px solid ${T.hair}` }}>
@@ -278,7 +287,7 @@ function ArtInteriors() {
         </div>
         <div style={{ position: 'relative', marginTop: 28, border: `1px solid ${T.hair}` }}>
           {room.photo ?
-            <svg viewBox={`0 0 ${room.photo.w} ${room.photo.h}`} style={{ display: 'block', width: '100%', height: 'auto' }} role="img" aria-label={`${room.label} illustrative mock-up`}>
+            <svg key={room.id} viewBox={`0 0 ${room.photo.w} ${room.photo.h}`} style={{ display: 'block', width: '100%', height: 'auto' }} role="img" aria-label={`${room.label} illustrative mock-up`}>
               <defs>
                 <linearGradient id="wallH" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stopColor="#efefef" /><stop offset="0.45" stopColor="#e6e6e6" /><stop offset="1" stopColor="#d2d2d2" /></linearGradient>
                 <linearGradient id="wallV" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#000" stopOpacity="0.11" /><stop offset="0.4" stopColor="#000" stopOpacity="0" /></linearGradient>
