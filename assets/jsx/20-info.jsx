@@ -26,7 +26,7 @@ const INFO_PAGES = {
     '## Availability and prices',
     'Only works marked ON SALE can be purchased. Works marked SOLD or NOT FOR SALE cannot be bought. All prices are shown in Australian dollars (AUD).',
     '## Orders and payment',
-    'A purchase is confirmed once payment has been received and you have been sent a confirmation email. Sabrina may decline or cancel an order if a work is no longer available, in which case any payment made is refunded in full.',
+    'A purchase is confirmed once payment has been received and you have been sent a confirmation email. Sabrina may decline or cancel an order if a work has already been sold (SOLD), in which case any payment made is refunded in full.',
     '## Shipping and returns',
     'Please see the Shipping & Returns page for how works are sent and how to ask about a return.',
     '## Colours and images',
