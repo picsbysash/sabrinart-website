@@ -1,6 +1,40 @@
 // Studio & Process. Content follows Website Brief v3, section 6.
 // Deep links: /studio/moment lands on "The Moment It Began".
 
+// Small photo carousel for Tools & Materials. Photos are never cropped.
+function ToolsCarousel({ slides }) {
+  const [i, setI] = useState(0);
+  const n = slides.length;
+  const go = (d) => setI((x) => (x + d + n) % n);
+  const touch = useRef(null);
+  const btn = (side, label, d) => (
+    <button type="button" aria-label={label} onClick={() => go(d)}
+      style={{ position: 'absolute', top: '50%', [side]: 10, transform: 'translateY(-50%)', width: 44, height: 44, borderRadius: '50%', border: 'none', background: 'rgba(255,255,255,0.9)', color: T.navy, fontSize: 22, lineHeight: 1, cursor: 'pointer', boxShadow: '0 1px 6px rgba(0,0,0,0.25)' }}>{d < 0 ? '‹' : '›'}</button>
+  );
+  return (
+    <div style={{ position: 'relative' }}
+      onTouchStart={(e) => { touch.current = e.touches[0].clientX; }}
+      onTouchEnd={(e) => { if (touch.current == null) return; const dx = e.changedTouches[0].clientX - touch.current; touch.current = null; if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1); }}>
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '3 / 2', background: '#ffffff' }}>
+        {slides.map((s, k) => (
+          <img key={s.src} src={s.src} alt={s.alt} loading={k === 0 ? 'eager' : 'lazy'}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', opacity: k === i ? 1 : 0, transition: 'opacity .35s ease', pointerEvents: k === i ? 'auto' : 'none' }} />
+        ))}
+      </div>
+      {n > 1 && btn('left', 'Previous photo', -1)}
+      {n > 1 && btn('right', 'Next photo', 1)}
+      {n > 1 && (
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 12 }}>
+          {slides.map((s, k) => (
+            <button key={k} type="button" aria-label={'Photo ' + (k + 1)} onClick={() => setI(k)}
+              style={{ width: 10, height: 10, borderRadius: '50%', border: 'none', padding: 0, cursor: 'pointer', background: k === i ? T.navy : '#c9ccd3' }} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function StudioPage({ section }) {
   const ANCHOR = { moment: 'the-moment-it-began' };
   useEffect(() => {
@@ -108,7 +142,10 @@ function StudioPage({ section }) {
         <div style={wrap}>
           <Eyebrow>Tools &amp; Materials</Eyebrow>
           <div className="st-split rev" style={{ ...split, marginTop: 28 }}>
-            <img src="assets/studio/tools-and-materials.jpg" alt="Sabrina Goria in her studio with spatulas, rollers and other tools on the floor" style={img} />
+            <ToolsCarousel slides={[
+              { src: 'assets/studio/tools-and-materials.jpg', alt: 'Sabrina Goria in her studio with spatulas, rollers and other tools on the floor' },
+              { src: 'assets/studio/tools-and-materials-2.jpg', alt: 'Kitchen utensils: spatulas, ladles, forks and a rolling pin' },
+            ]} />
             <div>
               {words(['Spatulas', 'Forks', 'Ladles', 'Rollers', 'Containers', 'Other kitchen utensils'])}
               <p style={{ fontFamily: T.sans, fontSize: 16, fontWeight: 300, lineHeight: 1.75, color: '#222', margin: '28px 0 0' }}>Linked to her Italian heritage.</p>
