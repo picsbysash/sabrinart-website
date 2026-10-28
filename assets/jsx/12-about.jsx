@@ -70,10 +70,6 @@ function AboutPage() {
               <p key={i} style={{ fontFamily: T.serif, fontSize: 21, lineHeight: 1.6, color: T.ink, margin: 0 }}>{p}</p>
             ))}
           </div>
-          <div style={{ textAlign: 'center', marginTop: 'clamp(40px, 5vh, 56px)', display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Btn arrow href="#/studio">Step into the studio</Btn>
-            <Btn arrow href="#/exhibitions">View Exhibitions</Btn>
-          </div>
         </div>
       </Section>
 
