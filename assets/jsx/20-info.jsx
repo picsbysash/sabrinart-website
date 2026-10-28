@@ -9,7 +9,8 @@ const INFO_PAGES = {
     title: <>Shipping <span style={{ fontStyle: 'italic', fontWeight: 500, color: T.gold }}>&amp; returns</span>.</>,
     body: [
     'Every original painting is signed by Sabrina Goria and shipped from her studio in Melbourne, Australia.',
-    'For delivery questions or a shipping quote to your location, please get in touch. Sabrina replies personally to every message, usually within a few days.',
+    'Shipping costs are agreed directly with Sabrina. Once you get in touch, you will arrange together how and where the artwork is delivered or collected, and the cost that applies.',
+    'To arrange delivery or ask for a shipping quote, please get in touch. Sabrina replies personally to every message, usually within a few days.',
     'If you have a question about returning an artwork, please contact Sabrina directly with your name and the title of the work.',
     'Nothing on this page limits your rights under the Australian Consumer Law.'],
 
